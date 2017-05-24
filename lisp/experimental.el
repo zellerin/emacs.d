@@ -42,5 +42,34 @@
 		slime-net-coding-system (quote utf-8-unix))
   :defer t)
 
+(defvar tz-logical-names
+  '(("docs" . "c:/Users/tzellerin/documents/")
+    ("conf" . "c:/Users/tzellerin/configs/")))
+
+(setq org-link-abbrev-alist
+      `(,@tz-logical-names))
+
+(defun tz-pathnames-logical ()
+  (interactive)
+  (save-excursion
+    (let ((inhibit-read-only t))
+      (dolist (ldisk tz-logical-names)
+	(goto-char 1)
+	(while (search-forward (cdr ldisk) nil t)
+	  (replace-match (concat (car ldisk) ":")))))))
+
+(add-hook 'dashboard-mode-hook 'tz-pathnames-logical)
+
+(defun dashboard-insert-quicks (n)
+  (insert "Quick tasks:\n")
+  (insert
+   (save-current-buffer
+     (find-file "c:/Users/tzellerin/Documents/test.org")
+        (goto-char 1)
+        (buffer-substring (- (search-forward "\n- ") 2)
+                          (- (search-forward "\n* ") 2)))))
+(add-to-list 'dashboard-item-generators  '(quicks . dashboard-insert-quicks))
+(add-to-list 'dashboard-items '(quicks) t)
+
 (provide 'experimental)
 ;;; experimental.el ends here
