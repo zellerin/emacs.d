@@ -19,6 +19,11 @@
 (setenv "PATH" (concat
 		(getenv "PATH") ";c:/Users/tzellerin/SW/PuTTY/"))
 
+;; this is needed for git pushing
+(setenv "GIT_SSH" "plink")
+(setenv "PATH" (concat
+		(getenv "PATH") ";C:/Users/tzellerin/SW/git/mingw64/bin/"))
+
 (setq slime-lisp-implementations
       '((abcl ("java" "-jar"
 	       "c:/Users/tzellerin/SW/abcl-bin-1.4.0/abcl-bin-1.4.0/abcl.jar"))))
