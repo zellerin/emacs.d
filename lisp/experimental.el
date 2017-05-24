@@ -23,20 +23,6 @@
 ;;
 
 ;;; Code:
-(add-hook 'org-mode-hook
-	  (lambda ()
-	    (push '(":INBOX:" . ?📥) prettify-symbols-alist)
-	    (push '(":ATTACH:" . ?📎) prettify-symbols-alist)
-	    (push '(":published:" . ?📢) prettify-symbols-alist)
-	    (prettify-symbols-mode)))
-
-(add-hook 'org-agenda-mode-hook
-	  (lambda ()
-	    (push '(":INBOX:" . ?📥) prettify-symbols-alist)
-	    (push '(":ATTACH:" . ?📎) prettify-symbols-alist)
-	    (push '(":published:" . ?📢) prettify-symbols-alist)
-	    (prettify-symbols-mode)))
-
 (use-package "slime"
   :config (setq slime-contribs '(slime-fancy)
 		slime-net-coding-system (quote utf-8-unix))
@@ -58,18 +44,21 @@
 	(while (search-forward (cdr ldisk) nil t)
 	  (replace-match (concat (car ldisk) ":")))))))
 
-(add-hook 'dashboard-mode-hook 'tz-pathnames-logical)
-
 (defun dashboard-insert-quicks (n)
   (insert "Quick tasks:\n")
   (insert
    (save-current-buffer
-     (find-file "c:/Users/tzellerin/Documents/test.org")
-        (goto-char 1)
-        (buffer-substring (- (search-forward "\n- ") 2)
-                          (- (search-forward "\n* ") 2)))))
-(add-to-list 'dashboard-item-generators  '(quicks . dashboard-insert-quicks))
-(add-to-list 'dashboard-items '(quicks) t)
+     (find-file "~/test.org")
+     (goto-char 1)
+     (buffer-substring (- (search-forward "\n- ") 2)
+		       (- (search-forward "\n* ") 2)))))
+
+(use-package "dashboard"
+  :config
+  (add-hook 'dashboard-mode-hook 'tz-pathnames-logical)
+
+  (add-to-list 'dashboard-item-generators  '(quicks . dashboard-insert-quicks))
+  (add-to-list 'dashboard-items '(quicks) t))
 
 (provide 'experimental)
 ;;; experimental.el ends here
