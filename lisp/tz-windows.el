@@ -34,10 +34,5 @@
 			(projects  . 5)))
 
 
-(setq dashboard-startup-banner 'official)
-
-(setq recentf-exclude '("emacs.d/elpa/"))
-(dashboard-setup-startup-hook)
-
 (setq org-directory "c:/Users/tzellerin/Documents/")
 (setq org-agenda-files (list org-directory (concat org-directory "projects")))

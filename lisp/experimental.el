@@ -58,7 +58,10 @@
   (add-hook 'dashboard-mode-hook 'tz-pathnames-logical)
 
   (add-to-list 'dashboard-item-generators  '(quicks . dashboard-insert-quicks))
-  (add-to-list 'dashboard-items '(quicks) t))
+  (add-to-list 'dashboard-items '(quicks) t)
+  (dashboard-setup-startup-hook))
+
+(setq recentf-exclude '("emacs.d/elpa/"))
 
 (provide 'experimental)
 ;;; experimental.el ends here
