@@ -44,24 +44,37 @@
 	(while (search-forward (cdr ldisk) nil t)
 	  (replace-match (concat (car ldisk) ":")))))))
 
-(defun dashboard-insert-quicks (n)
-  (insert "Quick tasks:\n")
+(defun tz--insert-file-top (file n)
+  "Insert N lines starting with second one (first may be a
+modeline) to current buffer."
   (insert
-   (save-current-buffer
-     (find-file "~/test.org")
-     (goto-char 1)
-     (buffer-substring (- (search-forward "\n- ") 2)
-		       (- (search-forward "\n* ") 2)))))
+   (or
+    (save-current-buffer
+      (when (file-readable-p file)
+	(find-file file)
+	(goto-char (point-min))
+	(forward-line 1)
+	(buffer-substring (point)
+			  (progn (setq n (forward-line n))
+				 (point)))))
+    (format "Create ~s" file)))
+  n)
+
+(defun dashboard-insert-tips (n)
+  (tz--insert-file-top "~/.emacs.d/tips.org"
+		       (tz--insert-file-top "~/tips.org" n)))
 
 (use-package "dashboard"
   :config
   (add-hook 'dashboard-mode-hook 'tz-pathnames-logical)
 
-  (add-to-list 'dashboard-item-generators  '(quicks . dashboard-insert-quicks))
-  (add-to-list 'dashboard-items '(quicks) t)
+  (add-to-list 'dashboard-item-generators  '(tips . dashboard-insert-tips))
+  (add-to-list 'dashboard-items '(tips) t)
   (dashboard-setup-startup-hook))
 
-(setq recentf-exclude '("emacs.d/elpa/"))
+(setq recentf-exclude '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/"))
+
+(setq projectile-switch-project-action #'projectile-dired)
 
 (provide 'experimental)
 ;;; experimental.el ends here

@@ -28,10 +28,11 @@
       '((abcl ("java" "-jar"
 	       "c:/Users/tzellerin/SW/abcl-bin-1.4.0/abcl-bin-1.4.0/abcl.jar"))))
 
-(setq dashboard-items '((recents   . 5)
-			(bookmarks . 5)
+(setq dashboard-items '((tips 5)
 			(agenda    . 5)
-			(projects  . 5)))
+			(projects  . 5)
+			(recents   . 10)
+			(bookmarks . 5)))
 
 
 (setq org-directory "c:/Users/tzellerin/Documents/")

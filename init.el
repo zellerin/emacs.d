@@ -81,6 +81,6 @@
 
 (load "custom")
 (load "experimental")
-(load "tz-local")
+(load "tz-local" t)
 
 ;;; init.el ends here
