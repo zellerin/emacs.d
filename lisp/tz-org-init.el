@@ -64,18 +64,25 @@
 
 (eval-after-load "org-capture"
   '(setq org-capture-templates
-	'(
-	  ("j" "Weekly entry" entry
-	   (file+headline "~/org/journal.org" "2017")
-	   "* Week %(format-time-string \"\\%U\")" :prepend t)
-	  ("t" "TODO" entry
-	   (file "weekly-review.org")
-	   "* 🔨 %?\n%T" :prepend t :clock-in t :clock-resume t)
-	  ("m" "Flag mail" entry (file "weekly-review.org") "* %:subject\n%a")
-	  ("f" "Flag place" entry (file "weekly-review.org") "* %?\n%T\n%A")
-	  ("r" "Remind person" entry (file "weekly-review.org") "* %:name\n%a")
-	  ("w" "Remind web" entry (file "weekly-review.org") "* %(save-excursion (set-buffer (get-buffer \"*eww*\")) (plist-get eww-data :title))\n%T\n%(save-excursion (set-buffer (get-buffer \"*eww*\")) (eww-current-url))"))
-	org-capture-templates-contexts
+      '(("j" "Weekly entry" entry
+	 (file+headline "~/journal.org" "2017")
+	 "* Week %(format-time-string \"\\%U\")" :prepend t)
+	("t" "TODO" entry
+	 (file "weekly-review.org")
+	 "* TODO %?\n%T" :prepend t :clock-in t :clock-resume t)
+	("m" "Flag mail" entry
+	(file "weekly-review.org")
+	"* %:subject\n%a")
+	("f" "Flag place" entry
+	 (file "weekly-review.org")
+	 "* %?\n%T\n%A")
+	("r" "Remind person" entry
+	 (file "weekly-review.org")
+	 "* %:name\n%a")
+	("w" "Remind web" entry
+	 (file "weekly-review.org")
+	 "* %(tz-capture-from-eww)\n%T\n\n%(tz-eww-url)"))
+      org-capture-templates-contexts
 	'(("f" "w" #1=((in-mode . "eww-mode")))
 	  ("w" #1#)
 	  ("f" "m" #2=((in-mode . "article-mode")))

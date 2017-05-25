@@ -44,33 +44,37 @@
 	(while (search-forward (cdr ldisk) nil t)
 	  (replace-match (concat (car ldisk) ":")))))))
 
-(defun tz--insert-file-top (file n)
+(defun tz--insert-files-top (files n)
   "Insert N lines starting with second one (first may be a
 modeline) to current buffer."
-  (insert
-   (or
-    (save-current-buffer
-      (when (file-readable-p file)
-	(find-file file)
-	(goto-char (point-min))
-	(forward-line 1)
-	(buffer-substring (point)
-			  (progn (setq n (forward-line n))
-				 (point)))))
-    (format "Create ~s" file)))
-  n)
+  (while (and files (> n 1))
+    (let ((file (pop files)))
+      (insert
+       (or
+	(save-current-buffer
+	  (when (file-readable-p file)
+	    (find-file file)
+	    (goto-char (point-min))
+	    (forward-line 1)
+	    (prog1
+		(buffer-substring (point)
+				  (progn (setq n (forward-line n))
+					 (point)))
+	      (bury-buffer))))
+	(format "Create %s" file))))))
 
 (defun dashboard-insert-tips (n)
-  (tz--insert-file-top "~/.emacs.d/tips.org"
-		       (tz--insert-file-top "~/tips.org" n)))
+  (tz--insert-files-top '("~/tips.org" "~/.emacs.d/tips.org") n))
 
 (use-package "dashboard"
+  :bind ("<f5>" . dashboard-refresh-buffer)
   :config
   (add-hook 'dashboard-mode-hook 'tz-pathnames-logical)
 
   (add-to-list 'dashboard-item-generators  '(tips . dashboard-insert-tips))
   (add-to-list 'dashboard-items '(tips) t)
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  :demand t)
 
 (setq recentf-exclude '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/"))
 
