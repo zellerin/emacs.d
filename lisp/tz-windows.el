@@ -10,6 +10,7 @@
 	"c:/Users/tzellerin/SW/PuTTY/"
 	"C:/Users/tzellerin/SW/git/mingw64/bin/"
 	"C:/Users/tzellerin/SW/git/usr/bin/"
+	"C:/Users/tzellerin/SW/emacs-w64-25.1-O2-with-modules/bin"
 	nil))
 
 (setq org-directory "C:/Users/tzellerin/Documents/Projects/")
