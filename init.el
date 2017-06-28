@@ -44,6 +44,8 @@
 	       ("melpa" . "https://melpa.milkbox.net/packages/")))
 
 (load-library "use-package")
+(require 'no-littering)
+
 (setq use-package-always-ensure t)
 
 ;; Basic Lisp editing
