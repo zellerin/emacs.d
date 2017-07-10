@@ -69,7 +69,7 @@
 	 "* Week %(format-time-string \"\\%U\")" :prepend t)
 	("t" "TODO" entry
 	 (file "weekly-review.org")
-	 "* TODO %?\n%T" :prepend t :clock-in t :clock-resume t)
+	 "* TODO %?\n%U" :prepend t :clock-in t :clock-resume t)
 	("m" "Flag mail" entry
 	(file "weekly-review.org")
 	"* %:subject\n%a")
