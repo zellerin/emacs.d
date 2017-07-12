@@ -31,15 +31,13 @@
 (setq
  smtpmail-smtp-server "smtp.zoho.com"
  smtpmail-smtp-service 587
- 
+
  gnus-select-method '(nnml "")
  gnus-use-adaptive-scoring '(word line)
  gnus-article-mime-part-function 'tz-mail-handle-attachment)
 
-(use-package nnmail
-  :defer t
-  :config
-  (setq nnmail-split-methods
+(eval-after-load "nnmail"
+  '(setq nnmail-split-methods
 	'(("csob" "^From: .*\\(CSOB Administrator\\|tbs\\.csob\\.cz\\|vypisy@hypotecnibanka.cz\\)")
 	  ("mail.misc" ""))))
 

@@ -44,8 +44,12 @@
 	       ("melpa" . "https://melpa.milkbox.net/packages/")))
 
 (load-library "use-package")
+(setq use-package-always-ensure t)
 
 ;; Basic Lisp editing
+(use-package paredit
+  :commands paredit-mode)
+
 (dolist (fn  '(delete-trailing-whitespace paredit-mode show-paren-mode))
   (add-hook 'lisp-mode-hook fn)
   (add-hook 'emacs-lisp-mode-hook fn))
@@ -54,28 +58,29 @@
 ;; Org mode is factored out
 (use-package org
   :bind
-  ("C-c l" . org-store-link)
-  ("C-c a" . org-agenda)
-  ("C-c r" . org-capture)
+  (("C-c l" . org-store-link)
+   ("C-c a" . org-agenda)
+   ("C-c r" . org-capture))
   :config
   (require 'tz-org-init))
-
-;; Additional sources
-(add-to-list 'load-path (concat  user-emacs-directory "lisp/"))
-(setq custom-file "~/.emacs.d/lisp/custom.el")
-
-(use-package message
-  :defer t
-  :config
-  (require 'tz-mail))
 
 (use-package gnus
   :bind ("<XF86Mail>" . gnus)
   :config
   (require 'tz-mail))
 
+(use-package magit
+  :commands magit-status magit-init)
+
+;; Additional sources
+(add-to-list 'load-path (concat  user-emacs-directory "lisp/"))
+(setq custom-file "~/.emacs.d/lisp/custom.el")
+
+(eval-after-load "message"
+  '(require 'tz-mail))
+
+(load "custom")
 (load "experimental")
 (load "tz-local")
-
 
 ;;; init.el ends here

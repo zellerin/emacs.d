@@ -45,24 +45,22 @@
 
 (setq org-refile-use-outline-path nil)
 
-(use-package ob
-  :defer t
-  :config
-  (setq org-confirm-babel-evaluate nil))
+(eval-after-load "ob"
+  '(setq org-confirm-babel-evaluate nil))
 
-(use-package org-src
-  :defer t
-  :config
-  (push '("dot" . graphviz-dot) org-src-lang-modes))
+(eval-after-load "org-src"
+  '(progn
+     (push '("dot" . graphviz-dot) org-src-lang-modes)))
 
-(use-package org-agenda
-  :bind
-  :config
-  (setq
-   org-agenda-files `(,org-directory)
-   org-agenda-todo-ignore-scheduled 'future
-   org-scheduled-past-days 1
-   org-agenda-custom-commands nil))
+(push '(dot . t) org-babel-load-languages)
+(push '(lisp . t) org-babel-load-languages)
+(org-babel-do-load-languages 'foo nil)
+
+(eval-after-load org-agenda
+  '(setq org-agenda-files `(,org-directory)
+	org-agenda-todo-ignore-scheduled 'future
+	org-scheduled-past-days 1
+	org-agenda-custom-commands nil))
 
 (use-package org-capture
   :config
