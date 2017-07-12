@@ -81,6 +81,23 @@
 (eval-after-load "message"
   '(require 'tz-mail))
 
+(use-package "nameless"
+  :commands (nameless-mode))
+
+(add-hook 'emacs-lisp-mode-hook
+		     'nameless-mode)
+
+(use-package "outshine"
+  :commands (outshine-hook-function))
+
+(add-hook 'outline-minor-mode-hook
+	  'outshine-hook-function)
+
+(use-package "outline")
+
+(add-hook 'prog-mode-hook
+	  'outline-minor-mode)
+
 (load "custom")
 (load "experimental")
 (load "tz-local" t)

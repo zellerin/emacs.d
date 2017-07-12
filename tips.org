@@ -3,3 +3,4 @@ Emacs tips:
   - Use *projectile* (C-c p C-h/p/f/d/E)
   - Later check *org-projectile* (TODOs)
   - Definuj capture formáty
+  - C-c M mplayed in dired
