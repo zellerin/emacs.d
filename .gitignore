@@ -1,2 +1,6 @@
 elpa
 var
+/lisp/private.el
+/lisp/tz-local.el
+/lisp/custom.el
+/dropbox-token
