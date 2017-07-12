@@ -56,19 +56,18 @@
 (push '(lisp . t) org-babel-load-languages)
 (org-babel-do-load-languages 'foo nil)
 
-(eval-after-load org-agenda
+(eval-after-load "org-agenda"
   '(setq org-agenda-files `(,org-directory)
 	org-agenda-todo-ignore-scheduled 'future
 	org-scheduled-past-days 1
 	org-agenda-custom-commands nil))
 
-(use-package org-capture
-  :config
-  (setq org-capture-templates
+(eval-after-load "org-capture"
+  '(setq org-capture-templates
 	'(
 	  ("j" "Weekly entry" entry
-	     (file+headline "~/org/journal.org" "2017")
-	     "* Week %(format-time-string \"\\%U\")" :prepend t)
+	   (file+headline "~/org/journal.org" "2017")
+	   "* Week %(format-time-string \"\\%U\")" :prepend t)
 	  ("t" "TODO" entry
 	   (file "weekly-review.org")
 	   "* 🔨 %?\n%T" :prepend t :clock-in t :clock-resume t)
@@ -85,9 +84,8 @@
 	  ("r" #3#)
 	  ("f" ((not-in-mode . "bbdb-mode"))))))
 
-(use-package org-attach
-  :config
-  (setq org-attach-file-list-property nil
+(eval-after-load "org-attach"
+  '(setq org-attach-file-list-property nil
 	org-attach-method 'mv))
 
 (provide 'tz-org-init)
