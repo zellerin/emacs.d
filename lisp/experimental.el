@@ -37,5 +37,10 @@
 	    (push '(":published:" . ?📢) prettify-symbols-alist)
 	    (prettify-symbols-mode)))
 
+(use-package "slime"
+  :config (setq slime-contribs '(slime-fancy)
+		slime-net-coding-system (quote utf-8-unix))
+  :defer t)
+
 (provide 'experimental)
 ;;; experimental.el ends here
