@@ -63,3 +63,7 @@
 	  (file "weekly-review.org")
 	  "%(tz-outlook-capture-item)")
 	org-capture-templates))
+
+(setq experimental-logical-names
+      '(("docs" . "c:/Users/tzellerin/documents/")
+	("conf" . "c:/Users/tzellerin/configs/")))

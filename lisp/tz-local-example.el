@@ -5,7 +5,7 @@
 	(recents . 10)
 	(bookmarks . 5)))
 
-(setq tz-logical-names
+(setq experimental-logical-names
   '(("org" . "~/org/")
     ("conf" . "c:/Users/tzellerin/configs/")))
 
