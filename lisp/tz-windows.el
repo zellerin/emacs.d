@@ -54,8 +54,12 @@
 	    (thing-at-point 'sentence t)
 	    "]]")))
 
+(eval-after-load "org"
+  '(load-file (locate-user-emacs-file
+	      "windows-integration/tz-outlook.el")))
+
 (eval-after-load "org-capture"
   '(push '("O" "Outlook" entry
 	  (file "weekly-review.org")
-	  "%(mno-edit-outlook-message)")
+	  "%(tz-outlook-capture-item)")
 	org-capture-templates))
