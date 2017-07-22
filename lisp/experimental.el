@@ -38,13 +38,12 @@
   :type '(alist :key-type string :value-type directory)
   :group 'tze)
 
-(eval-after-load "org"
-  '(setq org-link-abbrev-alist
+(use-package "org"
+  :config (setq org-link-abbrev-alist
 	 `(,@experimental-logical-names)))
 
 (defun experimental-pathnames-logical ()
-  "Change all references to a pathnames mentioned in
-experimental-logical-names to the short name."
+  "Change all references to a pathnames mentioned in experimental-logical-names to the short name."
   (interactive)
   (save-excursion
     (let ((inhibit-read-only t))
@@ -53,9 +52,17 @@ experimental-logical-names to the short name."
 	(while (search-forward (cdr ldisk) nil t)
 	  (replace-match (concat (car ldisk) ":")))))))
 
-(defun experimental--insert-files-top (files n)
-  "Insert N lines starting with second one (first may be a
-modeline) to current buffer."
+(use-package "dashboard"
+  :bind ("<f5>" . dashboard-refresh-buffer)
+  :config
+  (add-hook 'dashboard-mode-hook 'experimental-pathnames-logical)
+
+  (add-to-list 'dashboard-item-generators  '(tips . experimental-insert-tips))
+  (add-to-list 'dashboard-items '(tips) t)
+  (dashboard-setup-startup-hook)
+
+  (defun experimental--insert-files-top (files n)
+  "Insert N lines starting with second one (first may be a modeline) to current buffer."
   (while (and files (> n 1))
     (let ((file (pop files)))
       (insert
@@ -72,21 +79,41 @@ modeline) to current buffer."
 	      (bury-buffer))))
 	(format "Create %s" file))))))
 
-(defun experimental-insert-tips (n)
+  (defun experimental-insert-tips (n)
   "Insert given number of tips from tip files to the buffer."
   (experimental--insert-files-top '("~/tips.org" "~/.emacs.d/tips.org") n))
 
-(use-package "dashboard"
-  :bind ("<f5>" . dashboard-refresh-buffer)
-  :config
-  (add-hook 'dashboard-mode-hook 'experimental-pathnames-logical)
-
-  (add-to-list 'dashboard-item-generators  '(tips . experimental-insert-tips))
-  (add-to-list 'dashboard-items '(tips) t)
-  (dashboard-setup-startup-hook)
   :demand t)
 
-(setq recentf-exclude '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/"))
+(use-package "recentf"
+  :config (setq recentf-exclude  '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/")))
+
+(use-package "prodigy"
+  :defer t
+  :config
+
+  (prodigy-define-status :id 'interrupted :face 'prodigy-yellow-face)
+
+  (setq prodigy-services
+	'((:name "wpa-supplicant"
+		 :command "sudo"
+		 :args ("/sbin/wpa_supplicant" "-i" "wlo1" "-c" "/etc/wpa_supplicant/wpa_supplicant.conf")
+		 :ready-message "CTRL-EVENT-CONNECTED"
+		 :stop-signal 'sigkill
+		 :on-output (lambda (&rest args)
+			      (let ((output (plist-get args :output))
+				 (service (plist-get args :service)))
+				(when (s-matches? "CTRL-EVENT-DISCONNECTED" output)
+				  (prodigy-set-status service 'interrupted)))))
+	  (:name "dhclient"
+		 :command "sudo"
+		 :args ("dhclient" "-d" "-i" "wlo1")
+		 :ready-message "bound to "
+		 :on-output (lambda (&rest args)
+			      (let ((output (plist-get args :output))
+				    (service (plist-get args :service)))
+				(when (s-matches? "receive_packet failed on " output)
+				  (prodigy-set-status service 'interrupted))))))))
 
 (provide 'experimental)
 ;;; experimental.el ends here
