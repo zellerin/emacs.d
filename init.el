@@ -57,30 +57,36 @@
   (add-hook 'lisp-mode-hook fn)
   (add-hook 'emacs-lisp-mode-hook fn))
 
-
-;; Org mode is factored out
 (use-package org
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)
-   ("C-c r" . org-capture))
-  :config
-  (require 'tz-org-init))
+   ("C-c r" . org-capture)))
+
+(use-package tz-org-init
+  :ensure nil
+  :after org)
 
 (use-package gnus
-  :bind ("<XF86Mail>" . gnus)
+  :bind ("<XF86Mail>" . gnus))
+
+(use-package tz-mail
+  :ensure nil
+  :after (:or gnus message))
+
+(use-package nnmail
+  :defer t
   :config
-  (require 'tz-mail))
+  (setq nnmail-split-methods
+	 '(("csob" "^From: .*\\(CSOB Administrator\\|tbs\\.csob\\.cz\\|vypisy@hypotecnibanka.cz\\)")
+	   ("mail.misc" ""))))
 
 (use-package magit
-  :commands magit-status magit-init)
+  :commands magit-status magit-init magit-clone)
 
 ;; Additional sources
-(add-to-list 'load-path (concat  user-emacs-directory "lisp/"))
-(setq custom-file "~/.emacs.d/lisp/custom.el")
-
-(eval-after-load "message"
-  '(require 'tz-mail))
+(add-to-list 'load-path (locate-user-emacs-file "lisp/"))
+(setq custom-file (locate-user-emacs-file "lisp/custom.el"))
 
 (use-package "nameless"
   :commands (nameless-mode))
@@ -89,15 +95,15 @@
 		     'nameless-mode)
 
 (use-package "outshine"
-  :commands (outshine-hook-function))
+  :commands (outshine-hook-function)
+  :init
+  (add-hook 'outline-minor-mode-hook
+	    'outshine-hook-function))
 
-(add-hook 'outline-minor-mode-hook
-	  'outshine-hook-function)
-
-(use-package "outline")
-
-(add-hook 'prog-mode-hook
-	  'outline-minor-mode)
+(use-package "outline"
+  :init 
+  (add-hook 'prog-mode-hook
+	    'outline-minor-mode))
 
 (load "custom")
 (load "experimental")

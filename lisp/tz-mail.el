@@ -36,10 +36,7 @@
  gnus-use-adaptive-scoring '(word line)
  gnus-article-mime-part-function 'tz-mail-handle-attachment)
 
-(eval-after-load "nnmail"
-  '(setq nnmail-split-methods
-	'(("csob" "^From: .*\\(CSOB Administrator\\|tbs\\.csob\\.cz\\|vypisy@hypotecnibanka.cz\\)")
-	  ("mail.misc" ""))))
+
 
 ;;;###autoload
 (defun tz-mail-handle-attachment (handle)
