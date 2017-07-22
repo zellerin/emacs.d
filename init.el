@@ -41,10 +41,10 @@
 
 (setq package-archives
 	     '(("gnu" . "https://elpa.gnu.org/packages/")
-	       ("melpa" . "https://melpa.milkbox.net/packages/")))
+	       ("melpa" . "https://melpa.org/packages/")))
 
-(load-library "use-package")
-(require 'no-littering)
+(require 'use-package)
+(use-package no-littering)
 
 (setq use-package-always-ensure t)
 
