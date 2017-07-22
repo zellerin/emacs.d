@@ -68,14 +68,46 @@
   :after org)
 
 (use-package gnus
-  :bind ("<XF86Mail>" . gnus))
+  :bind ("<XF86Mail>" . gnus)
+  :config
+  (setq gnus-select-method '(nnml "")
+	gnus-use-adaptive-scoring '(word line)
+	gnus-article-mime-part-function 'tz-mail-handle-attachment)
 
-(use-package tz-mail
+  (defun tz-mail-handle-attachment (handle)
+    "Treat specifically attachments during mail opening."
+    (cond
+     ((equal (car (mm-handle-type handle)) "application/octet-stream")
+      (save-excursion
+	(with-temp-buffer
+	  (insert (mm-get-part handle))
+	  (goto-char 1)
+	  (search-forward "windows-1250")
+	  (recode-region (point-min) (point-max)
+			 'windows-1250 'utf-8-unix )
+	  (replace-match "utf-8")
+	  (write-region (point-min) (point-max)
+			(read-file-name "Save data to: " "~/ucty/"
+					nil nil
+					(mm-handle-filename handle)))))))))
+
+(use-package message
   :ensure nil
-  :after (:or gnus message))
+  :commands message-mail message-news message-reply message-wide-reply
+  message-forward
+  :config
+  (load "private" t)
+  (setq message-send-mail-function 'smtpmail-send-it))
+
+(use-package smtpmail
+  :commands smtpmail-send-it
+  :config
+  (setq
+   smtpmail-smtp-server "smtp.zoho.com"
+   smtpmail-smtp-service 587))
 
 (use-package nnmail
-  :defer t
+  :defer t :ensure nil
   :config
   (setq nnmail-split-methods
 	 '(("csob" "^From: .*\\(CSOB Administrator\\|tbs\\.csob\\.cz\\|vypisy@hypotecnibanka.cz\\)")
