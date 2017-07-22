@@ -36,7 +36,8 @@
 (set-input-method "czech-qwerty")
 
 ;; Packages
-(load-library "package")
+(require 'package)
+
 (package-initialize)
 
 (setq package-archives
