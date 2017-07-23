@@ -58,6 +58,7 @@
   (add-hook 'emacs-lisp-mode-hook fn))
 
 (use-package org
+  :mode ("\\.org\\'" . org-mode)
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)
@@ -133,9 +134,20 @@
 	    'outshine-hook-function))
 
 (use-package "outline"
-  :init 
+  :init
   (add-hook 'prog-mode-hook
 	    'outline-minor-mode))
+
+(use-package "slime"
+  :config
+  (setq slime-contribs '(slime-fancy)
+	slime-net-coding-system 'utf-8-unix
+	slime-lisp-implementations
+	'((sbcl ("/usr/local/bin/sbcl")) ))
+  :defer t)
+
+(use-package "recentf"
+  :config (setq recentf-exclude  '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/")))
 
 (load "custom")
 (load "experimental")

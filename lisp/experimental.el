@@ -25,11 +25,6 @@
 ;;; Code:
 
 ;;;; Slime setup
-(use-package "slime"
-  :config (setq slime-contribs '(slime-fancy)
-		slime-net-coding-system (quote utf-8-unix))
-  :defer t)
-
 (defcustom experimental-logical-names
   '(("org" . "~/org")
     ("conf" . "c:/Users/tzellerin/configs/"))
@@ -84,9 +79,6 @@
   (experimental--insert-files-top '("~/tips.org" "~/.emacs.d/tips.org") n))
 
   :demand t)
-
-(use-package "recentf"
-  :config (setq recentf-exclude  '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/")))
 
 (use-package "prodigy"
   :defer t
