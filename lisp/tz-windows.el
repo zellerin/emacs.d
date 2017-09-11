@@ -17,11 +17,16 @@
 
 ;; This is needed for magit commits to work (path to sh.exe)
 (setenv "PATH" (concat
-		(getenv "PATH") ";C:/Users/tzellerin/SW/git/usr/bin/"))
+		;; I want find.exe from here to take precedence
+		"C:/Users/tzellerin/SW/git/usr/bin/;" (getenv "PATH")))
 
 ;; this is needed for tramp to work
 (setenv "PATH" (concat
 		(getenv "PATH") ";c:/Users/tzellerin/SW/PuTTY/"))
+
+(setenv "PATH" (concat
+		(getenv "PATH")
+		";C:/Users/tzellerin/SW/emacs-w64-25.1-O2-with-modules/bin"))
 
 ;; this is needed for git pushing
 (setenv "GIT_SSH" "plink")

@@ -57,10 +57,22 @@
 (org-babel-do-load-languages 'foo nil)
 
 (eval-after-load "org-agenda"
-  '(setq org-agenda-files `(,org-directory)
-	org-agenda-todo-ignore-scheduled 'future
-	org-scheduled-past-days 1
-	org-agenda-custom-commands nil))
+  '(progn
+     (bind-key [32] 'org-agenda-show-narrowed
+	       org-agenda-mode-map)
+
+     (defun org-agenda-show-narrowed ()
+       (interactive)
+       (org-agenda-show-and-scroll-up)
+       (let ((win (selected-window)))
+	 (select-window org-agenda-show-window)
+	 (org-narrow-to-subtree)
+	 (select-window win)))
+     
+     (setq org-agenda-files `(,org-directory)
+	   org-agenda-todo-ignore-scheduled 'future
+	   org-scheduled-past-days 1
+	   org-agenda-custom-commands nil)))
 
 (eval-after-load "org-capture"
   '(setq org-capture-templates
