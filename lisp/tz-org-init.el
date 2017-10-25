@@ -68,7 +68,7 @@
 	 (select-window org-agenda-show-window)
 	 (org-narrow-to-subtree)
 	 (select-window win)))
-     
+
      (setq org-agenda-files `(,org-directory)
 	   org-agenda-todo-ignore-scheduled 'future
 	   org-scheduled-past-days 1
@@ -78,22 +78,25 @@
   '(setq org-capture-templates
       '(("j" "Weekly entry" entry
 	 (file+headline "~/journal.org" "2017")
-	 "* Week %(format-time-string \"\\%U\")" :prepend t)
+	 "* Week %(format-time-string \"\\%U\")\n" :prepend t)
 	("t" "TODO" entry
 	 (file "weekly-review.org")
-	 "* TODO %?\n%U" :prepend t :clock-in t :clock-resume t)
+	 "* TODO %?\n%U\n" :prepend t :clock-in t :clock-resume t)
 	("m" "Flag mail" entry
 	(file "weekly-review.org")
-	"* %:subject\n%a")
+	"* %:subject\n%a\n")
 	("f" "Flag place" entry
 	 (file "weekly-review.org")
-	 "* %?\n%T\n%A")
+	 "* %?\n%T\n%A\n")
 	("r" "Remind person" entry
 	 (file "weekly-review.org")
-	 "* %:name\n%a")
+	 "* %:name\n%a\n")
 	("w" "Remind web" entry
 	 (file "weekly-review.org")
-	 "* %(tz-capture-from-eww)\n%T\n\n%(tz-eww-url)"))
+	 "* %(tz-capture-from-eww)\n%T\n\n%(tz-eww-url)\n")
+	("P" "Project subtask" entry
+	 (file "weekly-review.org")
+	 "* TODO %?\n  :PROPERTIES:\n    :CATEGORY: %(with-current-buffer (find-buffer-visiting \"%F\") (org-get-category))\n  :END:\n[[%l][Project info]]\n\n"))
       org-capture-templates-contexts
 	'(("f" "w" #1=((in-mode . "eww-mode")))
 	  ("w" #1#)
