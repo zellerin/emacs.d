@@ -138,16 +138,13 @@
   (add-hook 'prog-mode-hook
 	    'outline-minor-mode))
 
-(use-package "slime"
-  :config
-  (setq slime-contribs '(slime-fancy)
-	slime-net-coding-system 'utf-8-unix
-	slime-lisp-implementations
-	'((sbcl ("/usr/local/bin/sbcl")) ))
-  :defer t)
-
 (use-package "recentf"
   :config (setq recentf-exclude  '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/")))
+
+(use-package "sly"
+ :commands (sly sly-mode)
+  :config (setq inferior-lisp-program "sbcl"))
+
 
 (load "custom")
 (load "experimental")
