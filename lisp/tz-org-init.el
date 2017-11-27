@@ -102,6 +102,8 @@
 	  ("w" #1#)
 	  ("f" "m" #2=((in-mode . "article-mode")))
 	  ("m" #2#)
+	  ("f" "m" #2=((in-mode . "gnus-summary-mode")))
+	  ("m" #2#)
 	  ("f" "r" #3=((in-mode . "bbdb-mode")))
 	  ("r" #3#)
 	  ("f" ((not-in-mode . "bbdb-mode"))))))
