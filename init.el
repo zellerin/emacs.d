@@ -143,11 +143,21 @@
 
 (use-package "sly"
  :commands (sly sly-mode)
-  :config (setq inferior-lisp-program "sbcl"))
+ :config
+ ; (setq inferior-lisp-program "sbcl") <- customized
+ (setq sly-lisp-implementations
+       `((sbcl (,inferior-lisp-program)
+	       "--load" "quicklisp/setup")
+	 (stumpwm (,inferior-lisp-program
+		   "--load" "quicklisp/setup"
+		   "--eval" "(ql:quickload 'stumpwm)"
+		   "--eval" "(sb-thread:make-thread #'stumpwm:stumpwm)")))))
 
 
 (load "custom")
 (load "experimental")
 (load "tz-local" t)
+
+
 
 ;;; init.el ends here
