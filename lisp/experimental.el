@@ -107,5 +107,12 @@
 				(when (s-matches? "receive_packet failed on " output)
 				  (prodigy-set-status service 'interrupted))))))))
 
+(defun execsnoop ()
+  (interactive)
+  (set-buffer (make-term "execsnoop" "sudo" nil "/usr/share/bcc/tools/execsnoop"))
+  (term-mode)
+  (switch-to-buffer "*execsnoop*"))
+
+
 (provide 'experimental)
 ;;; experimental.el ends here

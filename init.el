@@ -146,11 +146,11 @@
  :config
  ; (setq inferior-lisp-program "sbcl") <- customized
  (setq sly-lisp-implementations
-       `((sbcl (,inferior-lisp-program)
-	       "--load" "quicklisp/setup")
+       `((sbcl (,inferior-lisp-program
+		"--load" "quicklisp/setup"))
 	 (stumpwm (,inferior-lisp-program
 		   "--load" "quicklisp/setup"
-		   "--eval" "(ql:quickload 'stumpwm)"
+		   "--eval" "(ql:quickload 'tz-wm)"
 		   "--eval" "(sb-thread:make-thread #'stumpwm:stumpwm)")))))
 
 

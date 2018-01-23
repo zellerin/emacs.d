@@ -43,7 +43,7 @@
 	(org-export-as-html 4 nil nil nil nil "/tmp/"))
       (unless has-name (undo-only)))))
 
-(setq org-refile-use-outline-path nil)
+(setq org-refile-use-outline-path 'file)
 
 (eval-after-load "ob"
   '(setq org-confirm-babel-evaluate nil))
@@ -111,6 +111,14 @@
 (eval-after-load "org-attach"
   '(setq org-attach-file-list-property nil
 	org-attach-method 'mv))
+
+(defun org-attached-tag (a)
+  "Returns path to file in attach directory. To be used in a link abbreviation."
+  (concat (org-attach-dir) "/" a))
+
+(push '("attach" . org-attached-tag) org-link-abbrev-alist)
+
+(require 'ob-shell)
 
 (provide 'tz-org-init)
 ;;; tz-org-init.el ends here
