@@ -156,7 +156,8 @@
 	 (stumpwm (,inferior-lisp-program
 		   "--load" "quicklisp/setup"
 		   "--eval" "(ql:quickload 'tz-wm)"
-		   "--eval" "(sb-thread:make-thread #'stumpwm:stumpwm)")))))
+		   "--eval" "(sb-thread:make-thread #'stumpwm:stumpwm)")))
+       sly-net-coding-system 'utf-8-unix))
 
 
 (load "custom")

@@ -19,9 +19,12 @@ Individual packages:
 + Experimental features are loaded from experimental.el
 
 ** Org
+   :PROPERTIES:
+   :ID:       73de2854-72eb-4d80-a7a9-af2771d6a7fe
+   :END:
 The org customizations are defined in a separate file loaded after Org mode file.
 
-Org directory defaults to =~/org=.
+Org directory defaults to =~/org=. Org agenda files are those in org directory.
 
 Custom functions:
 - tz-export-subtree :: asks for file name if not set in =EXPORT_FILE_NAME= property; not used recently
@@ -29,6 +32,19 @@ Custom functions:
 - Some [[file:lisp/tz-org-init.el::;;;%20Org%20agenda%20random%20variable%20setup][agenda customizations]]
 - There is a custom agenda mapping on SPACE to narrow item jumped to
 - It should be possible to write attach:file to refer to the file in attachment directory
+
+Capture templates:
+- Journal :: Add note to the beginning of the =~/journal.org= under 2018 - is it used?
+- TODO :: into weekly review file, clock while being open
+- Flagging :: into weekly review, specialized form for several possible sources
+- Project subtask :: into weekly review file, use category of currently item
+
+Refile targets:
+- Current buffer and all agenda files, more or less random depth (bigger for current file).
+
+Work conventions:
+- Category is used for project codes
+- 
 
 ** Mail setup (Gnus, message, nnmail)
 - Use adaptive scoring

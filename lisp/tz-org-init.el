@@ -23,15 +23,20 @@
 ;;
 
 ;;; Code:
-
-
 (setq org-modules '(org-bbdb org-gnus)
       org-hide-emphasis-markers t
       org-id-link-to-org-use-id t
       org-directory "~/org"
       org-log-into-drawer t
       org-refile-use-outline-path 'file
-      )
+      org-archive-location (concat org-directory "/archive/2018.org::datetree/* Finished tasks")
+      org-enforce-todo-dependencies t
+      org-src-window-setup 'current-window
+      org-agenda-dim-blocked-tasks 'invisible)
+
+(setq org-refile-targets
+      '((org-agenda-files :maxlevel . 2)
+	(nil :maxlevel . 5)))
 
 (defun tz-export-subtree ()
   (interactive)
@@ -56,7 +61,8 @@
       '((lisp . t)
 	(dot . t)
 	(emacs-lisp . t)
-	(sh . t)))
+	(sh . t))
+      org-babel-lisp-eval-fn (quote sly-eval))
 
 (org-babel-do-load-languages 'foo nil)
 
@@ -82,7 +88,7 @@
 (eval-after-load "org-capture"
   '(setq org-capture-templates
       '(("j" "Weekly entry" entry
-	 (file+headline "~/journal.org" "2017")
+	 (file+headline "~/journal.org" "2018")
 	 "* Week %(format-time-string \"\\%U\")\n" :prepend t)
 	("t" "TODO" entry
 	 (file "weekly-review.org")
