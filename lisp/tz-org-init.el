@@ -29,7 +29,9 @@
       org-hide-emphasis-markers t
       org-id-link-to-org-use-id t
       org-directory "~/org"
-      org-log-into-drawer t)
+      org-log-into-drawer t
+      org-refile-use-outline-path 'file
+      )
 
 (defun tz-export-subtree ()
   (interactive)
@@ -43,8 +45,6 @@
 	(org-export-as-html 4 nil nil nil nil "/tmp/"))
       (unless has-name (undo-only)))))
 
-(setq org-refile-use-outline-path 'file)
-
 (eval-after-load "ob"
   '(setq org-confirm-babel-evaluate nil))
 
@@ -52,8 +52,12 @@
   '(progn
      (push '("dot" . graphviz-dot) org-src-lang-modes)))
 
-(push '(dot . t) org-babel-load-languages)
-(push '(lisp . t) org-babel-load-languages)
+(setq org-babel-load-languages
+      '((lisp . t)
+	(dot . t)
+	(emacs-lisp . t)
+	(sh . t)))
+
 (org-babel-do-load-languages 'foo nil)
 
 (eval-after-load "org-agenda"
@@ -69,6 +73,7 @@
 	 (org-narrow-to-subtree)
 	 (select-window win)))
 
+     ;;; Org agenda random variable setup
      (setq org-agenda-files `(,org-directory)
 	   org-agenda-todo-ignore-scheduled 'future
 	   org-scheduled-past-days 1
@@ -115,8 +120,6 @@
 (defun org-attached-tag (a)
   "Returns path to file in attach directory. To be used in a link abbreviation."
   (concat (org-attach-dir) "/" a))
-
-(push '("attach" . org-attached-tag) org-link-abbrev-alist)
 
 (require 'ob-shell)
 

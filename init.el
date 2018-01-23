@@ -24,27 +24,32 @@
 
 ;;; Code:
 
-;; Personal settings and preferences
+;;; Personal settings and preferences for core functions
+;; I do not need tool bar and status bar
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
-(put 'narrow-to-region 'disabled nil) ; calling enable-command changes init file
+;; calling enable-command changes init file
+(put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
+;; I need to write Czech easily.
 (set-input-method "czech-qwerty")
 
-;; Packages
+;;; Packages setup
 (require 'package)
-
 (package-initialize)
 
 (setq package-archives
-	     '(("gnu" . "https://elpa.gnu.org/packages/")
-	       ("melpa" . "https://melpa.org/packages/")))
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+	("melpa" . "https://melpa.org/packages/")
+	("org" . "https://orgmode.org/elpa/")))
 
 (require 'use-package)
+;; This package needs to be called as early as possible so that the
+;; other packages use correct files.
 (use-package no-littering)
 
 (setq use-package-always-ensure t)

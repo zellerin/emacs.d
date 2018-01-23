@@ -1,5 +1,64 @@
 
 * Current setup
+** General setup of core functions
+- [[file:init.el::;;;%20Personal%20settings%20and%20preferences%20for%20core%20functions][Core functions]] :: language, enabling disabled commands and remove some decorations
+
+** Packages setup
+
+Setup repositories: org, melpa, elpa, and do require-initialize
+
+use-package setup, and always ensure packages
+
+Individual packages:
++ no-littering needs to be loaded early,
++ nameless is used for emacs-lisp files
++ outline and outshine is used for prog-mode children
++ recentf excludes some emacs files
++ Local customizations are loaded from custom.el (managed by Emacs
+  mechanism) and tz-local.el files not subject to git versioning.
++ Experimental features are loaded from experimental.el
+
+** Org
+The org customizations are defined in a separate file loaded after Org mode file.
+
+Org directory defaults to =~/org=.
+
+Custom functions:
+- tz-export-subtree :: asks for file name if not set in =EXPORT_FILE_NAME= property; not used recently
+
+- Some [[file:lisp/tz-org-init.el::;;;%20Org%20agenda%20random%20variable%20setup][agenda customizations]]
+- There is a custom agenda mapping on SPACE to narrow item jumped to
+- It should be possible to write attach:file to refer to the file in attachment directory
+
+** Mail setup (Gnus, message, nnmail)
+- Use adaptive scoring
+- Handle binary attachments possibly as xml files to save (bank reports)
+
+** Message
+Access credentials are in a separate file not managed by git. Mails are send by sendmail to zoho.
+
+** [[file:init.el::(use-package%20"sly"][Sly]]
+Slime was replaced by Sly.
+
+
+** Logical pathnames                                           :experimental:
+- Customizable table help:experimental-logical-names
+- Usable as abbrevs in the org mode
+- help:experimental-pathnames-logical logicalizes existing pathnames in buffer
+
+** Dashboard                                                   :experimental:
+- Bound to F5
+- Shows logical pathnames
+- Adds tips from tips files, local in home and emacs one.
+
+** Prodigy                                                     :experimental:
+- Used to start network functions
+- Not best match as killing requires root priviledges
+- Does not make sense on Windows
+
+** execsnoop                                                   :experimental:
+- Example of function running into buffer
+- Could be made more general
 
 ** Local customization on Windows                                    :review:
 - help:debug-on-error
@@ -63,3 +122,5 @@
      (bbdb-redisplay-record (bbdb-current-record) t)
      (message "%s is surname now" first)))
  #+END_SRC
+
+** Improve 

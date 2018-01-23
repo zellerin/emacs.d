@@ -24,7 +24,6 @@
 
 ;;; Code:
 
-;;;; Slime setup
 (defcustom experimental-logical-names
   '(("org" . "~/org")
     ("conf" . "c:/Users/tzellerin/configs/"))
@@ -35,7 +34,8 @@
 
 (use-package "org"
   :config (setq org-link-abbrev-alist
-	 `(,@experimental-logical-names)))
+		`(("attach" . org-attached-tag)
+		  ,@experimental-logical-names)))
 
 (defun experimental-pathnames-logical ()
   "Change all references to a pathnames mentioned in experimental-logical-names to the short name."

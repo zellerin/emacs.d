@@ -17,7 +17,6 @@
 			(recents   . 10)
 			(bookmarks . 5)))
 
-
 (setq org-directory "c:/Users/tzellerin/Documents/")
 (setq org-agenda-files (list org-directory (concat org-directory "projects")))
 
