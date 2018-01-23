@@ -1,0 +1,65 @@
+
+* Current setup
+
+** Local customization on Windows                                    :review:
+- help:debug-on-error
+- BBDB snarfing: tz-outlook-snarf-company defined for Windows
+- elnode docroot
+- [[file:lisp/custom.el::'(magit-repolist-columns][Magit repolist columns]] and directories
+- org agenda files
+- doc-view setup 
+  #+BEGIN_SRC elisp
+    '(doc-view-pdf->png-converter-function (quote doc-view-pdf->png-converter-mupdf))
+    '(doc-view-pdfdraw-program "mutool")
+  #+END_SRC
+- capture templates
+- org-agenda-skip...
+- help:org-file-apps
+- org conversion functions 
+- refile targets & use outline path
+- selected packages
+* Improvement plans
+** Better build =$PATH= and [[help:exec-path][exec-path]] on Windows
+
+#+NAME: get-paths
+#+BEGIN_SRC elisp :results list
+  (sort (cl-remove-duplicates
+	 (cl-union (split-string (cl-substitute ?\/ ?\\ (getenv "PATH")) ";")
+		   exec-path)
+	 :test (lambda (a b) (string-collate-equalp a b nil t)))
+	'string-collate-lessp)
+#+END_SRC
+
+#+RESULTS:
+- C:/ProgramData/Oracle/Java/javapath
+- C:/Users/tzellerin/SW/emacs-w64-25.3-O2-with-modules/bin
+- C:/Users/tzellerin/SW/git/mingw64/bin/
+- C:/Users/tzellerin/SW/git/usr/bin/
+- c:/Users/tzellerin/SW/graphviz/bin/
+- c:/Users/tzellerin/SW/mupdf-1.11-windows/
+- c:/Users/tzellerin/SW/PuTTY/
+- c:/Users/tzellerin/SW/PuTTY/c:/Users/tzellerin/SW/graphviz/bin/
+- c:/Users/tzellerin/SW/R-3.4.2/R/bin/x64
+- C:/WINDOWS
+- C:/WINDOWS/system32
+- C:/WINDOWS/System32/Wbem
+- C:/WINDOWS/System32/WindowsPowerShell/v1.0/
+- nil
+
+
+#+BEGIN_SRC elisp :var paths=get-paths
+  paths
+#+END_SRC
+
+** TODO bbdb helper to swap names
+ #+BEGIN_SRC emacs-lisp
+ (defun bbdb-swap-names ()
+   (interactive)
+   "Swap first and second name"
+   (let ((first (bbdb-record-firstname (bbdb-current-record)))
+	 (last (bbdb-record-lastname (bbdb-current-record))))
+     (bbdb-record-set-field (bbdb-current-record) 'lastname first)
+     (bbdb-record-set-field (bbdb-current-record) 'firstname last)
+     (bbdb-redisplay-record (bbdb-current-record) t)
+     (message "%s is surname now" first)))
+ #+END_SRC
