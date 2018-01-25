@@ -128,6 +128,7 @@
   (concat (org-attach-dir) "/" a))
 
 (require 'ob-shell)
+(require 'org-docview)
 
 (provide 'tz-org-init)
 ;;; tz-org-init.el ends here

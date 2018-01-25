@@ -46,15 +46,6 @@
       '(("docs" . "c:/Users/tzellerin/documents/")
 	("conf" . "c:/Users/tzellerin/configs/")))
 
-(defun tz-refile-postpone ()
-  "Refile (from daily) to weekly topics. Presumably, the task was
-finished, but needs to stay in weekly file for
-tracking (especially time tracking) purposes. "
-  (interactive)
-  (org-todo "DONE")
-  (org-refile nil  nil (list "Finished" "weekly-review.org"
-			     (buffer-size (find-buffer-visiting "c:/Users/tzellerin/Documents/weekly-review.org")))))
-
 (use-package "hydra"
   :config
   (defhydra hydra-work (global-map "<f12>") "Work tasks"
