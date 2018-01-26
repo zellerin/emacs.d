@@ -18,34 +18,6 @@ Individual packages:
   mechanism) and tz-local.el files not subject to git versioning.
 + Experimental features are loaded from experimental.el
 
-** Org
-   :PROPERTIES:
-   :ID:       73de2854-72eb-4d80-a7a9-af2771d6a7fe
-   :END:
-The org customizations are defined in a separate file loaded after Org mode file.
-
-Org directory defaults to =~/org=. Org agenda files are those in org directory.
-
-Custom functions:
-- tz-export-subtree :: asks for file name if not set in =EXPORT_FILE_NAME= property; not used recently
-
-- Some [[file:lisp/tz-org-init.el::;;;%20Org%20agenda%20random%20variable%20setup][agenda customizations]]
-- There is a custom agenda mapping on SPACE to narrow item jumped to
-- It should be possible to write attach:file to refer to the file in attachment directory
-
-Capture templates:
-- Journal :: Add note to the beginning of the =~/journal.org= under 2018 - is it used?
-- TODO :: into weekly review file, clock while being open
-- Flagging :: into weekly review, specialized form for several possible sources
-- Project subtask :: into weekly review file, use category of currently item
-
-Refile targets:
-- Current buffer and all agenda files, more or less random depth (bigger for current file).
-
-Work conventions:
-- Category is used for project codes
-- 
-
 ** Mail setup (Gnus, message, nnmail)
 - Use adaptive scoring
 - Handle binary attachments possibly as xml files to save (bank reports)
@@ -55,7 +27,6 @@ Access credentials are in a separate file not managed by git. Mails are send by 
 
 ** [[file:init.el::(use-package%20"sly"][Sly]]
 Slime was replaced by Sly.
-
 
 ** Logical pathnames                                           :experimental:
 - Customizable table help:experimental-logical-names
@@ -93,6 +64,54 @@ Slime was replaced by Sly.
 - org conversion functions 
 - refile targets & use outline path
 - selected packages
+
+* Org mode setup
+  :PROPERTIES:
+  :ID:       73de2854-72eb-4d80-a7a9-af2771d6a7fe
+  :END:
+
+** Overview
+
+Several files:
+| File          | Purpose                                   | Agenda? |
+|---------------+-------------------------------------------+---------|
+| weekly-review | More or less actual tasks                 | Y       |
+| projects      | Projects (project per heading)            | N       |
+| knowledgebase | Customer independent reusable information | N       |
+| <topic>       | Long-term projects                        | N       |
+
+- all these files are refilable, only some part of agenda
+- Current workflow:
+  + Captures go to the weekly review file
+
+
+- The setup differs on work Windows machine and Linux machines
+
+
+** Technical
+ The org customizations are defined in a separate file loaded after Org mode file.
+
+ Org directory defaults to =~/org=. Org agenda files are those in org directory.
+
+ Custom functions:
+ - tz-export-subtree :: asks for file name if not set in =EXPORT_FILE_NAME= property; not used recently
+
+ - Some [[file:lisp/tz-org-init.el::;;;%20Org%20agenda%20random%20variable%20setup][agenda customizations]]
+ - There is a custom agenda mapping on SPACE to narrow item jumped to
+ - It should be possible to write attach:file to refer to the file in attachment directory
+
+ Capture templates:
+ - Journal :: Add note to the beginning of the =~/journal.org= under 2018 - is it used?
+ - TODO :: into weekly review file, clock while being open
+ - Flagging :: into weekly review, specialized form for several possible sources
+ - Project subtask :: into weekly review file, use category of currently item
+
+ Refile targets:
+ - Current buffer and all agenda files, more or less random depth (bigger for current file).
+
+ Work conventions:
+ - Category is used for project codes
+ - 
 * Improvement plans
 ** Better build =$PATH= and [[help:exec-path][exec-path]] on Windows
 

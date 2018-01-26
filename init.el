@@ -67,7 +67,8 @@
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)
-   ("C-c r" . org-capture)))
+   ("C-c r" . org-capture)
+   ("C-c b" . org-iswitchb)))
 
 (use-package tz-org-init
   :ensure nil
