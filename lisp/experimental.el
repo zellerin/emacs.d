@@ -32,11 +32,6 @@
   :type '(alist :key-type string :value-type directory)
   :group 'tze)
 
-(use-package "org"
-  :config (setq org-link-abbrev-alist
-		`(("attach" . org-attached-tag)
-		  ,@experimental-logical-names)))
-
 (defun experimental-pathnames-logical ()
   "Change all references to a pathnames mentioned in experimental-logical-names to the short name."
   (interactive)
@@ -113,6 +108,29 @@
   (term-mode)
   (switch-to-buffer "*execsnoop*"))
 
+(defun experimental-make-link-logical (&rest pars)
+  (let* ((link (caar org-stored-links))
+	(res link))
+    (dolist (ldisk experimental-logical-names)
+      (when (string-prefix-p (concat "file:" (cdr ldisk)) link)
+	(message "Shorting to %s" (car ldisk))
+	(setq res (concat (car ldisk) ":" (substring link (+ 5 (length (cdr ldisk))))))))
+    (setf (car org-stored-links) (cons res (cdar org-stored-links)))))
+
+(use-package "org"
+  :defer t
+  :config
+  (setq org-link-abbrev-alist
+		`(("attach" . org-attached-tag)))
+  (dolist (ln experimental-logical-names)
+    (push (cons (car ln) (org-link-expand-abbrev (cdr ln)))
+	  org-link-abbrev-alist))
+  (setq org-directory (org-link-expand-abbrev "org:"))
+  (setq org-agenda-files
+	(mapcar #'org-link-expand-abbrev
+			 '("org:" "project:"))))
+
+(advice-add 'org-store-link :after #'experimental-make-link-logical)
 
 (provide 'experimental)
 ;;; experimental.el ends here

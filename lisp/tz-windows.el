@@ -17,8 +17,6 @@
 			(recents   . 10)
 			(bookmarks . 5)))
 
-(setq org-directory "c:/Users/tzellerin/Documents/")
-(setq org-agenda-files (list org-directory (concat org-directory "projects")))
 
 (defun tz-capture-from-eww ()
   (save-excursion
@@ -41,10 +39,6 @@
 	  (file "weekly-review.org")
 	  "%(tz-outlook-capture-item \"TODO\")\n")
 	org-capture-templates))
-
-(setq experimental-logical-names
-      '(("docs" . "c:/Users/tzellerin/documents/")
-	("conf" . "c:/Users/tzellerin/configs/")))
 
 (use-package "hydra"
   :config

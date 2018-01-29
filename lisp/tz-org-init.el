@@ -26,7 +26,6 @@
 (setq org-modules '(org-bbdb org-gnus)
       org-hide-emphasis-markers t
       org-id-link-to-org-use-id t
-      org-directory "~/org"
       org-log-into-drawer t
       org-refile-use-outline-path 'file
       org-archive-location (concat org-directory "/archive/2018.org::datetree/* Finished tasks")
@@ -80,8 +79,7 @@
 	 (select-window win)))
 
      ;;; Org agenda random variable setup
-     (setq org-agenda-files `(,org-directory)
-	   org-agenda-todo-ignore-scheduled 'future
+     (setq org-agenda-todo-ignore-scheduled 'future
 	   org-scheduled-past-days 1
 	   org-agenda-custom-commands nil)))
 

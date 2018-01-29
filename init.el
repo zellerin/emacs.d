@@ -28,6 +28,7 @@
 ;; I do not need tool bar and status bar
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(set-language-environment "UTF-8")
 
 ;; calling enable-command changes init file
 (put 'narrow-to-region 'disabled nil)

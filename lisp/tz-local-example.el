@@ -6,5 +6,8 @@
 	(bookmarks . 5)))
 
 (setq experimental-logical-names
-  '(("org" . "~/org/")
-    ("conf" . "c:/Users/tzellerin/configs/")))
+      '(("conf" . "~/")
+	("home" . "~/")
+	("project" . "home:projects/")
+	("org" . "home:org")
+	("emacs" . "conf:.emacs.d/")))
