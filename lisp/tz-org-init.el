@@ -50,7 +50,9 @@
       (unless has-name (undo-only)))))
 
 (eval-after-load "ob"
-  '(setq org-confirm-babel-evaluate nil))
+  '(progn
+     (setq org-confirm-babel-evaluate nil)
+     (org-babel-lob-ingest "../emacs-setup.org")))
 
 (eval-after-load "org-src"
   '(progn

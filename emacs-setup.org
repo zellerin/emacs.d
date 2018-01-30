@@ -1,4 +1,3 @@
-
 * Current setup
 ** General setup of core functions
 - [[file:init.el::;;;%20Personal%20settings%20and%20preferences%20for%20core%20functions][Core functions]] :: language, enabling disabled commands and remove some decorations
@@ -112,6 +111,84 @@ Several files:
  Work conventions:
  - Category is used for project codes
  - 
+* Org-babel blocks
+** Show defun
+#+NAME: show-defun
+#+BEGIN_SRC emacs-lisp :var fn='5x5 :results raw
+  (let* ((function fn)
+         (buffer-point (condition-case nil (find-definition-noselect function nil) (error nil)))
+         (new-buf (car buffer-point))
+         (new-point (cdr buffer-point))
+         definition)
+    (if buffer-point
+      (with-current-buffer new-buf ;; Try to get original definition
+        (save-excursion
+          (goto-char new-point)
+          (setq definition (buffer-substring-no-properties (point) (save-excursion (end-of-defun) (point))))))
+      ;; Fallback: Print function definition
+      (setq definition (concat (prin1-to-string (symbol-function function)) "\n")))
+    (concat "#+begin_src emacs-lisp\n" definition "#+end_src\n"))
+#+END_SRC
+
+** Read and write file with data
+ Modified for coding system
+ #+NAME: read
+ #+BEGIN_SRC emacs-lisp :var file="" :var format="" :var coding=()
+   (let ((coding-system-for-read coding))
+   (if (string= format "csv")
+       (with-temp-buffer
+         (org-table-import (expand-file-name file) nil)
+         (org-table-to-lisp))
+     (with-temp-buffer
+       (insert-file-contents (expand-file-name file))
+       (buffer-string))))
+ #+END_SRC
+ #+CALL: read(file="c:/Users/tzellerin/Documents/kalkulace_rizik.csv", format="csv", coding='cp1250)
+
+ Not tested:
+ #+NAME: write
+ #+BEGIN_SRC emacs-lisp :var data="" :var file="" :var ext='()
+   (flet ((echo (r) (if (stringp r) r (format "%S" r))))
+     (with-temp-file file
+       (case (and (listp data)
+                  (or ext (intern (file-name-extension file))))
+         ('tsv (insert (orgtbl-to-tsv data '(:fmt echo))))
+         ('csv (insert (orgtbl-to-csv data '(:fmt echo))))
+         (t    (org-babel-insert-result data)))))
+   nil
+ #+END_SRC
+
+** Plotting with R
+ #+NAME: R-plot
+ #+BEGIN_SRC R :var data=R-plot-example-data
+   plot(data)
+ #+END_SRC
+
+** Headline references
+
+ #+NAME: headline
+ #+BEGIN_SRC emacs-lisp :var headline=top :var file='()
+   (save-excursion
+     (when file (get-file-buffer file))
+     (org-open-link-from-string (org-make-link-string headline))
+     (save-restriction
+       (org-narrow-to-subtree)
+       (buffer-string)))
+ #+END_SRC
+
+** Tables
+ #+NAME: all-to-string
+ #+BEGIN_SRC emacs-lisp :var tbl='()
+   (defun all-to-string (tbl)
+     (if (listp tbl)
+         (mapcar #'all-to-string tbl)
+       (if (stringp tbl)
+           tbl
+         (format "%s" tbl))))
+   (all-to-string tbl)
+ #+END_SRC
+
+
 * Improvement plans
 ** Better build =$PATH= and [[help:exec-path][exec-path]] on Windows
 
@@ -159,3 +236,4 @@ Several files:
  #+END_SRC
 
 ** Improve 
+   
