@@ -115,16 +115,17 @@ Several files:
 ** Show defun
 #+NAME: show-defun
 #+BEGIN_SRC emacs-lisp :var fn='5x5 :results raw
-  (let* ((function fn)
-         (buffer-point (condition-case nil (find-definition-noselect function nil) (error nil)))
-         (new-buf (car buffer-point))
-         (new-point (cdr buffer-point))
-         definition)
+  (let*
+      ((function fn)
+       (buffer-point (condition-case nil (find-definition-noselect function nil) (error nil)))
+       (new-buf (car buffer-point))
+       (new-point (cdr buffer-point))
+       definition)
     (if buffer-point
-      (with-current-buffer new-buf ;; Try to get original definition
-        (save-excursion
-          (goto-char new-point)
-          (setq definition (buffer-substring-no-properties (point) (save-excursion (end-of-defun) (point))))))
+	(with-current-buffer new-buf ;; Try to get original definition
+	  (save-excursion
+	    (goto-char new-point)
+	    (setq definition (buffer-substring-no-properties (point) (save-excursion (end-of-defun) (point))))))
       ;; Fallback: Print function definition
       (setq definition (concat (prin1-to-string (symbol-function function)) "\n")))
     (concat "#+begin_src emacs-lisp\n" definition "#+end_src\n"))
@@ -160,9 +161,17 @@ Several files:
 
 ** Plotting with R
  #+NAME: R-plot
- #+BEGIN_SRC R :var data=R-plot-example-data
+ #+BEGIN_SRC R :var data=R-plot-example-data :results graphics :file test.png
    plot(data)
  #+END_SRC
+
+ #+RESULTS: R-plot
+ [[file:test.png]]
+
+#+NAME: R-plot-example-data
+| 1 | 4 |
+| 2 | 5 |
+| 3 | 6 |
 
 ** Headline references
 
@@ -189,39 +198,28 @@ Several files:
  #+END_SRC
 
 
+** TODO Convert to BABEL block
+#+BEGIN_SRC emacs-lisp
+  (defun rows-to-col (data headers)
+    "Convert a table with same data in all columns except last one to a
+    table where individual options for COL are in columns."
+    (let (rows vals res)
+      (dolist (row data)
+        (cl-pushnew (butlast row) rows
+                    :test #'equal)
+        (cl-pushnew (car (last row)) vals))
+      (setq vals (nreverse vals))
+      (dolist (row rows)
+        (push (append row
+                      (mapcar (lambda (val)
+                                (if (member (append row (list val)) data)
+                                    "X" ""))
+                              vals))
+              res))
+      `((,@headers ,@vals) hline  ,@res)))
+#+END_SRC
+
 * Improvement plans
-** Better build =$PATH= and [[help:exec-path][exec-path]] on Windows
-
-#+NAME: get-paths
-#+BEGIN_SRC elisp :results list
-  (sort (cl-remove-duplicates
-	 (cl-union (split-string (cl-substitute ?\/ ?\\ (getenv "PATH")) ";")
-		   exec-path)
-	 :test (lambda (a b) (string-collate-equalp a b nil t)))
-	'string-collate-lessp)
-#+END_SRC
-
-#+RESULTS:
-- C:/ProgramData/Oracle/Java/javapath
-- C:/Users/tzellerin/SW/emacs-w64-25.3-O2-with-modules/bin
-- C:/Users/tzellerin/SW/git/mingw64/bin/
-- C:/Users/tzellerin/SW/git/usr/bin/
-- c:/Users/tzellerin/SW/graphviz/bin/
-- c:/Users/tzellerin/SW/mupdf-1.11-windows/
-- c:/Users/tzellerin/SW/PuTTY/
-- c:/Users/tzellerin/SW/PuTTY/c:/Users/tzellerin/SW/graphviz/bin/
-- c:/Users/tzellerin/SW/R-3.4.2/R/bin/x64
-- C:/WINDOWS
-- C:/WINDOWS/system32
-- C:/WINDOWS/System32/Wbem
-- C:/WINDOWS/System32/WindowsPowerShell/v1.0/
-- nil
-
-
-#+BEGIN_SRC elisp :var paths=get-paths
-  paths
-#+END_SRC
-
 ** TODO bbdb helper to swap names
  #+BEGIN_SRC emacs-lisp
  (defun bbdb-swap-names ()
@@ -234,6 +232,31 @@ Several files:
      (bbdb-redisplay-record (bbdb-current-record) t)
      (message "%s is surname now" first)))
  #+END_SRC
+* Workflow specific things
+  :PROPERTIES:
+  :ID:       5dc78da1-07a9-49b4-888c-edcb4c8c4cbe
+  :END:
+#+BEGIN_SRC elisp
+  (defvar vpn-status )
 
-** Improve 
-   
+  (define-minor-mode vpn-mode "Access network via VPN"
+    :global t
+    (if vpn-mode
+	(make-comint "Cisco VPN" "c:/Program Files (x86)/Cisco Systems/VPN Client/vpnclient.exe" nil "connect" "CZ")
+      (make-comint "Cisco VPN" "c:/Program Files (x86)/Cisco Systems/VPN Client/vpnclient.exe" nil "disconnect")))
+
+  (defun vpn-info ()
+    (interactive)
+    (switch-to-buffer
+     (make-comint "Cisco VPN" "c:/Program Files (x86)/Cisco Systems/VPN Client/vpnclient.exe" nil "stat")))
+
+  (defvar vpn-major-mode-keywords
+    '((("VPN tunnel information" . 'bold)
+       ("VPN traffic summary" . 'bold)
+       ("Configured routes" . 'bold)
+       ("^\\([A-Z].*:\\) \\(.*\\)" (1 'font-lock-keyword-face) (2 'font-lock-function-name-face)))))
+
+  (define-derived-mode vpn-major-mode special-mode "VPN info"
+    "???"
+    (setq font-lock-defaults vpn-major-mode-keywords))
+#+END_SRC
