@@ -155,6 +155,24 @@
  (setq sly-lisp-implementations
        `((sbcl (,inferior-lisp-program
 		"--load" "quicklisp/setup"))
+(use-package "eww"
+  :defer t
+  :config
+  (defun my/eww-toggle-images ()
+  "Toggle whether images are loaded and reload the current page from cache."
+  (interactive)
+  (setq-local shr-inhibit-images (not shr-inhibit-images))
+  (eww-reload t)
+  (message "Images are now %s"
+           (if shr-inhibit-images "off" "on")))
+
+  (define-key eww-mode-map (kbd "I") #'my/eww-toggle-images)
+  (define-key eww-link-keymap (kbd "I") #'my/eww-toggle-images)
+
+  (setq-default shr-inhibit-images t)
+  ; do something to shr-blocked-images?
+  )
+
 	 (stumpwm (,inferior-lisp-program
 		   "--load" "quicklisp/setup"
 		   "--eval" "(ql:quickload 'tz-wm)"

@@ -24,57 +24,6 @@
 
 ;;; Code:
 
-(defcustom experimental-logical-names
-  '(("org" . "~/org")
-    ("conf" . "c:/Users/tzellerin/configs/"))
-  "List of mapping from short name to a path. It is currently
-  used for org mode abbreviations, and for nice view of files in the dashboard."
-  :type '(alist :key-type string :value-type directory)
-  :group 'tze)
-
-(defun experimental-pathnames-logical ()
-  "Change all references to a pathnames mentioned in experimental-logical-names to the short name."
-  (interactive)
-  (save-excursion
-    (let ((inhibit-read-only t))
-      (dolist (ldisk experimental-logical-names)
-	(goto-char 1)
-	(while (search-forward (cdr ldisk) nil t)
-	  (replace-match (concat (car ldisk) ":")))))))
-
-(use-package "dashboard"
-  :bind ("<f5>" . dashboard-refresh-buffer)
-  :config
-  (add-hook 'dashboard-mode-hook 'experimental-pathnames-logical)
-
-  (add-to-list 'dashboard-item-generators  '(tips . experimental-insert-tips))
-  (add-to-list 'dashboard-items '(tips) t)
-  (dashboard-setup-startup-hook)
-
-  (defun experimental--insert-files-top (files n)
-  "Insert N lines starting with second one (first may be a modeline) to current buffer."
-  (while (and files (> n 1))
-    (let ((file (pop files)))
-      (insert
-       (or
-	(save-current-buffer
-	  (when (file-readable-p file)
-	    (find-file file)
-	    (goto-char (point-min))
-	    (forward-line 1)
-	    (prog1
-		(buffer-substring (point)
-				  (progn (setq n (forward-line n))
-					 (point)))
-	      (bury-buffer))))
-	(format "Create %s" file))))))
-
-  (defun experimental-insert-tips (n)
-  "Insert given number of tips from tip files to the buffer."
-  (experimental--insert-files-top '("~/tips.org" "~/.emacs.d/tips.org") n))
-
-  :demand t)
-
 (use-package "prodigy"
   :defer t
   :config
@@ -108,29 +57,16 @@
   (term-mode)
   (switch-to-buffer "*execsnoop*"))
 
-(defun experimental-make-link-logical (&rest pars)
-  (let* ((link (caar org-stored-links))
-	(res link))
-    (dolist (ldisk experimental-logical-names)
-      (when (string-prefix-p (concat "file:" (cdr ldisk)) link)
-	(message "Shorting to %s" (car ldisk))
-	(setq res (concat (car ldisk) ":" (substring link (+ 5 (length (cdr ldisk))))))))
-    (setf (car org-stored-links) (cons res (cdar org-stored-links)))))
-
 (use-package "org"
   :defer t
   :config
   (setq org-link-abbrev-alist
 		`(("attach" . org-attached-tag)))
-  (dolist (ln experimental-logical-names)
-    (push (cons (car ln) (org-link-expand-abbrev (cdr ln)))
-	  org-link-abbrev-alist))
+  (logical-pathnames-org-insinuate)
   (setq org-directory (org-link-expand-abbrev "org:"))
   (setq org-agenda-files
 	(mapcar #'org-link-expand-abbrev
 			 '("org:" "project:"))))
-
-(advice-add 'org-store-link :after #'experimental-make-link-logical)
 
 (provide 'experimental)
 ;;; experimental.el ends here

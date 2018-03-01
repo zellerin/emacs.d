@@ -1,8 +1,9 @@
 ;;; tz-org-init.el --- Org mode preferences          -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017  Tomas Zellerin
+;; Copyright (C) 2017, 2018  Tomas Zellerin
 
 ;; Author: Tomas Zellerin <tomas@zellerin.cz>
+;; Version: 1.0
 ;; Keywords: convenience
 
 ;; This program is free software; you can redistribute it and/or modify
