@@ -179,6 +179,9 @@
 		   "--eval" "(sb-thread:make-thread #'stumpwm:stumpwm)")))
        sly-net-coding-system 'utf-8-unix))
 
+(bind-key (kbd "<f12> f") 'workflow-project-setup-frame)
+(bind-key (kbd "<f12> RET") 'make-frame)
+
 
 (load "custom")
 (load "experimental")
