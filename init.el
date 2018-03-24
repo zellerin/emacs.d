@@ -182,6 +182,7 @@
 (bind-key (kbd "<f12> f") 'workflow-project-setup-frame)
 (bind-key (kbd "<f12> RET") 'make-frame)
 
+(bind-key (kbd "C-c c") 'compile)
 
 (load "custom")
 (load "experimental")
