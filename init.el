@@ -184,6 +184,11 @@
 
 (bind-key (kbd "C-c c") 'compile)
 
+(auto-insert-mode)
+(push '(("\\.asm\\'" . "PIC midrange assembler") . pic-asm-new-file)
+      auto-insert-alist)
+
+
 (load "custom")
 (load "experimental")
 (load "tz-local" t)
