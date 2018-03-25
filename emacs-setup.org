@@ -205,29 +205,59 @@ Several files:
  #+END_SRC
 
 
-** TODO Convert to BABEL block
-#+BEGIN_SRC emacs-lisp
-  (defun rows-to-col (data headers)
-    "Convert a table with same data in all columns except last one to a
-    table where individual options for COL are in columns."
-    (let (rows vals res)
-      (dolist (row data)
-        (cl-pushnew (butlast row) rows
-                    :test #'equal)
-        (cl-pushnew (car (last row)) vals))
-      (setq vals (nreverse vals))
-      (dolist (row rows)
-        (push (append row
-                      (mapcar (lambda (val)
-                                (if (member (append row (list val)) data)
-                                    "X" ""))
-                              vals))
-              res))
-      `((,@headers ,@vals) hline  ,@res)))
+*** Convert last column of a table to checked columns                 :emacs:
+   :PROPERTIES:
+   :Effort:   1:00
+   :END:
+   :LOGBOOK:
+   CLOCK: [2018-03-25 Sun 12:56]
+   :END:
+
+Convert a table with same data in all columns except last one to a
+table where individual options for column are in columns, and X
+indicates if given line exists or not.
+
+#+NAME: rows-to-column-check
+#+BEGIN_SRC emacs-lisp :var data=rows-to-cols-test :colnames no
+  (let (rows vals res)
+    (dolist (row (cdr data))
+      (cl-pushnew (butlast row) rows
+                  :test #'equal)
+      (cl-pushnew (car (last row)) vals))
+    (setq vals (nreverse vals))
+    (dolist (row rows)
+      (push (append row
+                    (mapcar (lambda (val)
+                              (if (member (append row (list val)) data)
+                                  "X" ""))
+                            vals))
+            res))
+    `((,@(butlast (car data)) ,@vals) hline  ,@res))
 #+END_SRC
 
+Example source
+#+TBLNAME:rows-to-cols-test
+| f   | B   | res |
+|-----+-----+-----|
+| foo | bar |   1 |
+| foo | bar |   2 |
+| foo | bah |   2 |
+
+produces the result
+
+#+RESULTS: rows-to-cols
+| f   | B   | 1 | 2 |
+|-----+-----+---+---|
+| foo | bar | X | X |
+| foo | bah |   | X |
+
+
+
 * Improvement plans
-** TODO bbdb helper to swap names
+** TODO bbdb helper to swap names                                     :emacs:
+   :PROPERTIES:
+   :Effort:   0:10
+   :END:
  #+BEGIN_SRC emacs-lisp
  (defun bbdb-swap-names ()
    (interactive)
