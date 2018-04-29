@@ -122,7 +122,8 @@
 	   ("mail.misc" ""))))
 
 (use-package magit
-  :commands magit-status magit-init magit-clone)
+  :commands magit-status magit magit-init magit-clone
+  :bind (("C-c m" . magit)))
 
 ;; Additional sources
 (add-to-list 'load-path (locate-user-emacs-file "lisp/"))
