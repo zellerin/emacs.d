@@ -185,6 +185,19 @@
 
 (bind-key (kbd "C-c c") 'compile)
 
+(use-package "bbdb"
+  :bind ("C-c B" . bbdb)
+  :config
+  (defun bbdb-swap-names ()
+    (interactive)
+    "Swap first and second name"
+    (let ((first (bbdb-record-firstname (bbdb-current-record)))
+	  (last (bbdb-record-lastname (bbdb-current-record))))
+      (bbdb-record-set-field (bbdb-current-record) 'lastname first)
+      (bbdb-record-set-field (bbdb-current-record) 'firstname last)
+      (bbdb-redisplay-record (bbdb-current-record) t)
+      (message "%s is surname now" first))))
+
 (auto-insert-mode)
 (push '(("\\.asm\\'" . "PIC midrange assembler") . pic-asm-new-file)
       auto-insert-alist)

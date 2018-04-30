@@ -254,7 +254,7 @@ produces the result
 
 
 * Improvement plans
-** TODO bbdb helper to swap names                                     :emacs:
+** DONE bbdb helper to swap names                                     :emacs:
    :PROPERTIES:
    :Effort:   0:10
    :END:
