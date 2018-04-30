@@ -28,9 +28,16 @@ Access credentials are in a separate file not managed by git. Mails are send by 
 Slime was replaced by Sly.
 
 ** Logical pathnames                                           :experimental:
-- Customizable table help:experimental-logical-names
-- Usable as abbrevs in the org mode
-- help:experimental-pathnames-logical logicalizes existing pathnames in buffer
+- Customizable table help:experimental-logical-names, probably in [[emacs:lisp/tz-local.el]]
+- Usable as abbrevs in the org mode and in capture
+- Handy when moving big directories around or on different machines
+
+Typical pathnames:
+| Logical  | Description       | Linux | Windows       |
+|----------+-------------------+-------+---------------|
+| home     | Home directory    | ~/    | ../Documents/ |
+| projects | Project org files |       |               |
+| org      | Basic org files   |       |               |
 
 ** Dashboard                                                   :experimental:
 - Bound to F5
