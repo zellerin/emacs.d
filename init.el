@@ -48,12 +48,21 @@
 	("melpa" . "https://melpa.org/packages/")
 	("org" . "https://orgmode.org/elpa/")))
 
-(require 'use-package)
+(unless (require 'use-package nil t)
+  (package-initialize)
+  (package-refresh-contents) ; this will be longer than usual
+  (setq package-selected-packages nil)
+  (package-install 'use-package)
+  ;; Install from scratch: also, org should be reinstalled
+  (package-install-from-archive (cadr (assoc 'org package-archive-contents)))
+  (package-install-file "~/.emacs.d/lisp/tz-org-init.el")
+  (package-install-file "~/.emacs.d/lisp/logical-pathnames.el"))
+
+(setq use-package-always-ensure t)
 ;; This package needs to be called as early as possible so that the
 ;; other packages use correct files.
 (use-package no-littering)
 
-(setq use-package-always-ensure t)
 
 ;; Basic Lisp editing
 (use-package paredit
