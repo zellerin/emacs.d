@@ -1,15 +1,38 @@
 ;; -*- mode: emacs-lisp -*-
 (setq user-full-name "Tomas Zellerin")
 
+(require 'org)
+
 (setq exec-path
-      '("C:/ProgramData/Oracle/Java/javapath" "C:/Users/tzellerin/SW/emacs-w64-25.3-O2-with-modules/bin" "C:/Users/tzellerin/SW/git/mingw64/bin/" "C:/Users/tzellerin/SW/git/usr/bin/" "c:/Users/tzellerin/SW/graphviz/bin/" "c:/Users/tzellerin/SW/mupdf-1.11-windows/" "c:/Users/tzellerin/SW/PuTTY/" "c:/Users/tzellerin/SW/graphviz/bin/" "c:/Users/tzellerin/SW/gnuplot/bin/" "c:/Users/tzellerin/SW/R-3.4.2/R/bin/x64" "C:/WINDOWS" "C:/WINDOWS/system32" "C:/WINDOWS/System32/Wbem" "C:/WINDOWS/System32/WindowsPowerShell/v1.0/" nil))
+      `(
+	,@(mapcar 'org-link-expand-abbrev
+	       '("C:/ProgramData/Oracle/Java/javapath"
+		 "sw:emacs-w64-25.3-O2-with-modules/bin"
+		 "sw:git/mingw64/bin/"
+		 "sw:sqlite-tools-win32-x86-3220000/"
+		 "sw:git/usr/bin/"
+		 "sw:graphviz/bin/"
+		 "sw:mupdf-1.11-windows/"
+		 "sw:PuTTY/"
+		 "sw:graphviz/bin/"
+		 "sw:gnuplot/bin/"
+		 "sw:R-3.4.2/R/bin/x64"
+		 "C:/WINDOWS"
+		 "C:/WINDOWS/system32"
+		 "C:/WINDOWS/System32/Wbem"
+		 "C:/WINDOWS/System32/WindowsPowerShell/v1.0/"))
+	,nil))
+
 (setenv "PATH" (mapconcat 'identity (butlast exec-path) ";"))
 
-(setenv "GIT_SSH" "C:/Users/tzellerin/SW/putty/plink.exe")
+
+(setq org-babel-sqlite3-command "sqlite3.exe")
+
+(setenv "GIT_SSH" (org-link-expand-abbrev "sw:putty/plink.exe"))
 
 (setq slime-lisp-implementations
       '((abcl ("java" "-jar"
-	       "c:/Users/tzellerin/SW/abcl-bin-1.4.0/abcl-bin-1.4.0/abcl.jar"))))
+	       ,(org-link-expand-abbrev "sw:abcl-bin-1.4.0/abcl-bin-1.4.0/abcl.jar")))))
 
 (defun tz-capture-from-eww ()
   (save-excursion
@@ -46,5 +69,26 @@
 
 (eval-after-load "dired"
   '(progn
-     (require 'w32-browser)
-     (bind-key "C-c <RET>" 'dired-w32-browser dired-mode-map)))
+     (bind-key "C-c <RET>" 'dired-w32-browser dired-mode-map)
+     (bind-key "C-c o" 'dired-w32explore dired-mode-map)
+     (bind-key "C-c C-o" 'dired-w32explore dired-mode-map)
+     (bind-key "?" 'tz-dired-summary dired-mode-map)))
+
+(defun tz-dired-summary ()
+  (interactive)
+  (dired-why)
+  (message "C-c <RET> open Office file // C-c o open in Explorer"))
+
+(defun lock-windows ()
+  "This function is called by Task scheduler when screen is
+locked. Presumably, some interruption is in progress."
+  (org-capture nil "-"))
+
+(defun unlock-windows ()
+  "This function would be called by Task scheduler when screen is
+unlocked. Do nothing, let user clean up interuption.
+
+Actually, it is disabled in my Task Scheduler at the moment.")
+
+(use-package "w32-browser"
+  :commands (dired-w32-browser))
