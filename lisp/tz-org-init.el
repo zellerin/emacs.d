@@ -84,7 +84,16 @@
      ;;; Org agenda random variable setup
      (setq org-agenda-todo-ignore-scheduled 'future
 	   org-scheduled-past-days 1
-	   org-agenda-custom-commands nil)))
+	   org-agenda-custom-commands nil
+	   org-agenda-prefix-format
+	   ; show parents of todo list
+	   '((agenda . " %i %-12:c%?-12t% s")
+	     (timeline . "  % s")
+	     (todo .
+		   " %i %-12:c %b")
+	     (tags .
+		   " %i %-12:c %b")
+	     (search . " %i %-12:c")))))
 
 (eval-after-load "org-capture"
   '(setq org-capture-templates
