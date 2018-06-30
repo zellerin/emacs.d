@@ -80,16 +80,16 @@ Can be used in `dired-after-readin-hook'"
 
 Suitable for hook on `org-store-link'; for this reason, it
 formally accepts PARS (but does not use them)."
-  (let* ((link (caar org-stored-links))
-	(res link))
-    (dolist (ldisk logical-pathnames-names)
-      ;; c:/ should be kept
-      (unless (find ?\: (substring (cdr ldisk) 2))
-	(setf ldisk (cons (car ldisk) (concat "file:" (cdr ldisk)))))
-      (when (or (string-prefix-p (cdr ldisk) link))
-	(message "Shorting to %s" (car ldisk))
-	(setq link (concat (car ldisk) ":" (substring link (length (cdr ldisk)))))))
-    (setf (car org-stored-links) (cons link (cdar org-stored-links)))))
+  (when (car org-stored-links)
+    (let* ((link (caar org-stored-links))
+	   (res link))
+      (dolist (ldisk logical-pathnames-names)
+	;; c:/ should be kept
+	(unless (find ?\: (substring (cdr ldisk) 2))
+	  (setf ldisk (cons (car ldisk) (concat "file:" (cdr ldisk)))))
+	(when (or (string-prefix-p (cdr ldisk) link))
+	  (setq link (concat (car ldisk) ":" (substring link (length (cdr ldisk)))))))
+      (setf (car org-stored-links) (cons link (cdar org-stored-links))))))
 
 ;;;###autoload
 (defun logical-pathnames-org-insinuate ()
