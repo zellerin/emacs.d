@@ -161,10 +161,15 @@
 (use-package "sly"
  :commands (sly sly-mode)
  :config
- ; (setq inferior-lisp-program "sbcl") <- customized
- (setq sly-lisp-implementations
+ (setq sly-lisp-implementations nil
        `((sbcl (,inferior-lisp-program
 		"--load" "quicklisp/setup"))
+	 (stumpwm (,inferior-lisp-program
+		   "--load" "quicklisp/setup"
+		   "--eval" "(ql:quickload 'tz-wm)"
+		   "--eval" "(sb-thread:make-thread #'stumpwm:stumpwm)")))
+       sly-net-coding-system 'utf-8-unix))
+
 (use-package "eww"
   :defer t
   :config
@@ -182,12 +187,6 @@
   (setq-default shr-inhibit-images t)
   ; do something to shr-blocked-images?
   )
-
-	 (stumpwm (,inferior-lisp-program
-		   "--load" "quicklisp/setup"
-		   "--eval" "(ql:quickload 'tz-wm)"
-		   "--eval" "(sb-thread:make-thread #'stumpwm:stumpwm)")))
-       sly-net-coding-system 'utf-8-unix))
 
 (bind-key (kbd "<f12> f") 'workflow-project-setup-frame)
 (bind-key (kbd "<f12> RET") 'make-frame)
