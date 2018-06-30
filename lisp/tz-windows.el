@@ -30,9 +30,11 @@
 
 (setenv "GIT_SSH" (org-link-expand-abbrev "sw:putty/plink.exe"))
 
-(setq sly-lisp-implementations
-      `((abcl ("java" "-jar"
-	       ,(org-link-expand-abbrev "sw:abcl-bin-1.4.0/abcl-bin-1.4.0/abcl.jar")))))
+(setq inferior-lisp-program
+      `("java" "-jar"
+	,(org-link-expand-abbrev "sw:abcl-bin-1.4.0/abcl-bin-1.4.0/abcl.jar")))
+
+(setq sly-lisp-implementations nil)
 
 (defun tz-capture-from-eww ()
   (save-excursion
