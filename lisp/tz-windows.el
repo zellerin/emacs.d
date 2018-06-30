@@ -4,9 +4,8 @@
 (require 'org)
 
 (setq exec-path
-      `(
-	,@(mapcar 'org-link-expand-abbrev
-	       '("C:/ProgramData/Oracle/Java/javapath"
+      `(,@(mapcar 'org-link-expand-abbrev
+	       '("C:/Program Files (x86)/Common Files/Oracle/Java/javapath"
 		 "sw:emacs-w64-25.3-O2-with-modules/bin"
 		 "sw:git/mingw64/bin/"
 		 "sw:sqlite-tools-win32-x86-3220000/"
@@ -16,7 +15,8 @@
 		 "sw:PuTTY/"
 		 "sw:graphviz/bin/"
 		 "sw:gnuplot/bin/"
-		 "sw:R-3.4.2/R/bin/x64"
+		 "sw:rcs/"
+		 "sw:R-3.5.0/bin/x64"
 		 "C:/WINDOWS"
 		 "C:/WINDOWS/system32"
 		 "C:/WINDOWS/System32/Wbem"
