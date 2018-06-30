@@ -103,6 +103,9 @@
 	("t" "TODO" entry
 	 (file "weekly-review.org")
 	 "* TODO %?\n%U\n" :prepend t :clock-in t :clock-resume t)
+	("i" "Interruption" entry
+	 (file "weekly-review.org")
+	 "* %?\n%U\n" :prepend t :clock-in t :clock-resume t)
 	("m" "Flag mail" entry
 	(file "weekly-review.org")
 	"* %:subject\n%a\n")
