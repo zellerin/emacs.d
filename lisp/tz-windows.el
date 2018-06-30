@@ -30,8 +30,8 @@
 
 (setenv "GIT_SSH" (org-link-expand-abbrev "sw:putty/plink.exe"))
 
-(setq slime-lisp-implementations
-      '((abcl ("java" "-jar"
+(setq sly-lisp-implementations
+      `((abcl ("java" "-jar"
 	       ,(org-link-expand-abbrev "sw:abcl-bin-1.4.0/abcl-bin-1.4.0/abcl.jar")))))
 
 (defun tz-capture-from-eww ()
