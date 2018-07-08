@@ -106,17 +106,6 @@ Several files:
  - There is a custom agenda mapping on SPACE to narrow item jumped to
  - It should be possible to write attach:file to refer to the file in attachment directory
 
- Capture templates:
- - Journal :: Add note to the beginning of the =~/journal.org= under 2018 - is it used?
- - TODO :: into weekly review file, clock while being open
- - Flagging :: into weekly review, specialized form for several possible sources
- - Project subtask :: into weekly review file, use category of currently item
-
- Refile targets:
- - Current buffer and all agenda files, more or less random depth (bigger for current file).
-
- Work conventions:
- - Category is used for project codes
  - 
 * Org-babel blocks
 ** Show defun
@@ -209,9 +198,6 @@ Several files:
    :PROPERTIES:
    :Effort:   1:00
    :END:
-   :LOGBOOK:
-   CLOCK: [2018-03-25 Sun 12:56]
-   :END:
 
 Convert a table with same data in all columns except last one to a
 table where individual options for column are in columns, and X
@@ -297,3 +283,33 @@ produces the result
     "???"
     (setq font-lock-defaults vpn-major-mode-keywords))
 #+END_SRC
+
+
+* Capture principles and workflow                                  :captures:
+  :PROPERTIES:
+  :ID:       26876e25-8094-4383-9e00-12bfb67c3a73
+  :END:
+Expected types of entries:
+- interruption :: someone comes and asks, no followup needed. Clock
+                  should be stopped/restarted during that, if
+                  billable, category should be set as well (or
+                  refile). Can turn into todo or KB item as it goes.
+- scheduler interruption :: e.g., lunch, meeting - can be preplanned
+     and clocked in from agenda, otherwise same.
+- todo task :: something to be done later - needs TODO flag, may or may not be refiled
+  immediately or later.
+- information to keep :: does not need to have TODO, but should have
+     immediately relevant tag. Can come from different sources (web, ...)
+- research :: a TODO originally that becomes KB item.
+- meeting minutes :: scheduled or unscheduled interruption
+Obsolete:
+- Journal :: Add note to the beginning of the =~/journal.org= under 2018 - is it used?
+- Flagging :: into weekly review, specialized form for several
+               possible sources. Apparently should be possible to have
+               is as a task as well as a KB item.
+
+ Refile targets:
+- Current buffer and all agenda files, more or less random depth (bigger for current file).
+
+Work conventions:
+- Category is used for project codes

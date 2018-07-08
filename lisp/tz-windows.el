@@ -36,18 +36,6 @@
 
 (setq sly-lisp-implementations nil)
 
-(defun tz-capture-from-eww ()
-  (save-excursion
-    (set-buffer (get-buffer "*eww*"))
-    (plist-get eww-data :title)))
-
-(defun tz-eww-url ()
-  (save-excursion
-    (set-buffer (get-buffer "*eww*"))
-    (concat "[[" (eww-current-url) "]["
-	    (thing-at-point 'sentence t)
-	    "]]")))
-
 (eval-after-load "org"
   '(load-file (locate-user-emacs-file
 	      "windows-integration/tz-outlook.el")))
@@ -56,7 +44,7 @@
   '(push '("O" "Outlook" entry
 	  (file "weekly-review.org")
 	  "%(tz-outlook-capture-item \"TODO\")\n")
-	org-capture-templates))
+	 org-capture-templates))
 
 (eval-after-load "gnus"
   '(add-to-list 'gnus-secondary-select-methods '(nntp "news.gwene.org")))
@@ -81,6 +69,8 @@
   (dired-why)
   (message "C-c <RET> open Office file // C-c o open in Explorer"))
 
+;;;; Screen lock interaction
+(server-start)
 (defun lock-windows ()
   "This function is called by Task scheduler when screen is
 locked. Presumably, some interruption is in progress."

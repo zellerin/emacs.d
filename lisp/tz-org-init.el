@@ -102,8 +102,8 @@
 	 "* Week %(format-time-string \"\\%U\")\n" :prepend t)
 	("t" "TODO" entry
 	 (file "weekly-review.org")
-	 "* TODO %?\n%U\n" :prepend t :clock-in t :clock-resume t)
-	("i" "Interruption" entry
+	 "* TODO %?\n\n" :prepend t :clock-in t :clock-resume t)
+	("-" "Interruption" entry
 	 (file "weekly-review.org")
 	 "* %?\n%U\n" :prepend t :clock-in t :clock-resume t)
 	("m" "Flag mail" entry
@@ -116,11 +116,8 @@
 	 (file "weekly-review.org")
 	 "* %:name\n%a\n")
 	("w" "Remind web" entry
-	 (file "weekly-review.org")
-	 "* %(tz-capture-from-eww)\n%T\n\n%(tz-eww-url)\n")
-	("P" "Project subtask" entry
-	 (file "weekly-review.org")
-	 "* TODO %?\n  :PROPERTIES:\n    :CATEGORY: %(with-current-buffer (find-buffer-visiting \"%F\") (org-get-category))\n  :END:\n[[%l][Project info]]\n\n"))
+	 (file "knowledgebase.org")
+	 "* %(tz-capture-from-eww)%^g\n%T\n\n%(tz-eww-url)\n"))
       org-capture-templates-contexts
 	'(("f" "w" #1=((in-mode . "eww-mode")))
 	  ("w" #1#)
@@ -131,6 +128,17 @@
 	  ("f" "r" #3=((in-mode . "bbdb-mode")))
 	  ("r" #3#)
 	  ("f" ((not-in-mode . "bbdb-mode"))))))
+
+(defun tz-capture-from-eww ()
+  (save-excursion
+    (set-buffer (get-buffer "*eww*"))
+    (plist-get eww-data :title)))
+
+(defun tz-eww-url ()
+  (save-excursion
+    (set-buffer (get-buffer "*eww*"))
+    (concat "[[" (eww-current-url) "][link]] "
+	    (thing-at-point 'sentence t))))
 
 (eval-after-load "org-attach"
   '(setq org-attach-file-list-property nil
