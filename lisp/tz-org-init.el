@@ -63,7 +63,7 @@
       '((lisp . t)
 	(dot . t)
 	(emacs-lisp . t)
-	(sh . t))
+	(shell . t))
       org-babel-lisp-eval-fn (quote sly-eval))
 
 (org-babel-do-load-languages 'foo nil)
@@ -148,7 +148,6 @@
   "Returns path to file in attach directory. To be used in a link abbreviation."
   (concat (org-attach-dir) "/" a))
 
-(require 'ob-shell)
 (require 'org-docview)
 
 (provide 'tz-org-init)
