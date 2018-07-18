@@ -95,39 +95,36 @@
 		   " %i %-12:c %b")
 	     (search . " %i %-12:c")))))
 
+  (defun tz--capture-entry (letter name template &rest args)
+    `(,letter ,name entry
+ 	      (file "weekly-review.org")
+	      ,template
+	      ,@args
+	      :prepend t :clock-in t :clock-resume t :empty-lines 1))
+
 (eval-after-load "org-capture"
   '(setq org-capture-templates
-      '(("j" "Weekly entry" entry
-	 (file+headline "~/journal.org" "2018")
-	 "* Week %(format-time-string \"\\%U\")\n" :prepend t)
-	("t" "TODO" entry
-	 (file "weekly-review.org")
-	 "* TODO %?\n\n" :prepend t :clock-in t :clock-resume t)
-	("-" "Interruption" entry
-	 (file "weekly-review.org")
-	 "* %?\n%U\n" :prepend t :clock-in t :clock-resume t)
-	("m" "Flag mail" entry
-	(file "weekly-review.org")
-	"* %:subject\n%a\n")
-	("f" "Flag place" entry
-	 (file "weekly-review.org")
-	 "* %?\n%T\n%A\n")
-	("r" "Remind person" entry
-	 (file "weekly-review.org")
-	 "* %:name\n%a\n")
-	("w" "Remind web" entry
-	 (file "knowledgebase.org")
-	 "* %(tz-capture-from-eww)%^g\n%T\n\n%(tz-eww-url)\n"))
-      org-capture-templates-contexts
-	'(("f" "w" #1=((in-mode . "eww-mode")))
-	  ("w" #1#)
-	  ("f" "m" #2=((in-mode . "article-mode")))
-	  ("m" #2#)
-	  ("f" "m" #2=((in-mode . "gnus-summary-mode")))
-	  ("m" #2#)
-	  ("f" "r" #3=((in-mode . "bbdb-mode")))
-	  ("r" #3#)
-	  ("f" ((not-in-mode . "bbdb-mode"))))))
+	 (list
+	  ; todo
+	  (tz--capture-entry "t" "TODO"		"* TODO %?\n%t%^{CATEGORY}p\n")
+	  (tz--capture-entry "-" "Interruption"	"* %?\n%T\n")
+	  (tz--capture-entry "j" "journal item" "* %? :journal:\n%t\n")
+	  (tz--capture-entry "m" "Flag mail"	"* %:subject\n%a\n")
+	  (tz--capture-entry "f" "Flag place"	"* %?\n%T\n%A\n")
+	  (tz--capture-entry "r" "Remind person"
+			     "* %:name\n%a\n")
+	  (tz--capture-entry "w" "Remind web"
+	   "* %(tz-capture-from-eww)%^g\n%T\n\n%(tz-eww-url)\n"))
+	 org-capture-templates-contexts
+	 '(("f" "w" #1=((in-mode . "eww-mode")))
+	   ("w" #1#)
+	   ("f" "m" #2=((in-mode . "article-mode")))
+	   ("m" #2#)
+	   ("f" "m" #2=((in-mode . "gnus-summary-mode")))
+	   ("m" #2#)
+	   ("f" "r" #3=((in-mode . "bbdb-mode")))
+	   ("r" #3#)
+	   ("f" ((not-in-mode . "bbdb-mode"))))))
 
 (defun tz-capture-from-eww ()
   (save-excursion
