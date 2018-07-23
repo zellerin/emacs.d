@@ -82,7 +82,8 @@
 	 (select-window win)))
 
      ;;; Org agenda random variable setup
-     (setq org-agenda-todo-ignore-scheduled 'future
+     (setq org-agenda-files '("~/org/")
+	   org-agenda-todo-ignore-scheduled 'future
 	   org-scheduled-past-days 1
 	   org-agenda-custom-commands nil
 	   org-agenda-prefix-format
