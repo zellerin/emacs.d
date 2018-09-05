@@ -144,17 +144,6 @@
 (add-hook 'emacs-lisp-mode-hook
 		     'nameless-mode)
 
-(use-package "outshine"
-  :commands (outshine-hook-function)
-  :init
-  (add-hook 'outline-minor-mode-hook
-	    'outshine-hook-function))
-
-(use-package "outline"
-  :init
-  (add-hook 'prog-mode-hook
-	    'outline-minor-mode))
-
 (use-package "recentf"
   :config (setq recentf-exclude  '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/")))
 
