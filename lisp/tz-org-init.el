@@ -146,6 +146,33 @@
   "Returns path to file in attach directory. To be used in a link abbreviation."
   (concat (org-attach-dir) "/" a))
 
+
+  (defcustom tz-dropbox-secret
+    ""
+    "Secret for org-mobile"
+    :type 'string)
+
+  (defun tz-org-mobile-pre-pull ()
+    (start-process "curl" "*MOBILE-TO-DROPBOX*"
+		   "curl"
+		   "-o" (concat org-mobile-directory "/mobileorg.org")
+		   "https://content.dropboxapi.com/2/files/download"
+		   "--header" (concat "Authorization: Bearer " tz-dropbox-secret)
+		   "--header" "Dropbox-API-arg:  {\"path\": \"/Apps/MobileOrg/mobileorg.org\"}"))
+
+  (defun tz-org-mobile-post-push ()
+    (dolist (file '("agendas" "index" "weekly-review" "knowledgebase"))
+      (start-process "curl" "*MOBILE-TO-DROPBOX*"
+		     "curl"
+		     "-X" "POST" "https://content.dropboxapi.com/2/files/upload"
+		     "--header" (concat "Authorization: Bearer " tz-dropbox-secret)
+		     "--header" (concat  "Dropbox-API-Arg: {\"path\": \"/Apps/MobileOrg/" file ".org\", \"mode\":\"overwrite\"}")
+		     "--header" "Content-Type: application/octet-stream"
+		     "--data-binary" (concat  "@" org-mobile-directory "/" file ".org"))))
+
+  (add-hook 'org-mobile-post-push-hook 'tz-org-mobile-post-push)
+  (add-hook 'org-mobile-pre-pull-hook 'tz-org-mobile-pre-pull)
+
 (require 'org-docview)
 
 (provide 'tz-org-init)
