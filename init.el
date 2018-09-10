@@ -29,6 +29,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (set-language-environment "UTF-8")
+(set-face-attribute 'default nil :height 140)
 
 ;; calling enable-command changes init file
 (put 'narrow-to-region 'disabled nil)
