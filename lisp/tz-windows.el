@@ -2,6 +2,7 @@
 (setq user-full-name "Tomas Zellerin")
 
 (require 'org)
+(require 'org-agenda)
 
 (setq exec-path
       `(,@(mapcar 'org-link-expand-abbrev
@@ -36,9 +37,8 @@
 
 (setq sly-lisp-implementations nil)
 
-(eval-after-load "org"
-  '(load-file (locate-user-emacs-file
-	      "windows-integration/tz-outlook.el")))
+(load-file (locate-user-emacs-file "windows-integration/tz-outlook.el"))
+(setq org-agenda-files (mapcar 'org-link-expand-abbrev '("org:" "project:")))
 
 (eval-after-load "org-capture"
   '(push '("O" "Outlook" entry
