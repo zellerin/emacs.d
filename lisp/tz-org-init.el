@@ -161,13 +161,16 @@
 
 (defun tz-push-to-dropbox (file)
   (interactive "f")
-  (start-process "curl" "*MOBILE-TO-DROPBOX*"
-		 "curl"
-		 "-X" "POST" "https://content.dropboxapi.com/2/files/upload"
-		 "--header" (concat "Authorization: Bearer " tz-dropbox-secret)
-		 "--header" (concat  "Dropbox-API-Arg: {\"path\": \"/Apps/MobileOrg/" file ".org\", \"mode\":\"overwrite\"}")
-		 "--header" "Content-Type: application/octet-stream"
-		 "--data-binary" (concat  "@" file)))
+  (let ((url-request-data)
+	(url-request-method "POST")
+	(url-request-extra-headers
+	 `(("Authorization" . ,(concat  "Bearer " tz-dropbox-secret))
+	   ("Dropbox-API-Arg" .
+	    ,(concat "{\"path\": \"/Apps/MobileOrg/" file ".org\", \"mode\":\"overwrite\"}"))
+	   ("Content-Type" . "application/octet-stream"))))
+    (url-retrieve  "https://content.dropboxapi.com/2/files/upload"
+		   (lambda (status)
+		     (message "%s" status)))))
 
 (defun tz-org-mobile-post-push ()
   (dolist (file '("agendas" "index" "weekly-review" "knowledgebase"))
