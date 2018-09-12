@@ -85,7 +85,7 @@ formally accepts PARS (but does not use them)."
 	   (res link))
       (dolist (ldisk logical-pathnames-names)
 	;; c:/ should be kept
-	(unless (find ?\: (substring (cdr ldisk) 2))
+	(unless (cl-find ?\: (substring (cdr ldisk) 2))
 	  (setf ldisk (cons (car ldisk) (concat "file:" (cdr ldisk)))))
 	(when (or (string-prefix-p (cdr ldisk) link))
 	  (setq link (concat (car ldisk) ":" (substring link (length (cdr ldisk)))))))
