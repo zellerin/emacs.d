@@ -107,7 +107,7 @@
   '(setq org-capture-templates
 	 (list
 	  ; todo
-	  (tz--capture-entry "t" "TODO"		"* TODO %?\n%t%^{CATEGORY}p\n")
+	  (tz--capture-entry "t" "TODO"		"* TODO %?\n\n")
 	  (tz--capture-entry "-" "Interruption"	"* %?\n%T\n")
 	  (tz--capture-entry "j" "journal item" "* %? :journal:\n%t\n")
 	  (tz--capture-entry "m" "Flag mail"	"* %:subject\n%a\n")
