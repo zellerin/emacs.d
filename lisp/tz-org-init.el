@@ -139,8 +139,7 @@
 	    (thing-at-point 'sentence t))))
 
 (eval-after-load "org-attach"
-  '(setq org-attach-file-list-property nil
-	org-attach-method 'mv))
+  '(setq org-attach-method 'mv))
 
 (defun org-attached-tag (a)
   "Returns path to file in attach directory. To be used in a link abbreviation."
