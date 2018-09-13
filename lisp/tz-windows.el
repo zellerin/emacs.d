@@ -49,13 +49,8 @@
 (eval-after-load "gnus"
   '(add-to-list 'gnus-secondary-select-methods '(nntp "news.gwene.org")))
 
-(use-package "hydra"
-  :config
-  (defhydra hydra-work (global-map "<f12>") "Work tasks"
-    ("o" tz-outlook-open-mail "Open mail")
-    ("f" workflow-project-setup-frame "Set up project frame")
-    ("<RET>" make-frame "Zoom to a new frame")
-    ("-" tz-refile-postpone "Close and refile for tracking")))
+(bind-key "<f12> o" 'tz-outlook-open-mail)
+(bind-key "<f12> r" 'tz-refile-postpone)
 
 (eval-after-load "dired"
   '(progn
