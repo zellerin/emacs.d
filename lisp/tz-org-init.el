@@ -115,7 +115,7 @@
 	  (tz--capture-entry "r" "Remind person"
 			     "* %:name\n%a\n")
 	  (tz--capture-entry "w" "Remind web"
-	   "* %(tz-capture-from-eww)%^g\n%T\n\n%(tz-eww-url)\n"))
+	   "* %(tz--capture-from-eww)%^g\n%T\n\n%(tz--eww-url)\n"))
 	 org-capture-templates-contexts
 	 '(("f" "w" #1=((in-mode . "eww-mode")))
 	   ("w" #1#)
@@ -127,12 +127,12 @@
 	   ("r" #3#)
 	   ("f" ((not-in-mode . "bbdb-mode"))))))
 
-(defun tz-capture-from-eww ()
+(defun tz--capture-from-eww ()
   (save-excursion
     (set-buffer (get-buffer "*eww*"))
     (plist-get eww-data :title)))
 
-(defun tz-eww-url ()
+(defun tz--eww-url ()
   (save-excursion
     (set-buffer (get-buffer "*eww*"))
     (concat "[[" (eww-current-url) "][link]] "
