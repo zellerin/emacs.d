@@ -33,7 +33,7 @@
   (setq prodigy-services
 	'((:name "wpa-supplicant"
 		 :command "sudo"
-		 :args ("/sbin/wpa_supplicant" "-i" "wlo1" "-c" "/etc/wpa_supplicant/wpa_supplicant.conf")
+		 :args ("/sbin/wpa_supplicant" "-i" "wlan" "-c" "/etc/wpa_supplicant/wpa_supplicant.conf")
 		 :ready-message "CTRL-EVENT-CONNECTED"
 		 :stop-signal 'sigkill
 		 :on-output (lambda (&rest args)
@@ -43,7 +43,7 @@
 				  (prodigy-set-status service 'interrupted)))))
 	  (:name "dhclient"
 		 :command "sudo"
-		 :args ("dhclient" "-d" "-i" "wlo1")
+		 :args ("dhclient" "-d" "-i" "wlan")
 		 :ready-message "bound to "
 		 :on-output (lambda (&rest args)
 			      (let ((output (plist-get args :output))
