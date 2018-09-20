@@ -53,9 +53,17 @@
 
 (defun execsnoop ()
   (interactive)
-  (set-buffer (make-term "execsnoop" "sudo" nil "/usr/share/bcc/tools/execsnoop"))
-  (term-mode)
-  (switch-to-buffer "*execsnoop*"))
+  (switch-to-buffer
+   (set-buffer (make-comint "execsnoop" "sudo" nil "/usr/share/bcc/tools/execsnoop"))))
+
+(defun tcpconnect ()
+  (interactive)
+  (switch-to-buffer
+   (set-buffer (make-comint "tcpconnect" "sudo" nil "/usr/share/bcc/tools/tcpconnect"))))
+
+(defun systemd-journal ()
+  (interactive)
+  (switch-to-buffer (make-comint "journal" "journalctl" nil "-f")))
 
 (use-package "org"
   :defer t
