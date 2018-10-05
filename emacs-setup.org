@@ -108,6 +108,9 @@ Several files:
 
  - 
 * Org-babel blocks
+  :PROPERTIES:
+  :header-args: :exports both
+  :END:
 ** Show defun
 #+NAME: show-defun
 #+BEGIN_SRC emacs-lisp :var fn='5x5 :results raw
