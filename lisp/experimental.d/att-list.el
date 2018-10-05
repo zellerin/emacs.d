@@ -1,0 +1,5 @@
+(defun tz-insert-list-of-attachments ()
+(interactive)
+  (mapcar (lambda (a)
+	    (insert (format "- [[%s][%s]]\n" a (file-name-nondirectory a))))
+	  (directory-files (org-attach-dir) t "^[^.]")))
