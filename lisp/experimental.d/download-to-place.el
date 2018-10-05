@@ -1,0 +1,8 @@
+(defun tz-download-callback (file-abbrev)
+  (let ((file (org-link-expand-abbrev file-abbrev)))
+    (lambda  (status url)
+      (unless (plist-get status :error)
+	(goto-char (point-min))
+	(re-search-forward "\r?\n\r?\n")
+	(write-region (point) (point-max) file)
+	(message "Saved %s" file)))))
