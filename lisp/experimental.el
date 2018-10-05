@@ -68,5 +68,8 @@
 	(mapcar #'org-link-expand-abbrev
 			 '("org:" "project:"))))
 
+;; Let org-tangle store experimental code here.
+(mapc 'load (directory-files "~/.emacs.d/lisp/experimental.d/" t "\\.el"))
+
 (provide 'experimental)
 ;;; experimental.el ends here
