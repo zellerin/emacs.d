@@ -12,7 +12,7 @@
 		 "sw:sqlite-tools-win32-x86-3220000/"
 		 "sw:git/usr/bin/"
 		 "sw:graphviz/bin/"
-		 "sw:mupdf-1.11-windows/"
+		 "sw:mupdf-1.13.0-windows/"
 		 "sw:PuTTY/"
 		 "sw:graphviz/bin/"
 		 "sw:gnuplot/bin/"
