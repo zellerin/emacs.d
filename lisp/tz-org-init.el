@@ -160,20 +160,27 @@
 
 (defun tz-push-to-dropbox (file)
   (interactive "f")
-  (let ((url-request-data)
+  (let ((url-request-data (save-excursion
+			    (find-file-literally
+			     (concat org-mobile-directory file))
+			    (prog1 (buffer-string)
+			      (kill-buffer))
+			    ))
 	(url-request-method "POST")
 	(url-request-extra-headers
 	 `(("Authorization" . ,(concat  "Bearer " tz-dropbox-secret))
 	   ("Dropbox-API-Arg" .
-	    ,(concat "{\"path\": \"/Apps/MobileOrg/" file ".org\", \"mode\":\"overwrite\"}"))
+	    ,(concat "{\"path\": \"/Apps/MobileOrg/" file "\", \"mode\":\"overwrite\"}"))
 	   ("Content-Type" . "application/octet-stream"))))
-    (url-retrieve  "https://content.dropboxapi.com/2/files/upload"
+     (url-retrieve  "https://content.dropboxapi.com/2/files/upload"
 		   (lambda (status)
-		     (message "%s" status)))))
+		     (message "%s" status)
+		     (message "%s" (buffer-string))))))
 
 (defun tz-org-mobile-post-push ()
   (dolist (file '("agendas" "index" "weekly-review" "knowledgebase"))
-    (tz-push-to-dropbox (concat org-mobile-directory "/" file ".org"))))
+    (tz-push-to-dropbox (concat file ".org")))
+  (tz-push-to-dropbox "checksums.dat"))
 
 (add-hook 'org-mobile-post-push-hook 'tz-org-mobile-post-push)
 (add-hook 'org-mobile-pre-pull-hook 'tz-org-mobile-pre-pull)
