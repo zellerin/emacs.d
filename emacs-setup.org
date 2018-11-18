@@ -174,7 +174,7 @@ Several files:
 
 ** Headline references
 
- #+NAME: headline
+#+NAME: headline
  #+BEGIN_SRC emacs-lisp :var headline=top :var file='()
    (save-excursion
      (when file (get-file-buffer file))
@@ -223,6 +223,12 @@ indicates if given line exists or not.
             res))
     `((,@(butlast (car data)) ,@vals) hline  ,@res))
 #+END_SRC
+
+#+RESULTS: rows-to-column-check
+| f   | B   | 1 | 2 |
+|-----+-----+---+---|
+| foo | bar | X | X |
+| foo | bah |   | X |
 
 Example source
 #+TBLNAME:rows-to-cols-test
