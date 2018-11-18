@@ -18,6 +18,7 @@
 		 "sw:gnuplot/bin/"
 		 "sw:rcs/"
 		 "sw:R-3.5.0/bin/x64"
+		 "sw:rubyinstaller-2.5.1-2-x64/bin/"
 		 "C:/WINDOWS"
 		 "C:/WINDOWS/system32"
 		 "C:/WINDOWS/System32/Wbem"
