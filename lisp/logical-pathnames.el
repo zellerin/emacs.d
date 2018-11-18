@@ -75,6 +75,12 @@ Can be used in `dired-after-readin-hook'"
 	(while (search-forward (cdr ldisk) nil t)
 	  (replace-match (concat (car ldisk) ":")))))))
 
+(defun logical-pathnames-fix-path (link)
+  (dolist (ldisk logical-pathnames-names)
+    (when (or (string-prefix-p (cdr ldisk) link))
+      (setq link (concat (car ldisk) ":" (substring link (length (cdr ldisk)))))))
+  link)
+
 (defun logical-pathnames-update-link (&rest pars)
   "Make last link from org mode links logical.
 
