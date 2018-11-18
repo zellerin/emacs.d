@@ -30,3 +30,6 @@
 			   (org-attach-dir t) "/"
 			   (file-name-nondirectory
 			    (cl-getf (cadr context) :raw-link))))))))
+
+(bind-key "<f12>D" 'org-attach-downloaded-link org-mode-map)
+(bind-key "<f12>D" 'tz-download-at-point)
