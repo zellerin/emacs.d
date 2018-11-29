@@ -69,9 +69,11 @@
 (use-package paredit
   :commands paredit-mode)
 
-(dolist (fn  '(delete-trailing-whitespace paredit-mode show-paren-mode))
+(dolist (fn '(paredit-mode show-paren-mode))
   (add-hook 'lisp-mode-hook fn)
   (add-hook 'emacs-lisp-mode-hook fn))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (use-package org
   :mode ("\\.org\\'" . org-mode)
