@@ -3,16 +3,16 @@
   :header-args: :var file=(substitute-in-file-name "$TEMP/test.db")
   :END:
 
-#+CAPTION:Blocks:
+#+CAPTION:Blocks
 | Block name         | Parameters             | Explanation                            |
 |--------------------+------------------------+----------------------------------------|
-| write-sqlite-table | data, name, file, desc | Create or recreate a DB table fom data |
-| get-sqlite-table   | select, file           | Make an org table from a select        |
+| write-sqlite-table | file, data, name, desc | Create or recreate a DB table fom data |
+| get-sqlite-table   | file, select           | Make an org table from a select        |
 
 This depends on [[../lisp/experimental.d/sqlite3.el][some lisp code]] and module sqlite3-api.
 
 
-#+CAPTION: Parameters:
+#+CAPTION: Parameters
 | Parameter | Description                                    |
 |-----------+------------------------------------------------|
 | file      | Path to the Sqlite database                    |
@@ -23,7 +23,8 @@ This depends on [[../lisp/experimental.d/sqlite3.el][some lisp code]] and module
 | data      | Org table to store in DB                       |
 | desc      | Table description; list of (name type) symbols |
 
-
+Tip:
+#+PROPERTY: header-args :var file=(concat (file-name-directory buffer-file-truename) "XXX.db")
 
 ** Create or recreate table
 Create a table based on data and description.
