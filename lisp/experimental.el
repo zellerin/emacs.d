@@ -1,3 +1,4 @@
+
 ;;; experimental.el --- Experimental startup code    -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017  Tomas Zellerin
@@ -78,6 +79,12 @@
 
 ;; Let org-tangle store experimental code here.
 (mapc 'load (directory-files "~/.emacs.d/lisp/experimental.d/" t "\\.el"))
+(let ((generated-autoload-file "~/.emacs.d/autoloaded.d/autoloads.el"))
+  (when t
+    (update-directory-autoloads "~/.emacs.d/autoloaded.d/"))
+  (load generated-autoload-file t))
+
+(add-to-list 'load-path "~/.emacs.d/autoloaded.d/")
 
 (provide 'experimental)
 ;;; experimental.el ends here

@@ -27,7 +27,7 @@
      nil 'file)
     res))
 
-
+;;;###autoload
 (defun org-dblock-write:issues (params)
   "Write issues block table.
 

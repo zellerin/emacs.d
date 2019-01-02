@@ -8,13 +8,17 @@
   "API key for Shodan calls"
   :type 'string)
 
-(eval-after-load "ob-restclient"
-  '(progn
-     (org-babel-make-language-alias "shodan" "restclient")
-     (setq org-babel-default-header-args:shodan
-	   `((:var . "key=(symbol-value 'shodan-api-key)")))
-     (define-abbrev)))
+(require 'restclient)
 
+;###aaautoload
+(autoload 'org-babel-execute:shodan "shodan")
+
+(org-babel-make-language-alias "shodan" "restclient")
+
+(setq org-babel-default-header-args:shodan
+      `((:var . "key=(symbol-value 'shodan-api-key)")))
+
+;;;###autoload
 (define-derived-mode shodan-mode restclient-mode
   "Shodan mode")
 
