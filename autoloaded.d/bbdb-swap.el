@@ -11,4 +11,4 @@
 
 ;;;###autoload
 (eval-after-load 'bbdb
-  '(bind-key "<f12> /" 'bbdb-swap-names 'bbdb-mode-map))
+  '(bind-key "<f12> /" 'bbdb-swap-names bbdb-mode-map))
