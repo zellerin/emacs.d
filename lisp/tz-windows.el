@@ -66,7 +66,8 @@
   (message "C-c <RET> open Office file // C-c o open in Explorer"))
 
 ;;;; Screen lock interaction
-(server-start)
+(add-hook 'emacs-startup-hook 'server-start)
+
 (defun lock-windows ()
   "This function is called by Task scheduler when screen is
 locked. Presumably, some interruption is in progress."
