@@ -1,3 +1,4 @@
+;;;###autoload
 (defun tz-sanitize-for-kb ()
   (interactive)
   (org-deadline '(4)) ; remove deadline and schedule
@@ -14,3 +15,7 @@
     (org-refile nil nil nil "Move to KB: "))
   (org-refile '(16))
   (org-set-tags-command))
+
+;;;###autoload
+(eval-after-load 'org
+  '(bind-key "<f12> R" 'tz-sanitize-for-kb org-mode-map))

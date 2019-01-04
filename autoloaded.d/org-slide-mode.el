@@ -1,3 +1,4 @@
+;;;###autoload
 (define-minor-mode org-tz-present "Present org mode as slides.
 
 Bind C-x C-n and C-x C-p to move to next/previous heading, and display it in a big way."

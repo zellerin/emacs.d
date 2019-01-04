@@ -1,3 +1,4 @@
+;;;###autoload
 (defun org-tracked-rename ()
   "Rename a header and make a note about it."
   (interactive)
@@ -10,5 +11,6 @@
     (yank)
     (insert "\n")))
 
+;;;###autoload
 (eval-after-load 'org
   '(bind-key "<f12> /" 'org-tracked-rename org-mode-map))
