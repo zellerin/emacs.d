@@ -6,3 +6,5 @@ var
 /dropbox-token
 *~
 
+/local/
+/autoloaded.d/autoloads.el
