@@ -17,5 +17,4 @@
   (org-set-tags-command))
 
 ;;;###autoload
-(eval-after-load 'org
-  '(bind-key "<f12> R" 'tz-sanitize-for-kb org-mode-map))
+(eval-after-load 'org '(bind-key "<f12> R" 'tz-sanitize-for-kb org-mode-map))
