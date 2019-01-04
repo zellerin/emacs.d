@@ -80,11 +80,14 @@
 ;; Let org-tangle store experimental code here.
 (mapc 'load (directory-files "~/.emacs.d/lisp/experimental.d/" t "\\.el"))
 
+(message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
+
 (let ((generated-autoload-file "~/.emacs.d/autoloaded.d/autoloads.el"))
   (when t
     (update-directory-autoloads
      "~/.emacs.d/autoloaded.d/"
      "~/.emacs.d/local/"))
+  (message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
   (load generated-autoload-file t))
 
 (add-to-list 'load-path "~/.emacs.d/autoloaded.d/")

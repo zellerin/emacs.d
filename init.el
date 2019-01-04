@@ -198,11 +198,12 @@
 (push '(("\\.asm\\'" . "PIC midrange assembler") . pic-asm-new-file)
       auto-insert-alist)
 
-
+(message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
 (load custom-file t)
+(message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
 (load "experimental")
+(message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
 (load (locate-user-emacs-file "local/tz-local.el") t)
-
 
 
 ;;; init.el ends here
