@@ -72,10 +72,7 @@
   (setq org-link-abbrev-alist
 		`(("attach" . org-attached-tag)))
   (logical-pathnames-org-insinuate)
-  (setq org-directory (org-link-expand-abbrev "org:"))
-  (setq org-agenda-files
-	(mapcar #'org-link-expand-abbrev
-			 '("org:" "project:"))))
+  (setq org-directory (org-link-expand-abbrev "org:")))
 
 ;; Let org-tangle store experimental code here.
 (mapc 'load (directory-files "~/.emacs.d/lisp/experimental.d/" t "\\.el"))
