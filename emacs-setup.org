@@ -1,4 +1,6 @@
-* Current setup
+* Current setup - init file
+The init file sets up expected environment
+
 ** General setup of core functions
 - [[file:init.el::;;;%20Personal%20settings%20and%20preferences%20for%20core%20functions][Core functions]] :: language, enabling disabled commands and remove some decorations
 
@@ -59,7 +61,7 @@ Typical pathnames:
 - elnode docroot
 - [[file:lisp/custom.el::'(magit-repolist-columns][Magit repolist columns]] and directories
 - org agenda files
-- doc-view setup 
+- doc-view setup
   #+BEGIN_SRC elisp
     '(doc-view-pdf->png-converter-function (quote doc-view-pdf->png-converter-mupdf))
     '(doc-view-pdfdraw-program "mutool")
@@ -67,7 +69,7 @@ Typical pathnames:
 - capture templates
 - org-agenda-skip...
 - help:org-file-apps
-- org conversion functions 
+- org conversion functions
 - refile targets & use outline path
 - selected packages
 
@@ -75,6 +77,12 @@ Typical pathnames:
   :PROPERTIES:
   :ID:       73de2854-72eb-4d80-a7a9-af2771d6a7fe
   :END:
+
+** TODO Fix what, when and how is loaded.
+This is a mess currently.  I have [[file:list/tz-org-init.el][tz-org-init]] file that is [[emacs:init.el::(use-package tz-org-init][called using]] =use-package= with =:after org=. Then there is a bunch of eval-after-loads for ob, org-src, org-agenda, org-capture, org attach etc in several other buffers. And, of course, there is customization file. The preferred but not reached state is:
+- General things reflecting my org preferences should be set in one file, probably the tz-org-init.
+- Things that reflect environment should be in custom (if possible - variables that are simple), possibly using =(custom-theme-set-variables 'user...= to use expression.
+- Additional functions should be in autoload or local sections with their (eval-after-load 'org (bind-key ...)) nearby
 
 ** Overview
 
@@ -95,9 +103,9 @@ Several files:
 
 
 ** Technical
- The org customizations are defined in a separate file loaded after Org mode file.
+The org customizations are defined in a separate file loaded after Org mode file.
 
- Org directory defaults to =~/org=. Org agenda files are those in org directory.
+Org directory defaults to =~/org=. Org agenda files have to be defined locally. I found no nice way to have same setup on different machines currently.
 
  Custom functions:
  - tz-export-subtree :: asks for file name if not set in =EXPORT_FILE_NAME= property; not used recently
@@ -106,7 +114,7 @@ Several files:
  - There is a custom agenda mapping on SPACE to narrow item jumped to
  - It should be possible to write attach:file to refer to the file in attachment directory
 
- - 
+ -
 * Org-babel blocks
   :PROPERTIES:
   :header-args: :exports both
