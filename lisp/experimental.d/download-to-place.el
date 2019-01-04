@@ -1,5 +1,10 @@
 ;;; download-to-place.el --- Download in org mode    -*- lexical-binding: t; -*-
+(defcustom tz-download-dir
+  "~/Downloads" "Directory for downloads by `tz-download-at-point'"
+  :type 'directory
+  :group 'experimental)
 
+;;;###autoload
 (defun tz-download-at-point (&optional url)
   (interactive)
   (unless url
@@ -7,7 +12,7 @@
   (url-retrieve
    (org-link-expand-abbrev url)
    'tz-download-callback
-   (list (concat "~/Downloads/" (file-name-nondirectory url)))))
+   (list (concat tz-download-dir (file-name-nondirectory url)))))
 
 (defun tz-download-callback (status file)
   (unless (plist-get status :error)
@@ -18,6 +23,7 @@
     (message "Saved %s" file)
     (find-file-other-frame file)))
 
+;;;###autoload
 (defun org-attach-downloaded-link ()
   "Download linked element to the attachments."
   (interactive)
@@ -30,7 +36,8 @@
 			   (org-attach-dir t) "/"
 			   (file-name-nondirectory
 			    (cl-getf (cadr context) :raw-link))))))))
-
+;;;###autoload
 (eval-after-load 'org
   '(bind-key "<f12>D" 'org-attach-downloaded-link org-mode-map))
+
 (bind-key "<f12>D" 'tz-download-at-point)
