@@ -73,6 +73,9 @@ Typical pathnames:
 - refile targets & use outline path
 - selected packages
 
+* Testing
+Run =tz-start-emacs-tests= to start new emacs and make few tests with "screenshots" in html. The screenshots are stored in the tests directory managed by git to be able to detect and view changes (otoh, changes to agenda content are not so relevant to be gited).
+
 * Org mode setup
   :PROPERTIES:
   :ID:       73de2854-72eb-4d80-a7a9-af2771d6a7fe
@@ -81,7 +84,7 @@ Typical pathnames:
 ** TODO Fix what, when and how is loaded.
 This is a mess currently.  I have [[file:list/tz-org-init.el][tz-org-init]] file that is [[emacs:init.el::(use-package tz-org-init][called using]] =use-package= with =:after org=. Then there is a bunch of eval-after-loads for ob, org-src, org-agenda, org-capture, org attach etc in several other buffers. And, of course, there is customization file. The preferred but not reached state is:
 - General things reflecting my org preferences should be set in one file, probably the tz-org-init.
-- Things that reflect environment should be in custom (if possible - variables that are simple), possibly using =(custom-theme-set-variables 'user...= to use expression.
+- Things that reflect environment should be in custom (if possible - variables that are simple), possibly using =(custom-theme-set-variables 'user...= to use expression (is this reasonable?)
 - Additional functions should be in autoload or local sections with their (eval-after-load 'org (bind-key ...)) nearby
 
 ** Overview
