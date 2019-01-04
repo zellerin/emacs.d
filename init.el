@@ -141,7 +141,7 @@
 
 ;; Additional sources
 (add-to-list 'load-path (locate-user-emacs-file "lisp/"))
-(setq custom-file (locate-user-emacs-file "lisp/custom.el"))
+(setq custom-file (locate-user-emacs-file "local/custom.el"))
 
 (use-package "nameless"
   :commands (nameless-mode))
@@ -199,9 +199,9 @@
       auto-insert-alist)
 
 
-(load "custom")
+(load custom-file t)
 (load "experimental")
-(load "tz-local" t)
+(load (locate-user-emacs-file "local/tz-local.el") t)
 
 
 

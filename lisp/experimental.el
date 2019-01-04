@@ -79,9 +79,12 @@
 
 ;; Let org-tangle store experimental code here.
 (mapc 'load (directory-files "~/.emacs.d/lisp/experimental.d/" t "\\.el"))
+
 (let ((generated-autoload-file "~/.emacs.d/autoloaded.d/autoloads.el"))
   (when t
-    (update-directory-autoloads "~/.emacs.d/autoloaded.d/"))
+    (update-directory-autoloads
+     "~/.emacs.d/autoloaded.d/"
+     "~/.emacs.d/local/"))
   (load generated-autoload-file t))
 
 (add-to-list 'load-path "~/.emacs.d/autoloaded.d/")
