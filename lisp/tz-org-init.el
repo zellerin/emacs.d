@@ -24,18 +24,6 @@
 ;;
 
 ;;; Code:
-(defun tz-export-subtree ()
-  (interactive)
-  (save-excursion
-    (org-mark-subtree)
-    (let ((file (org-id-get-create))
-	  (has-name (org-entry-get (point) "EXPORT_FILE_NAME")))
-      (unless has-name
-	(org-entry-put (point) "EXPORT_FILE_NAME" file))
-      (save-excursion
-	(org-export-as-html 4 nil nil nil nil "/tmp/"))
-      (unless has-name (undo-only)))))
-
 (eval-after-load "ob"
   '(progn
      (setq org-confirm-babel-evaluate nil)
