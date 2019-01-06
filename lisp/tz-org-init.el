@@ -68,20 +68,6 @@
 
 (org-babel-do-load-languages 'foo nil)
 
-(eval-after-load "org-agenda"
-  '(progn
-     (bind-key [32] 'org-agenda-show-narrowed
-	       org-agenda-mode-map)
-
-     (defun org-agenda-show-narrowed ()
-       (interactive)
-       (org-agenda-show-and-scroll-up)
-       (let ((win (selected-window)))
-	 (select-window org-agenda-show-window)
-	 (org-narrow-to-subtree)
-	 (select-window win)))
-))
-
 (defun org-attached-tag (a)
   "Returns path to file in attach directory. To be used in a link abbreviation."
   (concat (org-attach-dir) "/" a))
