@@ -80,65 +80,7 @@
 	 (select-window org-agenda-show-window)
 	 (org-narrow-to-subtree)
 	 (select-window win)))
-
-     ;;; Org agenda random variable setup
-     (setq org-agenda-todo-ignore-scheduled 'future
-	   org-scheduled-past-days 1
-	   org-agenda-custom-commands nil
-	   org-agenda-prefix-format
-	   ; show parents of todo list
-	   '((agenda . " %i %-12:c%?-12t% s")
-	     (timeline . "  % s")
-	     (todo .
-		   " %i %-12:c %b")
-	     (tags .
-		   " %i %-12:c %b")
-	     (search . " %i %-12:c")))))
-
-  (defun tz--capture-entry (letter name template &rest args)
-    `(,letter ,name entry
- 	      (file "weekly-review.org")
-	      ,template
-	      ,@args
-	      :prepend t :clock-in t :clock-resume t :empty-lines 1))
-
-(eval-after-load "org-capture"
-  '(setq org-capture-templates
-	 (list
-	  ; todo
-	  (tz--capture-entry "t" "TODO"		"* TODO %?\n\n")
-	  (tz--capture-entry "-" "Interruption"	"* %?\n%T\n")
-	  (tz--capture-entry "j" "journal item" "* %? :journal:\n%t\n")
-	  (tz--capture-entry "m" "Flag mail"	"* %:subject\n%a\n")
-	  (tz--capture-entry "f" "Flag place"	"* %?\n%T\n%A\n")
-	  (tz--capture-entry "r" "Remind person"
-			     "* %:name\n%a\n")
-	  (tz--capture-entry "w" "Remind web"
-	   "* %(tz--capture-from-eww)%^g\n%T\n\n%(tz--eww-url)\n"))
-	 org-capture-templates-contexts
-	 '(("f" "w" #1=((in-mode . "eww-mode")))
-	   ("w" #1#)
-	   ("f" "m" #2=((in-mode . "article-mode")))
-	   ("m" #2#)
-	   ("f" "m" #2=((in-mode . "gnus-summary-mode")))
-	   ("m" #2#)
-	   ("f" "r" #3=((in-mode . "bbdb-mode")))
-	   ("r" #3#)
-	   ("f" ((not-in-mode . "bbdb-mode"))))))
-
-(defun tz--capture-from-eww ()
-  (save-excursion
-    (set-buffer (get-buffer "*eww*"))
-    (plist-get eww-data :title)))
-
-(defun tz--eww-url ()
-  (save-excursion
-    (set-buffer (get-buffer "*eww*"))
-    (concat "[[" (eww-current-url) "][link]] "
-	    (thing-at-point 'sentence t))))
-
-(eval-after-load "org-attach"
-  '(setq org-attach-method 'mv))
+))
 
 (defun org-attached-tag (a)
   "Returns path to file in attach directory. To be used in a link abbreviation."

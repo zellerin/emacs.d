@@ -19,7 +19,7 @@
 
 ;;;###autoload
 (defun run-gui-program ()
-  "Run a Wine program picked from a list."
+  "Run a Wine program picked from a list based on `opt-programs' and `wine-programs'."
   (interactive)
   (let* ((all-programs (all--programs opt-programs wine-programs))
 	 (program-name (completing-read "Program: "
