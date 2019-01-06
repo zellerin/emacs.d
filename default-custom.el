@@ -30,4 +30,16 @@
 	   " %i %-12:c %b")
      (tags .
 	   " %i %-12:c %b")
-     (search . " %i %-12:c"))))
+     (search . " %i %-12:c")))
+ '(org-modules '(org-bbdb org-gnus))
+ '(org-hide-emphasis-markers t)
+ '(org-id-link-to-org-use-id t)
+ '(org-log-into-drawer t)
+ '(org-refile-use-outline-path 'file)
+ '(org-archive-location (concat org-directory "/archive/2018.org::datetree/* Finished tasks"))
+ '(org-enforce-todo-dependencies t)
+ '(org-src-window-setup 'current-window)
+ '(org-agenda-dim-blocked-tasks 'invisible)
+ '(org-refile-targets
+      '((org-agenda-files :maxlevel . 2)
+	(nil :maxlevel . 5))))
