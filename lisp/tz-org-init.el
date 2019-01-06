@@ -25,63 +25,9 @@
 
 ;;; Code:
 (eval-after-load "ob"
-  '(progn
-     (setq org-confirm-babel-evaluate nil)
-     (org-babel-lob-ingest "../emacs-setup.org")))
-
-(eval-after-load "org-src"
-  '(progn
-     (push '("dot" . graphviz-dot) org-src-lang-modes)))
-
-(setq org-babel-load-languages
-      '((lisp . t)
-	(dot . t)
-	(emacs-lisp . t)
-	(shell . t))
-      org-babel-lisp-eval-fn (quote sly-eval))
+  '(org-babel-lob-ingest "../emacs-setup.org"))
 
 (org-babel-do-load-languages 'foo nil)
-
-(defun org-attached-tag (a)
-  "Returns path to file in attach directory. To be used in a link abbreviation."
-  (concat (org-attach-dir) "/" a))
-
-(defcustom tz-dropbox-secret
-  ""
-  "Secret for org-mobile"
-  :type 'string)
-
-(defun tz-org-mobile-pre-pull ()
-  (start-process "curl" "*MOBILE-TO-DROPBOX*"
-		   "curl"
-		   "-o" (concat org-mobile-directory "/mobileorg.org")
-		   "https://content.dropboxapi.com/2/files/download"
-		   "--header" (concat "Authorization: Bearer " tz-dropbox-secret)
-		   "--header" "Dropbox-API-arg:  {\"path\": \"/Apps/MobileOrg/mobileorg.org\"}"))
-
-(defun tz-push-to-dropbox (file)
-  (interactive "f")
-  (let ((url-request-data (save-excursion
-			    (find-file-literally
-			     (concat org-mobile-directory file))
-			    (prog1 (buffer-string)
-			      (kill-buffer))
-			    ))
-	(url-request-method "POST")
-	(url-request-extra-headers
-	 `(("Authorization" . ,(concat  "Bearer " tz-dropbox-secret))
-	   ("Dropbox-API-Arg" .
-	    ,(concat "{\"path\": \"/Apps/MobileOrg/" file "\", \"mode\":\"overwrite\"}"))
-	   ("Content-Type" . "application/octet-stream"))))
-     (url-retrieve  "https://content.dropboxapi.com/2/files/upload"
-		   (lambda (status)
-		     (message "%s" status)
-		     (message "%s" (buffer-string))))))
-
-(defun tz-org-mobile-post-push ()
-  (dolist (file '("agendas" "index" "weekly-review" "knowledgebase"))
-    (tz-push-to-dropbox (concat file ".org")))
-  (tz-push-to-dropbox "checksums.dat"))
 
 (add-hook 'org-mobile-post-push-hook 'tz-org-mobile-post-push)
 (add-hook 'org-mobile-pre-pull-hook 'tz-org-mobile-pre-pull)

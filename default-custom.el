@@ -42,4 +42,14 @@
  '(org-agenda-dim-blocked-tasks 'invisible)
  '(org-refile-targets
       '((org-agenda-files :maxlevel . 2)
-	(nil :maxlevel . 5))))
+	(nil :maxlevel . 5)))
+ ;; org babel
+ '(org-confirm-babel-evaluate nil)
+ '(org-babel-load-languages
+   '((lisp . t)
+     (dot . t)
+     (emacs-lisp . t)
+     (shell . t)))
+ '(org-babel-lisp-eval-fn (quote sly-eval))
+ ;; correct?
+ '(org-src-lang-modes (cons (cons "dot" 'graphviz-dot) org-src-lang-modes)))

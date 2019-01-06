@@ -45,3 +45,8 @@
       (save-excursion
 	(org-export-as-html 4 nil nil nil nil "/tmp/"))
       (unless has-name (undo-only)))))
+
+;;;###autoload
+(defun org-attached-tag (a)
+  "Returns path to file in attach directory. To be used in a link abbreviation."
+  (concat (org-attach-dir) "/" a))
