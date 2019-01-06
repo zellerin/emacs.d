@@ -31,7 +31,8 @@
      (tags .
 	   " %i %-12:c %b")
      (search . " %i %-12:c")))
- '(org-modules '(org-bbdb org-gnus))
+ '(org-modules
+   '(org-bbdb org-crypt org-docview org-gnus org-id org-info org-inlinetask org-protocol))
  '(org-hide-emphasis-markers t)
  '(org-id-link-to-org-use-id t)
  '(org-log-into-drawer t)
