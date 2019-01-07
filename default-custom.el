@@ -60,4 +60,17 @@
  '(org-babel-lisp-eval-fn (quote sly-eval))
  '(org-src-lang-modes (cons (cons "dot" (quote graphviz-dot))
 			    (eval (car (get 'org-src-lang-modes 'standard-value)))))
- )
+
+ ;; I need to write Czech easily.
+ '(default-input-method "czech-qwerty")
+
+ '(package-archives
+   '(("gnu" . "https://elpa.gnu.org/packages/")
+     ("melpa" . "https://melpa.org/packages/")
+     ("org" . "https://orgmode.org/elpa/")))
+
+ '(use-package-always-ensure t)
+
+ '(gnus-select-method '(nnml ""))
+ '(gnus-use-adaptive-scoring '(word line))
+ '(gnus-article-mime-part-function 'tz-mail-handle-attachment))

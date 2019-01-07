@@ -36,17 +36,9 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-;; I need to write Czech easily.
-(setq default-input-method "czech-qwerty")
-
 ;;; Packages setup
 (require 'package)
 (package-initialize)
-
-(setq package-archives
-      '(("gnu" . "https://elpa.gnu.org/packages/")
-	("melpa" . "https://melpa.org/packages/")
-	("org" . "https://orgmode.org/elpa/")))
 
 (unless (require 'use-package nil t)
   (package-initialize)
@@ -58,15 +50,10 @@
   (package-install-file "~/.emacs.d/lisp/tz-org-init.el")
   (package-install-file "~/.emacs.d/lisp/logical-pathnames.el"))
 
-(setq use-package-always-ensure t)
+
 ;; This package needs to be called as early as possible so that the
 ;; other packages use correct files.
-(use-package no-littering)
-
-
-;; Basic Lisp editing
-(use-package paredit
-  :commands paredit-mode)
+(require 'no-littering)
 
 (dolist (fn '(paredit-mode show-paren-mode))
   (add-hook 'lisp-mode-hook fn)
@@ -76,39 +63,12 @@
 
 (use-package org
   :mode ("\\.org\\'" . org-mode)
+  :defer t
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)
    ("C-c r" . org-capture)
    ("C-c b" . org-iswitchb)))
-
-(use-package tz-org-init
-  :ensure nil
-  :after org)
-
-(use-package gnus
-  :bind ("<XF86Mail>" . gnus)
-  :config
-  (setq gnus-select-method '(nnml "")
-	gnus-use-adaptive-scoring '(word line)
-	gnus-article-mime-part-function 'tz-mail-handle-attachment)
-
-  (defun tz-mail-handle-attachment (handle)
-    "Treat specifically attachments during mail opening."
-    (cond
-     ((equal (car (mm-handle-type handle)) "application/octet-stream")
-      (save-excursion
-	(with-temp-buffer
-	  (insert (mm-get-part handle))
-	  (goto-char 1)
-	  (search-forward "windows-1250")
-	  (recode-region (point-min) (point-max)
-			 'windows-1250 'utf-8-unix )
-	  (replace-match "utf-8")
-	  (write-region (point-min) (point-max)
-			(read-file-name "Save data to: " "~/ucty/"
-					nil nil
-					(mm-handle-filename handle)))))))))
 
 (use-package message
   :ensure nil
