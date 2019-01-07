@@ -66,15 +66,13 @@
   (interactive)
   (switch-to-buffer (make-comint "journal" "journalctl" nil "-f")))
 
-(use-package "org"
-  :defer t
-  :config
+(with-eval-after-load 'org
   (setq org-link-abbrev-alist
-		`(("attach" . org-attached-tag)))
+	`(("attach" . org-attached-tag)))
   (logical-pathnames-org-insinuate)
-  (setq org-directory (org-link-expand-abbrev "org:")))
+  (add-hook 'org-mobile-post-push-hook 'tz-org-mobile-post-push)
+  (add-hook 'org-mobile-pre-pull-hook 'tz-org-mobile-pre-pull))
 
-;; Let org-tangle store experimental code here.
 (mapc 'load (directory-files "~/.emacs.d/lisp/experimental.d/" t "\\.el"))
 
 (message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
