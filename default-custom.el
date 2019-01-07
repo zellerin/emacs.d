@@ -52,5 +52,5 @@
      (emacs-lisp . t)
      (shell . t)))
  '(org-babel-lisp-eval-fn (quote sly-eval))
- ;; correct?
- '(org-src-lang-modes (cons (cons "dot" 'graphviz-dot) org-src-lang-modes)))
+ '(org-src-lang-modes (cons (cons "dot" (quote graphviz-dot))
+			    (eval (car (get 'org-src-lang-modes 'standard-value))))))
