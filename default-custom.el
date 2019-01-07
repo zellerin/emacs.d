@@ -1,7 +1,11 @@
 ;;; Some preferred customization.
+; (org-link-minor-mode)
 
 (custom-set-variables
+ ;; 9.2 Attachments
  '(org-attach-method 'mv)
+
+ ;; 9.1.3 Capture templates
  '(org-capture-templates
    (list
     (tz-capture-entry "t" "TODO"		"* TODO %?\n\n")
@@ -19,6 +23,8 @@
     (tz-flag-capture-context "m" "gnus-summary-mode")
     (tz-flag-capture-context "r" "bbdb-mode")
     `(("f" ((not-in-mode . "bbdb-mode"))))))
+
+ ;; 10.3.2 [[info:org#Global%20TODO%20list][The global TODO list]]
  '(org-agenda-todo-ignore-scheduled 'future)
  '(org-scheduled-past-days 1)
  '(org-agenda-custom-commands nil)
@@ -53,4 +59,5 @@
      (shell . t)))
  '(org-babel-lisp-eval-fn (quote sly-eval))
  '(org-src-lang-modes (cons (cons "dot" (quote graphviz-dot))
-			    (eval (car (get 'org-src-lang-modes 'standard-value))))))
+			    (eval (car (get 'org-src-lang-modes 'standard-value)))))
+ )
