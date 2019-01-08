@@ -73,4 +73,6 @@
 
  '(gnus-select-method '(nnml ""))
  '(gnus-use-adaptive-scoring '(word line))
- '(gnus-article-mime-part-function 'tz-mail-handle-attachment))
+ '(gnus-article-mime-part-function 'tz-mail-handle-attachment)
+
+ '(message-send-mail-function 'smtpmail-send-it))

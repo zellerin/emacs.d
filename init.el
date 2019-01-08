@@ -61,29 +61,10 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(use-package org
-  :mode ("\\.org\\'" . org-mode)
-  :defer t
-  :bind
-  (("C-c l" . org-store-link)
-   ("C-c a" . org-agenda)
-   ("C-c r" . org-capture)
-   ("C-c b" . org-iswitchb)))
-
-(use-package message
-  :ensure nil
-  :commands message-mail message-news message-reply message-wide-reply
-  message-forward
-  :config
-  (load "private" t)
-  (setq message-send-mail-function 'smtpmail-send-it))
-
-(use-package smtpmail
-  :commands smtpmail-send-it
-  :config
-  (setq
-   smtpmail-smtp-server "smtp.zoho.com"
-   smtpmail-smtp-service 587))
+(bind-key "C-c l" 'org-store-link)
+(bind-key "C-c a" 'org-agenda)
+(bind-key "C-c r" 'org-capture)
+(bind-key "C-c b" 'org-iswitchb)
 
 (use-package nnmail
   :defer t :ensure nil
@@ -137,7 +118,6 @@
 
 (bind-key (kbd "<f12> f") 'workflow-project-setup-frame)
 (bind-key (kbd "<f12> RET") 'make-frame)
-
 (bind-key (kbd "C-c c") 'compile)
 
 (use-package "bbdb"
