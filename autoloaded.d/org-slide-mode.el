@@ -32,3 +32,7 @@ Bind C-x C-n and C-x C-p to move to next/previous heading, and display it in a b
 (defun prev-slide ()
     (interactive)
     (switch-slide 'search-backward 2))
+
+;;;###autoload
+(with-eval-after-load 'org
+    (bind-key "<f12> P" 'org-tz-present org-mode-map))
