@@ -4,7 +4,7 @@
 
 Kills new emacs unless KEEP-ALIVE is set (or called with C-u interactively)"
   (interactive "P")
-  (apply 'start-process "*test*" "*test*"
+  (apply 'start-process "*test*" "*emacs test*"
 	 "emacs"
 	 "--eval" "(setq server-name \"foo\")"
 	 "--eval" "(add-hook 'emacs-startup-hook 'after-init-test t)"
