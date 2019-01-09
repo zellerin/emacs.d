@@ -10,7 +10,7 @@
 		 ("~/.emacs.d/local" . #("L" 0 1 (help-echo "Local")))))
     (dolist (file (directory-files (car dir)
 				   t "^[^.].*el$"))
-      (unless (equal "autoloads" (file-name-base file))
+      (unless (member (file-name-base file) '("custom" "autoloads" "tz-local"))
 	(let ((fn "") docstring (flags (cdr dir)))
 	  (with-temp-buffer
 	    (insert-file file)
