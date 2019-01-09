@@ -37,6 +37,9 @@
      (tags .
 	   " %i %-12:c %b")
      (search . " %i %-12:c")))
+
+ '(org-link-abbrev-alist (cons '("attach" . org-attached-tag)
+			       (logical-names-as-org-abbrevs)))
  '(org-modules
    '(org-bbdb org-crypt org-docview org-gnus org-id org-info org-inlinetask org-protocol))
  '(org-hide-emphasis-markers t)
