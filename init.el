@@ -66,15 +66,6 @@
 (bind-key "C-c r" 'org-capture)
 (bind-key "C-c b" 'org-iswitchb)
 
-(use-package nnmail
-  :defer t :ensure nil
-  :config
-  (setq nnmail-split-methods
-	'(("csob" "^From: .*\\(CSOB Administrator\\|tbs\\.csob\\.cz\\)")
-	  ("EE World" "^From: .*\\(EE World\\|Design World\\)")
-	  ("Conrad" "^From: .*Conrad Electronic")
-	  ("mail.misc" ""))))
-
 (use-package magit
   :commands magit-status magit magit-init magit-clone
   :bind (("C-c m" . magit)))
