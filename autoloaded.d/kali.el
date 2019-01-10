@@ -1,3 +1,4 @@
+;;;###autoload
 (defun kali-rw ()
   "Run systemd container with Kali in a buffer."
   (interactive)
@@ -6,6 +7,7 @@
      (make-comint "kali" "systemd-nspawn"
 		  nil  "--machine" "kali" "-D" "/opt/kali" "--bind-ro=/tmp/.X11-unix"))))
 
+;;;###autoload
 (defun kali-cmd (name &rest cmd)
   (let ((default-directory "/sudo::/"))
     (switch-to-buffer
@@ -13,21 +15,21 @@
 	    nil "--machine" "kali-msf" "--read-only" "-D" "/opt/kali" "--bind-ro=/tmp/.X11-unix" "--bind=/tmp/:/root"
 	    cmd))))
 
+;;;###autoload
 (defun kali-msf ()
   "Run systemd container with Metasploit (Kali) in a buffer."
   (interactive)
   (kali-cmd "kali-msf" "msfconsole" "-q"))
 
+;;;###autoload
 (defun kali-zap ()
   "Run systemd container with ZAP (Kali) in a buffer."
   (interactive)
   (kali-cmd "kali-zap" "zaproxy"))
 
-(defun kali-sqlmap (&rest cmds)
-  "Run systemd container with sqlmap (Kali) in a buffer."
-  (apply 'kali-cmd "kali-sqlmap" "sqlmap" cmds))
 
 (defun kali-sqlmap (&rest cmds)
+  (interactive)
   "Run systemd container with sqlmap (Kali) in a buffer."
   (apply 'kali-cmd "kali-sqlmap" "sqlmap" cmds))
 
@@ -44,6 +46,7 @@
 					"Container kali-msf exited successfully."))
 			 0 '(:foreground "gray")))))
 
+;;;###autoload
 (defun kali-nmap (&rest cmds)
   "Run systemd container with sqlmap (Kali) in a buffer."
   (apply 'kali-cmd "kali-nmap" "nmap" cmds)

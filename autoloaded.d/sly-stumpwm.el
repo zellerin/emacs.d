@@ -1,3 +1,4 @@
+;;;###autoload
 (defun tz-run-stumpwm ()
   (interactive)
   (sly '("sbcl" "--eval" "(ql:quickload 'stumpwm)"

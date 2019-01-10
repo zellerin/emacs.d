@@ -1,3 +1,4 @@
+;;;###autoload
 (defun tz-org-jump-top-projects ()
   (interactive)
   (if (get-buffer "Projects list")
@@ -9,5 +10,5 @@
     (search-forward "#+RESULTS:")
     (org-narrow-to-element)))
 
-
+;;;###autoload
 (bind-key (kbd "<f12> p") 'tz-org-jump-top-projects)
