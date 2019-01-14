@@ -1,7 +1,8 @@
 ;;;###autoload
-(define-minor-mode org-tz-present "Present org mode as slides.
+(define-minor-mode org-tz-present
+  "Present org mode as slides.
 
-Bind C-x C-n and C-x C-p to move to next/previous heading, and display it in a big way."
+Bind C-x C-n and C-x C-p to move to next/previous heading, and display it clearly."
   nil " ppt"
   `((,(kbd  "C-x C-n") .  next-slide)
     (,(kbd "C-x C-p") . prev-slide))

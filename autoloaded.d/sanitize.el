@@ -1,5 +1,6 @@
 ;;;###autoload
 (defun tz-sanitize-for-kb ()
+  "Sanitize an org entry and move it to knowledgebase.org."
   (interactive)
   (org-deadline '(4)) ; remove deadline and schedule
   (org-schedule '(4))

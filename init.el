@@ -47,7 +47,6 @@
   (package-install 'use-package)
   ;; Install from scratch: also, org should be reinstalled
   (package-install-from-archive (cadr (assoc 'org package-archive-contents)))
-  (package-install-file "~/.emacs.d/lisp/tz-org-init.el")
   (package-install-file "~/.emacs.d/lisp/logical-pathnames.el"))
 
 
@@ -72,8 +71,6 @@
 
 ;; Additional sources
 (add-to-list 'load-path (locate-user-emacs-file "lisp/"))
-(setq custom-file (locate-user-emacs-file "local/custom.el"))
-
 (use-package "nameless"
   :commands (nameless-mode))
 
@@ -89,47 +86,17 @@
  (setq sly-lisp-implementations nil
        sly-net-coding-system 'utf-8-unix))
 
-(use-package "eww"
-  :defer t
-  :config
-  (defun my/eww-toggle-images ()
-  "Toggle whether images are loaded and reload the current page from cache."
-  (interactive)
-  (setq-local shr-inhibit-images (not shr-inhibit-images))
-  (eww-reload t)
-  (message "Images are now %s"
-           (if shr-inhibit-images "off" "on")))
-
-  (define-key eww-mode-map (kbd "I") #'my/eww-toggle-images)
-  (define-key eww-link-keymap (kbd "I") #'my/eww-toggle-images)
-
-  (setq-default shr-inhibit-images t)
-  ; do something to shr-blocked-images?
-  )
-
 (bind-key (kbd "<f12> f") 'workflow-project-setup-frame)
 (bind-key (kbd "<f12> RET") 'make-frame)
 (bind-key (kbd "C-c c") 'compile)
-
-(use-package "bbdb"
-  :bind ("C-c B" . bbdb)
-  :config
-  (defun bbdb-swap-names ()
-    (interactive)
-    "Swap first and second name"
-    (let ((first (bbdb-record-firstname (bbdb-current-record)))
-	  (last (bbdb-record-lastname (bbdb-current-record))))
-      (bbdb-record-set-field (bbdb-current-record) 'lastname first)
-      (bbdb-record-set-field (bbdb-current-record) 'firstname last)
-      (bbdb-redisplay-record (bbdb-current-record) t)
-      (message "%s is surname now" first))))
 
 (auto-insert-mode)
 (push '(("\\.asm\\'" . "PIC midrange assembler") . pic-asm-new-file)
       auto-insert-alist)
 
 (message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
-(load custom-file t)
+
+(load (setq custom-file (locate-user-emacs-file "local/custom.el")) t)
 (message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
 (load "experimental")
 (message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))

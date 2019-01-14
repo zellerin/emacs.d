@@ -1,3 +1,16 @@
+;;;###autoload
+(defun tz-run-program ()
+  "Run a program picked from a list based on `opt-programs' and `wine-programs'."
+  (interactive)
+  (let* ((all-programs (all--programs opt-programs wine-programs))
+	 (program-name (completing-read "Program: "
+					all-programs
+					nil t))
+	 (program (assoc program-name all-programs))
+	 (default-directory (nth 1 program))
+	 (prog-and-args (cddr program)))
+    (apply 'make-comint program-name (car prog-and-args) nil (cadr prog-and-args))))
+
 (defcustom wine-programs nil
   "List of programs runnable by Wine"
   :type '(repeat (list (string :tag "Name") directory (string :tag "Program")))
@@ -18,17 +31,4 @@
 			  wine)))
 
 ;;;###autoload
-(defun run-gui-program ()
-  "Run a Wine program picked from a list based on `opt-programs' and `wine-programs'."
-  (interactive)
-  (let* ((all-programs (all--programs opt-programs wine-programs))
-	 (program-name (completing-read "Program: "
-					all-programs
-					nil t))
-	 (program (assoc program-name all-programs))
-	 (default-directory (nth 1 program))
-	 (prog-and-args (cddr program)))
-    (apply 'make-comint program-name (car prog-and-args) nil (cadr prog-and-args))))
-
-;;;###autoload
-(bind-key "<f12> W" 'run-gui-program)
+(bind-key "<f12> W" 'tz-run-program)

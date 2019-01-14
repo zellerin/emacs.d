@@ -1,5 +1,6 @@
 ;;;###autoload
 (defun tz-org-jump-top-projects ()
+  "Jump to a table with list of projects and their parameters."
   (interactive)
   (if (get-buffer "Projects list")
       (switch-to-buffer "Projects list")

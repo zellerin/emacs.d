@@ -1,5 +1,6 @@
 ;;;###autoload
 (defun tz-capture-entry (letter name template &rest args)
+  "Helper to be used in custom.el for org capture templates."
   `(,letter ,name entry
 	    (file "weekly-review.org")
 	    ,template
@@ -21,6 +22,7 @@
 
 ;;;###autoload
 (defun tz-flag-capture-context (letter mode)
+  "Helper to be used in custom.el for org capture context."
   (let ((im (list (cons 'in-mode mode))))
     `(("f" ,letter ,im)
       (,letter ,im))))

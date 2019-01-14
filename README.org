@@ -1,0 +1,80 @@
+#+TITLE: Autoload based emacs configuration
+This is another github hosted personal emacs configuration. Major
+specifics:
+- Only core functionality is in init.el
+- Manually added customization inside =custom-set-variables= is used
+  extensively.
+- Additional functions/features in separate files that are autoloaded
+- =bind-key= is used to bind user keybindings and track them
+- =use-package= is used, but mostly migrated from
+
+* What, when and how is loaded.
+The preferred but not reached state is:
+- General things reflecting my org preferences should be set in the
+  custom.el file. There are some (when I get to it documented)
+  preferences in [[emacs:default-custom.el][default-custom.el]] that can be merged with or saved to
+  proper customer file by loading the form and saving customizations
+  [[elisp:customize-save-customized]]. As custom.el is supposed to be
+  under git, unwanted changes can be reverted easily.
+- Additional functions should be in autoload or local sections with
+  their =(eval-after-load 'org (bind-key ...))= nearby
+- Core functions such as language, enabling disabled commands and
+  removing some decorations is in init.el
+- List of files with autoload can be reached by elisp:tz-list-experimental-snippets
+
+* Testing
+To check at least minimum sanity after xonfiguration changes, run
+=tz-start-emacs-tests= to start new emacs and make few tests with
+"screenshots" in html. The screenshots are stored in the tests
+directory managed by git to be able to detect and view changes (otoh,
+changes to agenda content are not so relevant to be gited).
+
+* Snippets
+The files in [[./autoloaded.d/][autoload]] and [[./lisp/experimental.d/][experimental]] started as a small snippets,
+and there is a snippet to print some information about the snippets
+file (callable by =f12 S=). Maybe it still makes sense to show what is there.
+
+The third column shows whether the snippet has a bind key (=K=) and
+where it resides (L for Local - no shown below, A for autoload, E for experimental
+directory). Other column show first function defined in snippet and
+first docstring.
+
+#+begin_src emacs-lisp :exports both
+(let ((tz-snippet-dirs (cdr tz-snippet-dirs))) ; dont print local snippets
+  (tz-list-experimental-snippets))
+(buffer-string)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+nm-tz                nm-mode                        E    Network Manager mode
+att-list             tz-insert-list-of-attachments  KA   Insert list of attachments of an org node
+bbdb-swap            bbdb-swap-names                KA   Swap first and second name
+download-to-place    tz-download-at-point           KA   Download linked element to the attachments.
+eww                  tz-eww-toggle-images           KA   Toggle whether images are loaded and reload the current page from cache.
+issues               issues-table                   A    Write issues block table.
+jump-to-projects     tz-org-jump-top-projects       KA   Jump to a table with list of projects and their parameters.
+kali                 kali-rw                        A    Run systemd container with Kali in a buffer.
+list-snippets        tz-list-experimental-snippets  KA   List overview of experimental snippets to a buffer
+org-abbrevs          logical-names-as-org-abbrevs   A    List of mapping from short name to a path.
+org-capture-config   tz-capture-entry               A    Helper to be used in custom.el for org capture templates.
+org-helpers          org-attach-dir-or-ask          A    Simplify creating attach directories with nicer names.
+org-link-minor-mode  org-link-minor-mode-unfonti... A    Remove fontification and activation overlays from links.
+org-slide-mode       org-tz-present                 KA   Present org mode as slides.
+org-tracked-rename   org-tracked-rename             KA   Rename a header and make a note about it.
+sanitize             tz-sanitize-for-kb             KA   Sanitize an org entry and move it to knowledgebase.org.
+shodan               shodan-mode                    A    Shodan mode
+sly-stumpwm          tz-run-stumpwm                 A    Start stumpwm window manager.
+sqlite3              sqlite                         A    Return cons of column names and select result.
+test-master          tz-start-emacs-tests           A    Run new emacs and start `after-init-tests' there.
+test                 after-init-test                A    Run tests of emacs configuration to make sure it at least starts up.
+wine-program         all--programs                  KA   Run a Wine program picked from a list based on `opt-programs' and `wine-programs'.
+#+end_example
+
+* Open points
+- Naming convention for functions and variables
+- Finalize cleanup of init files
+- ponder future of logical names experiment
+- Manually maintained org-agenda-files vs. =C-c [=
+
+* Org organization thougths
