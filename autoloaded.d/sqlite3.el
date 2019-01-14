@@ -1,6 +1,41 @@
 (load-library "sqlite3-api")
 
 ;;;###autoload
+(defun sqlite3-get-select (file select)
+  "Execute SQL select and return column names and result data.
+
+Return cons of the column names and result data.
+
+Interactively, insert data into tabulated buffer"
+  (interactive "fFile: \nsSelect: \n")
+  (sqlite3-with-db db (file sqlite-open-readonly)
+		   (sqlite3-with-stmt stmt db select
+				      (let ((cols
+					    (cl-loop for i from 0 to (1- (sqlite3-column-count stmt))
+						     collect (sqlite3-column-name stmt i)))
+					    (data
+
+					       (cl-loop while (= sqlite-row (sqlite3-step stmt))
+							collect (sqlite3-fetch stmt))))
+					(if (called-interactively-p 'any)
+					    (tz-show-as-table cols data)
+					  (cons cols data))))))
+
+(defun tz-show-as-table (cols table)
+  (switch-to-buffer "*SQL result*")
+  (tabulated-list-mode)
+  (setq tabulated-list-entries
+	(mapcar (lambda (a) (list nil (apply 'vector
+					     (mapcar  (lambda (item) (format "%s" item))
+						      a))))
+		table))
+  (setq tabulated-list-format (apply 'vector (mapcar (lambda (a)
+						       (list a 10 t))
+						     cols)))
+  (tabulated-list-init-header)
+  (tabulated-list-print))
+
+;;;###autoload
 (defmacro sqlite3-with-db (name path &rest body)
   `(let* ((,name (sqlite3-open ,@path)))
      (unwind-protect
@@ -14,16 +49,6 @@
 	 (progn ,@body)
        (sqlite3-finalize ,name))))
 
-;;;###autoload
-(defun sqlite3-get-select (file select)
-  "Return cons of column names and select result."
-  (sqlite3-with-db db (file sqlite-open-readonly)
-		   (sqlite3-with-stmt stmt db select
-				      (cons
-				       (cl-loop for i from 0 to (1- (sqlite3-column-count stmt))
-						collect (sqlite3-column-name stmt i))
-				       (cl-loop while (= sqlite-row (sqlite3-step stmt))
-						collect (sqlite3-fetch stmt))))))
 
 ;;;###autoload
 (defun sqlite3-insert-table (db insert data)
