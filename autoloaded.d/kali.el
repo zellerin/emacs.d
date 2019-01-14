@@ -12,7 +12,7 @@
   (let ((default-directory "/sudo::/"))
     (switch-to-buffer
      (apply 'make-comint name "systemd-nspawn"
-	    nil "--machine" "kali-msf" "--read-only" "-D" "/opt/kali" "--bind-ro=/tmp/.X11-unix" "--bind=/tmp/:/root"
+	    nil "--machine" name  "--read-only" "-D" "/opt/kali" "--bind-ro=/tmp/.X11-unix" "--bind=/tmp/:/root"
 	    cmd))))
 
 ;;;###autoload
@@ -29,7 +29,9 @@
 
 
 (defun kali-sqlmap (&rest cmds)
-  (interactive)
+  (interactive
+   (list "-u"
+	 (read-string "Url: ")))
   "Run systemd container with sqlmap (Kali) in a buffer."
   (apply 'kali-cmd "kali-sqlmap" "sqlmap" cmds))
 
