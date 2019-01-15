@@ -1,9 +1,9 @@
 ;;;###autoload
 (defun logical-names-as-org-abbrevs ()
-  (let (res)
-    (dolist (ln logical-pathnames-names res)
-      (pushnew (cons (car ln) (org-link-expand-abbrev (cdr ln)))
-	       res))))
+  (mapcar
+   (lambda (ln)
+     (cons (car ln) (org-link-expand-abbrev (cdr ln))))
+    logical-pathnames-names))
 
 (defcustom logical-pathnames-names
   '(("org" . "~/org")
