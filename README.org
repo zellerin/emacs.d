@@ -6,7 +6,6 @@ specifics:
   extensively.
 - Additional functions/features in separate files that are autoloaded
 - =bind-key= is used to bind user keybindings and track them
-- =use-package= is used, but mostly migrated from
 
 * What, when and how is loaded.
 The preferred but not reached state is:
@@ -62,19 +61,19 @@ org-helpers          org-attach-dir-or-ask          A    Simplify creating attac
 org-link-minor-mode  org-link-minor-mode-unfonti... A    Remove fontification and activation overlays from links.
 org-slide-mode       org-tz-present                 KA   Present org mode as slides.
 org-tracked-rename   org-tracked-rename             KA   Rename a header and make a note about it.
+run-listed-program   tz-run-program                 KA   Run a program picked from a list based on `opt-programs' and `wine-programs'.
 sanitize             tz-sanitize-for-kb             KA   Sanitize an org entry and move it to knowledgebase.org.
 shodan               shodan-mode                    A    Shodan mode
 sly-stumpwm          tz-run-stumpwm                 A    Start stumpwm window manager.
-sqlite3              sqlite                         A    Return cons of column names and select result.
+sqlite3              sqlite                         A    Execute SQL select and return column names and result data.
 test-master          tz-start-emacs-tests           A    Run new emacs and start `after-init-tests' there.
 test                 after-init-test                A    Run tests of emacs configuration to make sure it at least starts up.
-wine-program         all--programs                  KA   Run a Wine program picked from a list based on `opt-programs' and `wine-programs'.
 #+end_example
 
 * Open points
 - Naming convention for functions and variables
-- Finalize cleanup of init files
 - ponder future of logical names experiment
-- Manually maintained org-agenda-files vs. =C-c [=
+- ponder future of prodigy experiment
 
 * Org organization thougths
+- Manually maintained org-agenda-files in custom vs. agenda file vs. =C-c [=

@@ -2,6 +2,12 @@
 ; (org-link-minor-mode)
 
 (custom-set-variables
+ ;;
+ '(auto-insert-mode t)
+; '(auto-insert-alist
+;   `((("\\.asm\\'" . "PIC midrange assembler") . pic-asm-new-file)
+;     ,(eval (car (get 'auto-insert-alist 'standard-value)))))
+
  ;; 9.2 Attachments
  '(org-attach-method 'mv)
 
@@ -78,4 +84,6 @@
  '(gnus-use-adaptive-scoring '(word line))
  '(gnus-article-mime-part-function 'tz-mail-handle-attachment)
 
- '(message-send-mail-function 'smtpmail-send-it))
+ '(message-send-mail-function 'smtpmail-send-it)
+
+ '(sly-net-coding-system 'utf-8-unix))

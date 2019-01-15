@@ -37,18 +37,7 @@
 (put 'downcase-region 'disabled nil)
 
 ;;; Packages setup
-(require 'package)
 (package-initialize)
-
-(unless (require 'use-package nil t)
-  (package-initialize)
-  (package-refresh-contents) ; this will be longer than usual
-  (setq package-selected-packages nil)
-  (package-install 'use-package)
-  ;; Install from scratch: also, org should be reinstalled
-  (package-install-from-archive (cadr (assoc 'org package-archive-contents)))
-  (package-install-file "~/.emacs.d/lisp/logical-pathnames.el"))
-
 
 ;; This package needs to be called as early as possible so that the
 ;; other packages use correct files.
@@ -58,48 +47,29 @@
   (add-hook 'lisp-mode-hook fn)
   (add-hook 'emacs-lisp-mode-hook fn))
 
+(add-hook 'emacs-lisp-mode-hook 'nameless-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(bind-key "C-c l" 'org-store-link)
 (bind-key "C-c a" 'org-agenda)
-(bind-key "C-c r" 'org-capture)
 (bind-key "C-c b" 'org-iswitchb)
+(bind-key "C-c c" 'compile)
+(bind-key "C-c l" 'org-store-link)
+(bind-key "C-c m" 'magit-status)
+(bind-key "C-c r" 'org-capture)
 
-(use-package magit
-  :commands magit-status magit magit-init magit-clone
-  :bind (("C-c m" . magit)))
-
-;; Additional sources
-(add-to-list 'load-path (locate-user-emacs-file "lisp/"))
-(use-package "nameless"
-  :commands (nameless-mode))
-
-(add-hook 'emacs-lisp-mode-hook
-		     'nameless-mode)
-
-(use-package "recentf"
-  :config (setq recentf-exclude  '("emacs.d/elpa/" "/emacs/[0-9.]*/lisp/")))
-
-(use-package "sly"
- :commands (sly sly-mode)
- :config
- (setq sly-lisp-implementations nil
-       sly-net-coding-system 'utf-8-unix))
-
-(bind-key (kbd "<f12> f") 'workflow-project-setup-frame)
-(bind-key (kbd "<f12> RET") 'make-frame)
-(bind-key (kbd "C-c c") 'compile)
-
-(auto-insert-mode)
-(push '(("\\.asm\\'" . "PIC midrange assembler") . pic-asm-new-file)
-      auto-insert-alist)
-
-(message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
-
+;; my custom.el should take preference to default custom.el
 (load (setq custom-file (locate-user-emacs-file "local/custom.el")) t)
-(message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
-(load "experimental")
-(message "Time so far: %.1f secs" (float-time (time-subtract nil before-init-time)))
+
+(require 'autoload) ; otherwise binding below does not work
+(let ((generated-autoload-file "~/.emacs.d/autoloaded.d/autoloads.el"))
+  (when t
+    (update-directory-autoloads
+     "~/.emacs.d/autoloaded.d/"
+     "~/.emacs.d/local/"))
+  (load generated-autoload-file t))
+
+(add-to-list 'load-path (locate-user-emacs-file "autoloaded.d/"))
+
 (load (locate-user-emacs-file "local/tz-local.el") t)
 
 
