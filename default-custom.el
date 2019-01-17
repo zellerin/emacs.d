@@ -4,9 +4,6 @@
 (custom-set-variables
  ;;
  '(auto-insert-mode t)
-; '(auto-insert-alist
-;   `((("\\.asm\\'" . "PIC midrange assembler") . pic-asm-new-file)
-;     ,(eval (car (get 'auto-insert-alist 'standard-value)))))
 
  ;; 9.2 Attachments
  '(org-attach-method 'mv)
@@ -68,7 +65,7 @@
      (shell . t)))
  '(org-babel-lisp-eval-fn (quote sly-eval))
  '(org-src-lang-modes (cons (cons "dot" (quote graphviz-dot))
-			    (eval (car (get 'org-src-lang-modes 'standard-value)))))
+			    (customize-standard-value-of 'org-src-lang-modes)))
 
  ;; I need to write Czech easily.
  '(default-input-method "czech-qwerty")
@@ -86,4 +83,8 @@
 
  '(message-send-mail-function 'smtpmail-send-it)
 
- '(sly-net-coding-system 'utf-8-unix))
+ '(sly-net-coding-system 'utf-8-unix)
+
+ '(file-coding-system-alist
+   (cons '("\\.org\\'" . utf-8)
+	 (customize-standard-value-of 'file-coding-system-alist))))

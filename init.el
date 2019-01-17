@@ -58,6 +58,11 @@
 (bind-key "C-c r" 'org-capture)
 
 ;; my custom.el should take preference to default custom.el
+(defun customize-standard-value-of (symbol)
+  (eval (car  (get
+	       'file-coding-system-alist
+	       'standard-value))))
+
 (load (setq custom-file (locate-user-emacs-file "local/custom.el")) t)
 
 (require 'autoload) ; otherwise binding below does not work
