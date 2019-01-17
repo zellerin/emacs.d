@@ -2,24 +2,10 @@
 This is another github hosted personal emacs configuration. Major
 specifics:
 - Only core functionality is in init.el
-- Manually added customization inside =custom-set-variables= is used
+- Manually added [[id:8e8bcc52-801e-4bda-bdea-7f5c25fd123d][customization]] code inside =custom-set-variables= is used
   extensively.
 - Additional functions/features in separate files that are autoloaded
 - =bind-key= is used to bind user keybindings and track them
-
-* What, when and how is loaded.
-The preferred but not reached state is:
-- General things reflecting my org preferences should be set in the
-  custom.el file. There are some (when I get to it documented)
-  preferences in [[emacs:default-custom.el][default-custom.el]] that can be merged with or saved to
-  proper customer file by loading the form and saving customizations
-  [[elisp:customize-save-customized]]. As custom.el is supposed to be
-  under git, unwanted changes can be reverted easily.
-- Additional functions should be in autoload or local sections with
-  their =(eval-after-load 'org (bind-key ...))= nearby
-- Core functions such as language, enabling disabled commands and
-  removing some decorations is in init.el
-- List of files with autoload can be reached by elisp:tz-list-experimental-snippets
 
 * Testing
 To check at least minimum sanity after xonfiguration changes, run
@@ -28,6 +14,24 @@ To check at least minimum sanity after xonfiguration changes, run
 directory managed by git to be able to detect and view changes (otoh,
 changes to agenda content are not so relevant to be gited).
 
+* Customization tricks
+  :PROPERTIES:
+  :ID:       8e8bcc52-801e-4bda-bdea-7f5c25fd123d
+  :END:
+Several possibly non-obvious tricks are used for customization:
+- There is an [[file:autoloaded.d/customize-fixes.el][around advice]] on =custom-save-all= so that the custom.el
+  file is saved more readably (at least for me).
+- The customization saves the /expression/ of the customization as well,
+  so you do not loose it when saving
+- You can refer to the /standard value/ of the variable in the
+  customization (even though it is not nice and uses =eval=), so that it
+  is clear what is the customization there.
+- The current custom setup can be merged with the defaults in default-custom.el by
+
+The obvious trick - partially enabled by the sane saving - is to use
+git to maintain /custom.el/. This is another git than this one (it
+contains private information such as direcotry and server names, but
+it still does not contain credentials)
 * Snippets
 The files in [[./autoloaded.d/][autoload]] and [[./lisp/experimental.d/][experimental]] started as a small snippets,
 and there is a snippet to print some information about the snippets
