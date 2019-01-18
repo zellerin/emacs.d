@@ -1,7 +1,10 @@
 ;;; Some preferred customization.
 ; (org-link-minor-mode)
 
-(custom-set-variables
+(deftheme tz
+  "My preferred settings.")
+
+(custom-theme-set-variables 'tz
  ;;
  '(auto-insert-mode t)
 
@@ -94,3 +97,6 @@
  '(file-coding-system-alist
    (cons '("\\.org\\'" . utf-8)
 	 (customize-standard-value-of 'file-coding-system-alist))))
+
+
+(provide-theme 'tz)
