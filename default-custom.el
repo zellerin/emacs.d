@@ -40,9 +40,13 @@
      (tags .
 	   " %i %-12:c %b")
      (search . " %i %-12:c")))
+ '(org-export-with-section-numbers nil)
+ '(org-export-with-toc nil)
 
+ ;; FIXME
  '(org-link-abbrev-alist (cons '("attach" . org-attached-tag)
 			       (logical-names-as-org-abbrevs)))
+ '(org-html-checkbox-type 'unicode)
  '(org-modules
    '(org-bbdb org-crypt org-docview org-gnus org-id org-info org-inlinetask org-protocol))
  '(org-hide-emphasis-markers t)
@@ -58,13 +62,9 @@
 	(nil :maxlevel . 5)))
  ;; org babel
  '(org-confirm-babel-evaluate nil)
- '(org-babel-load-languages
-   '((lisp . t)
-     (dot . t)
-     (emacs-lisp . t)
-     (shell . t)))
+ '(org-babel-load-languages '((lisp . t) (dot . t) (emacs-lisp . t) (shell . t)))
  '(org-babel-lisp-eval-fn (quote sly-eval))
- '(org-src-lang-modes (cons (cons "dot" (quote graphviz-dot))
+ '(org-src-lang-modes (cons '("dot" . graphviz-dot)
 			    (customize-standard-value-of 'org-src-lang-modes)))
 
  ;; I need to write Czech easily.
@@ -75,11 +75,17 @@
      ("melpa" . "https://melpa.org/packages/")
      ("org" . "https://orgmode.org/elpa/")))
 
- '(use-package-always-ensure t)
+ '(gnus-asynchronous t)
+ '(gnus-secondary-select-methods
+   '((nntp "news.gwene.org")
+     (nnimap "imappro.zoho.com"
+	     (nnimap-server-port 993)
+	     (nnimap-inbox Inbox))
+     (nnimap "imap.gmail.com"
+	     (nnimap-server-port 993))))
 
  '(gnus-select-method '(nnml ""))
  '(gnus-use-adaptive-scoring '(word line))
- '(gnus-article-mime-part-function 'tz-mail-handle-attachment)
 
  '(message-send-mail-function 'smtpmail-send-it)
 
