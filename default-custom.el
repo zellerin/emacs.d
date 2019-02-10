@@ -15,6 +15,7 @@
  '(org-capture-templates
    (list
     (tz-capture-entry "t" "TODO"		"* TODO %?\n\n")
+    (tz-capture-entry "p" "Project"		"* PLANNED %?:project:\n\n")
     (tz-capture-entry "-" "Interruption"	"* %?\n%T\n")
     (tz-capture-entry "j" "journal item" "* %? :journal:\n%t\n")
     (tz-capture-entry "m" "Flag mail"	"* %:subject\n%a\n")

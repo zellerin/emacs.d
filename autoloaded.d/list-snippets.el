@@ -18,9 +18,7 @@
 
 (defcustom tz-snippet-dirs
   '(("~/.emacs.d/local" . #("L" 0 1 (help-echo "Local")))
-    ("~/.emacs.d/lisp/experimental.d/" . #("E" 0 1 (help-echo "Experimental")))
-    ("~/.emacs.d/autoloaded.d/" . #("A" 0 1 (help-echo "Autoloaded")))
-)
+    ("~/.emacs.d/autoloaded.d/" . #("A" 0 1 (help-echo "Autoloaded"))))
   "List of directories with snippets."
   :group 'experimental)
 
