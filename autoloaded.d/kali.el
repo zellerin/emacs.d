@@ -12,7 +12,7 @@
   (let ((default-directory "/sudo::/"))
     (switch-to-buffer
      (apply 'make-comint name "systemd-nspawn"
-	    nil "--machine" name  "--read-only" "-D" "/opt/kali" "--bind-ro=/tmp/.X11-unix" "--bind=/tmp/:/root"
+	    nil "--machine" name  "--read-only" "-D" "/opt/kali" "--bind-ro=/tmp/.X11-unix" "--bind=/tmp/:/root" "--setenv" "DISPLAY=:0"
 	    cmd))))
 
 ;;;###autoload
