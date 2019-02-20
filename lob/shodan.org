@@ -40,7 +40,7 @@ Get Shodan information on IP addresses:
 ** SSL/TLS servery
 #+NAME: json-extract
  #+begin_src emacs-lisp :var dir="." :var datapath='ssl
-       (cl-list* (cadr (assoc datapath shodan-http-path-list)) 'hline
+       (cl-list* (cadr (assoc datapath shodan-json-path-alist)) 'hline
 		  (mapcar (lambda (a)
 			    (cons (car (cl-find (car a) names-cache :key 'cadr :test 'equal)) a))
 	  (mapcan (lambda (file)
@@ -80,3 +80,64 @@ Get Shodan information on IP addresses:
 |------------+----------------+------+----------+--------+-------|
 | ntp.nic.cz | 217.31.202.100 |  123 | ntp      | nil    | nil   |
 | ntp.nic.cz | 217.31.202.100 | 5353 | mdns     | nil    | nil   |
+
+
+* Mapping network
+#+begin_src restclient
+POST https://api.shodan.io/shodan/alert?key=:key
+Content-type: application/json
+
+{
+ "name": "Test",
+ "filters": {
+  "ip": ["194.228.123.0/26"]
+ }
+}
+#+end_src
+
+#+begin_src json
+{
+  "triggers": null,
+  "name": "Test",
+  "created": "2019-02-13T13:02:49.721733",
+  "expires": 0,
+  "expiration": null,
+  "filters": {
+    "ip": [
+      "194.228.123.0/26"
+    ]
+  },
+  "id": "PUMDNLX1BJYIBK4E",
+  "size": 64
+}
+#+end_src
+
+#+begin_src emacs-lisp
+(let ((process (open-network-stream "Stream" (switch-to-buffer "*Stream Shodan*")
+				    "stream.shodan.io" 443
+				    :type 'tls)))
+  (comint-mode)
+  (set-process-filter (get-process "Stream") 'streaming-filter)
+  (comint-send-string process "GET /shodan/alert?key=8wrrcNO8vJfBholM7leWTmnKqtUJ1oCa HTTP/1.1\nHost: stream.shodan.io\n\n"))
+#+end_src
+
+#+RESULTS:
+#+begin_src emacs-lisp
+(defun streaming-filter (proc text)
+  (unless (or (equal text "1") (equal text "\n"))
+    (internal-default-process-filter proc text)))
+#+end_src
+
+
+** ASN scan (fails)
+
+#+begin_src emacs-lisp
+(let ((process (open-network-stream "Stream II" (switch-to-buffer "*Stream Shodan II*")
+				    "stream.shodan.io" 443
+				    :type 'tls)))
+  (comint-mode)
+  (set-process-filter (get-process "Stream") 'streaming-filter)
+  (comint-send-string process "GET /shodan/asn/48298?key=8wrrcNO8vJfBholM7leWTmnKqtUJ1oCa HTTP/1.1\nHost: stream.shodan.io\n\n"))
+#+end_src
+
+#+RESULTS:
