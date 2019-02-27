@@ -11,6 +11,11 @@
    (set-buffer (make-comint "tcpconnect" "sudo" nil "/usr/share/bcc/tools/tcpconnect"))))
 
 ;;;###autoload
-(defun systemd-journal ()
-  (interactive)
-  (switch-to-buffer (make-comint "journal" "journalctl" nil "-f")))
+(defun systemd-journal (arg)
+  (interactive "P")
+  (message "%s" arg)
+  (apply 'start-process "journal" "*journal*"  "journalctl"
+	 "-q"
+	 (if arg `("-p" ,(number-to-string (if (consp arg) (car arg) arg)))
+	   '("-f")))
+  (switch-to-buffer "*journal*"))
