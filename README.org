@@ -8,7 +8,7 @@ specifics:
 - =bind-key= is used to bind user keybindings and track them
 
 * Testing
-To check at least minimum sanity after xonfiguration changes, run
+To check at least minimum sanity after configuration changes, run
 =tz-start-emacs-tests= to start new emacs and make few tests with
 "screenshots" in html. The screenshots are stored in the tests
 directory managed by git to be able to detect and view changes (otoh,
@@ -50,28 +50,32 @@ first docstring.
 
 #+RESULTS:
 #+begin_example
-nm-tz                nm-mode                        E    Network Manager mode
 att-list             tz-insert-list-of-attachments  KA   Insert list of attachments of an org node
 bbdb-swap            bbdb-swap-names                KA   Swap first and second name
+customize-fixes      run-with-sane-print-convention A    Ensure ' and \\n are used when function prints,  not quote and hard newline.
 download-to-place    tz-download-at-point           KA   Download linked element to the attachments.
-eww                  tz-eww-toggle-images           KA   Toggle whether images are loaded and reload the current page from cache.
 issues               issues-table                   A    Write issues block table.
 jump-to-projects     tz-org-jump-top-projects       KA   Jump to a table with list of projects and their parameters.
 kali                 kali-rw                        A    Run systemd container with Kali in a buffer.
 list-snippets        tz-list-experimental-snippets  KA   List overview of experimental snippets to a buffer
+nm-tz                nm-wifi                        A    Provide interface for network manager
 org-abbrevs          logical-names-as-org-abbrevs   A    List of mapping from short name to a path.
 org-capture-config   tz-capture-entry               A    Helper to be used in custom.el for org capture templates.
 org-helpers          org-attach-dir-or-ask          A    Simplify creating attach directories with nicer names.
 org-link-minor-mode  org-link-minor-mode-unfonti... A    Remove fontification and activation overlays from links.
 org-slide-mode       org-tz-present                 KA   Present org mode as slides.
 org-tracked-rename   org-tracked-rename             KA   Rename a header and make a note about it.
+prodigy                                             A    N/A
 run-listed-program   tz-run-program                 KA   Run a program picked from a list based on `opt-programs' and `wine-programs'.
 sanitize             tz-sanitize-for-kb             KA   Sanitize an org entry and move it to knowledgebase.org.
 shodan               shodan-mode                    A    Shodan mode
 sly-stumpwm          tz-run-stumpwm                 A    Start stumpwm window manager.
+smalltools           execsnoop                      A    N/A
 sqlite3              sqlite                         A    Execute SQL select and return column names and result data.
 test-master          tz-start-emacs-tests           A    Run new emacs and start `after-init-tests' there.
 test                 after-init-test                A    Run tests of emacs configuration to make sure it at least starts up.
+tz-eww               tz-eww-toggle-images           KA   Toggle whether images are loaded and reload the current page from cache.
+whois-mode           whois-mode                     A    Mode to display whois records
 #+end_example
 
 * Open points

@@ -92,6 +92,8 @@
  '(gnus-use-adaptive-scoring '(word line))
 
  '(message-send-mail-function 'smtpmail-send-it)
+ '(ring-bell-function 'ignore)
+
  '(savehist-mode t)
  '(sly-net-coding-system 'utf-8-unix)
 
