@@ -60,6 +60,10 @@
  '(org-archive-location (concat org-directory "/archive/2018.org::datetree/* Finished tasks"))
  '(org-enforce-todo-dependencies t)
  '(org-src-window-setup 'current-window)
+ '(org-todo-keywords
+   '((sequence "TODO" "DONE")
+     (sequence "PLAN(p)" "OPEN(o)" "|" "ONGOING" "CLOSED")
+     (type "|" "WAIT(w@/@)")))
  '(org-agenda-dim-blocked-tasks 'invisible)
  '(org-refile-targets
       '((org-agenda-files :maxlevel . 2)

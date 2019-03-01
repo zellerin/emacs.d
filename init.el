@@ -66,11 +66,16 @@
 (load (setq custom-file (locate-user-emacs-file "local/custom.el")) t)
 
 (require 'autoload) ; otherwise binding below does not work
+
+(defcustom tz-autoload-directories
+  '("~/.emacs.d/autoloaded.d/"
+    "~/.emacs.d/local/")
+  "List of directories to autoload"
+  :group 'tz)
+
 (let ((generated-autoload-file "~/.emacs.d/autoloaded.d/autoloads.el"))
   (when t
-    (update-directory-autoloads
-     "~/.emacs.d/autoloaded.d/"
-     "~/.emacs.d/local/"))
+    (apply #'update-directory-autoloads tz-autoload-directories))
   (load generated-autoload-file t))
 
 (add-to-list 'load-path (locate-user-emacs-file "autoloaded.d/"))
