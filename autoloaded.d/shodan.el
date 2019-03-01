@@ -1,3 +1,4 @@
+; -*- mode: emacs-lisp; lexical-binding: t; -*-
 ;;;; Setup:
 ;;;; Define shodan-api-key
 ;;;; Use abbrev expansion to create calls.
@@ -119,15 +120,15 @@
 	((equal :upto (car path))
 	 (let ((res (car (shodan-get-data base (cddr path)))))
 	   (if (stringp res)
-	       (substring res 0 (search (cadr path) res))
+	       (substring res 0 (cl-search (cadr path) res))
 	     res)))
 	((equal :from-to (car path))
 	 (let* ((res (car (shodan-get-data base (cdddr path))))
-		(start (and res (search (cadr path) res))))
+		(start (and res (cl-search (cadr path) res))))
 	   (message "%s" start)
 	   (if start
 	     (substring res start
-			(search (caddr path) res :start2 (1+ start)))
+			(cl-search (caddr path) res :start2 (1+ start)))
 	     "")))
 	((equal :single (car path))
 	 (car (shodan-get-data base (cdr path))))

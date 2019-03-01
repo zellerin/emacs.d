@@ -7,6 +7,15 @@
 	    ,@args
 	    :prepend t :clock-in t :clock-resume t :empty-lines 1))
 
+;;;###autoload
+(defun tz-capture-entry-clocked (letter name template &rest args)
+  "Helper to be used in custom.el for org capture templates."
+  `(,letter ,name entry
+	    (clock)
+	    ,template
+	    ,@args
+	    :prepend t :empty-lines 1))
+
 ;;; to be used in custom.el as
 ;;; '(org-capture-templates
 ;;;   (list

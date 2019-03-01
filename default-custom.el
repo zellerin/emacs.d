@@ -15,6 +15,7 @@
  '(org-capture-templates
    (list
     (tz-capture-entry "t" "TODO"		"* TODO %?\n\n")
+    (tz-capture-entry-clocked "T" "TODO to clocked"		"* TODO %?\n\n")
     (tz-capture-entry "p" "Project"		"* PLANNED %?:project:\n\n")
     (tz-capture-entry "-" "Interruption"	"* %?\n%T\n")
     (tz-capture-entry "j" "journal item" "* %? :journal:\n%t\n")
@@ -34,7 +35,6 @@
  ;; 10.3.2 [[info:org#Global%20TODO%20list][The global TODO list]]
  '(org-agenda-todo-ignore-scheduled 'future)
  '(org-scheduled-past-days 1)
- '(org-agenda-custom-commands nil)
  '(org-agenda-prefix-format
    ;; show parents of todo list
    '((agenda . " %i %-12:c%?-12t% s")
@@ -92,7 +92,7 @@
  '(gnus-use-adaptive-scoring '(word line))
 
  '(message-send-mail-function 'smtpmail-send-it)
-
+ '(savehist-mode t)
  '(sly-net-coding-system 'utf-8-unix)
 
  '(file-coding-system-alist
