@@ -14,7 +14,7 @@
 	    (clock)
 	    ,template
 	    ,@args
-	    :prepend t :empty-lines 1))
+	    :empty-lines 1))
 
 ;;; to be used in custom.el as
 ;;; '(org-capture-templates
