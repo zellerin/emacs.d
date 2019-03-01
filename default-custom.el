@@ -32,8 +32,16 @@
     (tz-flag-capture-context "r" "bbdb-mode")
     `(("f" ((not-in-mode . "bbdb-mode"))))))
 
+ '(org-agenda-custom-commands
+   '(("p" "Describe command here" tags-todo "TODO=\"OPEN\""
+      ((org-agenda-overriding-header "Open projects")
+       (org-agenda-dim-blocked-tasks nil)))))
+
  ;; 10.3.2 [[info:org#Global%20TODO%20list][The global TODO list]]
+ '(org-agenda-dim-blocked-tasks 'invisible)
  '(org-agenda-todo-ignore-scheduled 'future)
+ '(org-agenda-files "~/.agenda_files")
+ '(org-agenda-skip-scheduled-if-done t)
  '(org-scheduled-past-days 1)
  '(org-agenda-prefix-format
    ;; show parents of todo list
