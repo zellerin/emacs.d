@@ -51,17 +51,18 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (bind-key "C-c a" 'org-agenda)
-(bind-key "C-c b" 'org-iswitchb)
+(bind-key "C-c b" 'org-switchb)
 (bind-key "C-c c" 'compile)
 (bind-key "C-c l" 'org-store-link)
 (bind-key "C-c m" 'magit-status)
 (bind-key "C-c r" 'org-capture)
+(bind-key "C-c \"" 'poporg-dwim)
 
 ;; my custom.el should take preference to default custom.el
 (defun customize-standard-value-of (symbol)
-  (eval (car  (get
-	       'file-coding-system-alist
-	       'standard-value))))
+  (eval (car (get
+	      symbol
+	      'standard-value))))
 
 (load (setq custom-file (locate-user-emacs-file "local/custom.el")) t)
 
@@ -81,6 +82,6 @@
 (add-to-list 'load-path (locate-user-emacs-file "autoloaded.d/"))
 
 (load (locate-user-emacs-file "local/tz-local.el") t)
-
+(enable-theme 'tz)
 
 ;;; init.el ends here

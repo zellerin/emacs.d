@@ -8,9 +8,39 @@
  ;;
  '(auto-insert-mode t)
 
- ;; 9.2 Attachments
- '(org-attach-method 'mv)
+ '(browse-url-browser-function 'eww-browse-url)
 
+ '(default-input-method "czech-qwerty")
+ '(dired-omit-files "^\\.?#\\|^\\.$\\|^\\.[.a-zA-Z]")
+
+ '(eshell-visual-commands
+   '( "top" "rpmreaper"))
+
+ '(gnus-asynchronous t)
+ '(gnus-select-method '(nnml ""))
+ '(gnus-use-adaptive-scoring '(word line))
+
+ '(message-send-mail-function 'smtpmail-send-it)
+
+ '(org-agenda-custom-commands
+   '(("p" "Describe command here" tags-todo "TODO=\"OPEN\""
+      ((org-agenda-overriding-header "Open projects")
+       (org-agenda-dim-blocked-tasks nil)))))
+ '(org-agenda-dim-blocked-tasks 'invisible)
+ '(org-agenda-prefix-format
+   ;; show parents of todo list
+   '((agenda . " %i %-12:c%?-12t% s")
+     (timeline . "  % s")
+     (todo .
+	   " %i %-12:c %b")
+     (tags .
+	   " %i %-12:c %b")
+     (search . " %i %-12:c")))
+ '(org-attach-method 'mv)
+ '(org-agenda-todo-ignore-scheduled 'future)
+
+ '(org-babel-lisp-eval-fn 'sly-eval)
+ '(org-babel-load-languages '((lisp . t) (dot . t) (emacs-lisp . t) (shell . t)))
  ;; 9.1.3 Capture templates
  '(org-capture-templates
    (list
@@ -32,29 +62,18 @@
     (tz-flag-capture-context "r" "bbdb-mode")
     `(("f" ((not-in-mode . "bbdb-mode"))))))
 
- '(org-agenda-custom-commands
-   '(("p" "Describe command here" tags-todo "TODO=\"OPEN\""
-      ((org-agenda-overriding-header "Open projects")
-       (org-agenda-dim-blocked-tasks nil)))))
-
- ;; 10.3.2 [[info:org#Global%20TODO%20list][The global TODO list]]
- '(org-agenda-dim-blocked-tasks 'invisible)
- '(org-agenda-todo-ignore-scheduled 'future)
- '(org-agenda-files "~/.agenda_files")
+ '(org-confirm-babel-evaluate nil)
+ '(org-agenda-files "~/.emacs.d/local/agenda_files")
  '(org-agenda-skip-scheduled-if-done t)
  '(org-scheduled-past-days 1)
- '(org-agenda-prefix-format
-   ;; show parents of todo list
-   '((agenda . " %i %-12:c%?-12t% s")
-     (timeline . "  % s")
-     (todo .
-	   " %i %-12:c %b")
-     (tags .
-	   " %i %-12:c %b")
-     (search . " %i %-12:c")))
+ '(org-enforce-todo-dependencies t)
  '(org-export-with-section-numbers nil)
  '(org-export-with-toc nil)
+ '(org-global-properties '(("EFFORT_ALL" . "0:10 0:30 1:00 2:00 4:00")))
 
+ '(org-hide-emphasis-markers t)
+ '(org-id-link-to-org-use-id t)
+ '(org-log-into-drawer t)
  ;; FIXME
  '(org-link-abbrev-alist (cons '("attach" . org-attached-tag)
 			       (logical-names-as-org-abbrevs)))
@@ -104,10 +123,21 @@
  '(gnus-use-adaptive-scoring '(word line))
 
  '(message-send-mail-function 'smtpmail-send-it)
+
+ '(package-selected-packages
+   '(logview simple-httpd restclient org-pdfview try poporg bbdb package-lint pic-asm workflow gnuplot dired-hacks-utils sly arduino-mode bbdb-ext dired-collapse htmlize json-mode ob-restclient no-littering magit org prodigy yasnippet xpm use-package skewer-mode redshank pretty-mode pdf-tools paredit org-bullets nameless graphviz-dot-mode google-this gitignore-mode gitconfig-mode gitattributes-mode ess elnode czech-holidays ))
  '(ring-bell-function 'ignore)
 
  '(savehist-mode t)
  '(sly-net-coding-system 'utf-8-unix)
+ '(smtpmail-smtp-server "smtp.zoho.com")
+ '(smtpmail-smtp-service 587)
+ '(tz-dropbox-secret
+   (funcall
+    (cl-getf
+     (car
+      (auth-source-search :host "dropbox"))
+     :secret)))
 
  '(file-coding-system-alist
    (cons '("\\.org\\'" . utf-8)
