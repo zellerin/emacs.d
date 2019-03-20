@@ -82,6 +82,7 @@
 (add-to-list 'load-path (locate-user-emacs-file "autoloaded.d/"))
 
 (load (locate-user-emacs-file "local/tz-local.el") t)
+(load-file (locate-user-emacs-file "default-custom.el"))
 (enable-theme 'tz)
 
 ;;; init.el ends here
