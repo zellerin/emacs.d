@@ -62,7 +62,7 @@
   "GET https://api.shodan.io/shodan/host/" str "?key=:key"
   '(when (and nil (y-or-n-p "History")) (insert "&history=true")))
 
-(defun shodan-slurp (file)
+1(defun shodan-slurp (file)
   (with-current-buffer (find-file file)
     (goto-char (point-min))
     (prog1
@@ -257,3 +257,32 @@
 ;;;; (message "%s" (shodan-get-data my-json '(0
 ;;;; 					(= 443 port) port))
 ;;;; )
+
+
+(defun shodan-load-host (&optional file table)
+  (interactive)
+  "Load current buffer (or content of a file) to postgresql json database."
+  (let ((string (if file
+		    (with-temp-buffer
+		      (insert-file file)
+		      (buffer-string))
+		    (buffer-string))))
+    (setq string (replace-regexp-in-string "^//.*$" "" string))
+    (setq string (replace-regexp-in-string "'" "''" string))
+    (setq string (replace-regexp-in-string "" "" string))
+    (message  "string is \"%s\"" string)
+    (org-babel-execute:sql (concat "insert into " (or table json_host_data) " (data) values ('"
+				   string
+				   "');")
+			   '((:engine . "postgresql")))))
+
+(defun shodan-load-search (&optional file)
+  (interactive)
+  "Load current buffer (or content of a file) to postgresql json database."
+  (shodan-load-host file "json_search_data"))
+
+(defun shodan-load-dir (&optional table)
+  (interactive)
+  (dolist (file (directory-files "." t "[0-9.]*\\.json"))
+    (message "%s" file)
+    (shodan-load-host file)))
