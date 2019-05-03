@@ -9,6 +9,11 @@
   (nm-mode)
   (goto-char 1))
 
+(defun nm-wifi-connect (&optional name)
+  (interactive
+   (list
+    (read-string "SSID: " (symbol-at-point))))
+  (start-process "connect" "*wifi*" "nmcli" "dev" "wifi" "connect" name))
 
 (define-derived-mode nm-mode fundamental-mode
   "Network Manager mode"
