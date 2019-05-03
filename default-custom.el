@@ -112,12 +112,7 @@
 
  '(gnus-asynchronous t)
  '(gnus-secondary-select-methods
-   '((nntp "news.gwene.org")
-     (nnimap "imappro.zoho.com"
-	     (nnimap-server-port 993)
-	     (nnimap-inbox Inbox))
-     (nnimap "imap.gmail.com"
-	     (nnimap-server-port 993))))
+   '((nntp "news.gwene.org")))
 
  '(gnus-select-method '(nnml ""))
  '(gnus-use-adaptive-scoring '(word line))
