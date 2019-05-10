@@ -1,3 +1,7 @@
+;;; Environment setup:
+;;;
+
+
 ;;;###autoload
 (defun kali-rw ()
   "Run systemd container with Kali in a buffer."
@@ -9,11 +13,24 @@
 
 ;;;###autoload
 (defun kali-cmd (name &rest cmd)
+  (make-directory "~/current/root/" t)
   (let ((default-directory "/sudo::/"))
     (switch-to-buffer
      (apply 'make-comint name "systemd-nspawn"
-	    nil "--machine" name  "--read-only" "-D" "/opt/kali" "--bind-ro=/tmp/.X11-unix" "--bind=/tmp/:/root" "--setenv" "DISPLAY=:0"
+	    nil "--machine" name
+	    "--read-only" "-D" "/opt/kali"
+	    "--bind-ro=/tmp/.X11-unix"
+	    "--bind=/home/zellerin/current/root:/root"
+	    "--bind=/home/zellerin/current/:/root/current"
+	    "--setenv" "DISPLAY=:0"
 	    cmd))))
+
+(defun chroot-cmd (name &rest cmd)
+  (let ((default-directory "/sudo::/")
+	(process-environment '("LD_LIBRARY_PATH=/usr/lib/jvm/java-11-openjdk-amd64/lib/jli/")))
+    (apply 'start-file-process name name "chroot" "/opt/kali/"
+	   cmd)
+    (switch-to-buffer name)))
 
 ;;;###autoload
 (defun kali-msf ()
@@ -25,8 +42,10 @@
 (defun kali-zap ()
   "Run systemd container with ZAP (Kali) in a buffer."
   (interactive)
-  (kali-cmd "kali-zap" "zaproxy"))
-
+  (make-directory "~/current/zap" t)
+  (kali-cmd "kali-zap"
+	    "--bind=/home/zellerin/current/zap:/root/.ZAP/"
+	    "/usr/bin/zaproxy"))
 
 (defun kali-sqlmap (&rest cmds)
   (interactive
