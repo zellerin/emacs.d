@@ -62,7 +62,7 @@
   "GET https://api.shodan.io/shodan/host/" str "?key=:key"
   '(when (and nil (y-or-n-p "History")) (insert "&history=true")))
 
-1(defun shodan-slurp (file)
+(defun shodan-slurp (file)
   (with-current-buffer (find-file file)
     (goto-char (point-min))
     (prog1
