@@ -5,7 +5,7 @@
 	    (file "weekly-review.org")
 	    ,template
 	    ,@args
-	    :prepend t :clock-in t :clock-resume t :empty-lines 1))
+	    :prepend nil :clock-in t :clock-resume t :empty-lines 1))
 
 ;;;###autoload
 (defun tz-capture-entry-clocked (letter name template &rest args)
