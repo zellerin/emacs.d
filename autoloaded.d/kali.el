@@ -1,6 +1,10 @@
 ;;; Environment setup:
 ;;;
 
+(defcustom kali-system-directory "/var/lib/machines/kali-work/"
+  "Directory where Kali machine is stored"
+  :type 'directory
+  :group 'kali)
 
 ;;;###autoload
 (defun kali-rw ()
@@ -9,7 +13,11 @@
   (let ((default-directory "/sudo::/"))
     (switch-to-buffer
      (make-comint "kali" "systemd-nspawn"
-		  nil  "--machine" "kali" "-D" "/opt/kali" "--bind-ro=/tmp/.X11-unix"))))
+		  nil  "--machine" "kali" "-D"
+		  "/var/lib/machines/kali-work" "--bind-ro=/tmp/.X11-unix"
+		  "--bind" "/home/zellerin/Downloads:/root/Downloads")
+     ;(setq comint-file-name-prefix "/sudo::/var/lib/machines/kali-work")
+     )))
 
 ;;;###autoload
 (defun kali-cmd (name &rest cmd)
@@ -18,19 +26,12 @@
     (switch-to-buffer
      (apply 'make-comint name "systemd-nspawn"
 	    nil "--machine" name
-	    "--read-only" "-D" "/opt/kali"
+	    "--read-only" "-D" (concat "/var/lib/machines/" name)
 	    "--bind-ro=/tmp/.X11-unix"
 	    "--bind=/home/zellerin/current/root:/root"
 	    "--bind=/home/zellerin/current/:/root/current"
 	    "--setenv" "DISPLAY=:0"
 	    cmd))))
-
-(defun chroot-cmd (name &rest cmd)
-  (let ((default-directory "/sudo::/")
-	(process-environment '("LD_LIBRARY_PATH=/usr/lib/jvm/java-11-openjdk-amd64/lib/jli/")))
-    (apply 'start-file-process name name "chroot" "/opt/kali/"
-	   cmd)
-    (switch-to-buffer name)))
 
 ;;;###autoload
 (defun kali-msf ()
@@ -43,7 +44,7 @@
   "Run systemd container with ZAP (Kali) in a buffer."
   (interactive)
   (make-directory "~/current/zap" t)
-  (kali-cmd "kali-zap"
+  (kali-cmd "kali-zaproxy"
 	    "--bind=/home/zellerin/current/zap:/root/.ZAP/"
 	    "/usr/bin/zaproxy"))
 
@@ -72,3 +73,16 @@
   "Run systemd container with sqlmap (Kali) in a buffer."
   (apply 'kali-cmd "kali-nmap" "nmap" cmds)
   (nmap-mode 1))
+
+
+(defun systemd-run-work ()
+  "Run systemd container with Kali in a buffer."
+  (interactive)
+  (let ((default-directory "/sudo::/"))
+    (switch-to-buffer
+     (make-comint "kali" "systemd-nspawn"
+		  nil  "--machine" "kali" "-D"
+		  "/var/lib/machines/root-copy" "--bind-ro=/tmp/.X11-unix"
+		  "--bind" "/home/zellerin/iltm-files:/root/iltm-files")
+     ;(setq comint-file-name-prefix "/sudo::/var/lib/machines/kali-work")
+     )))
