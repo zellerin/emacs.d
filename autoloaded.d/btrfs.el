@@ -5,10 +5,10 @@
 (defun btrfs-command-buffer (name keywords cmds)
   (let ((buffer (get-buffer-create (concat "*" name "*"))))
     (set-buffer buffer)
-    (if  (< 0 (buffer-size)) ; not new
+    (unless  (< 0 (buffer-size)) ; not new
 					; new
-	(special-mode)
-      (font-lock-mode)
+      (special-mode)
+      (font-lock-mode nil)
       (font-lock-add-keywords nil keywords)
       (use-local-map btrfs-subvol-map)
       (cd "/sudo::"))
@@ -26,6 +26,7 @@
     (kill-region (point-min) (point-max))
     (apply 'start-file-process (buffer-name) (current-buffer) btrfs-revert-commands)))
 
+;;;###autoload
 (defun btrfs-list-subvols ()
   (interactive)
   (btrfs-command-buffer "BTRFS subvols"
@@ -33,7 +34,7 @@
 			   (1 'font-lock-keyword-face))
 			  ("path \\(\\S *\\)"
 			   (1 'font-lock-variable-name-face)))
-			'("btrfs" "subvol" "list" "-a" "/")))
+			'("btrfs" "subvol" "list" "--sort=path,rootid" "-a" "/")))
 
 
 (defvar btrfs-subvol-map (copy-keymap special-mode-map))
@@ -85,3 +86,25 @@
   (let ((name (btrfs-machine-name)))
     (make-comint name "systemd-nspawn"
 		 nil "-D" (concat "/var/lib/machines/" name))))
+
+;;;###autoload
+(defun nm-devices ()
+  "Provide interface for network manager"
+  (interactive)
+  (btrfs-command-buffer "nm-devices"
+			'((".*\\<connected\\>.*" 0
+			   '(face bold
+				  help-echo "Disconnect" pointer hand))
+			  ("^DEVICE.*" (0 'font-lock-keyword-face)))
+			'("nmcli" "dev")))
+
+(defun nm-connections ()
+  "Provide interface for network manager"
+  (interactive)
+  (btrfs-command-buffer "nm-connections"
+			'((".*\\<connected\\>.*" 0
+			   '(face bold
+				  help-echo "Disconnect" pointer hand))
+			  ("^NAME.*" (0 'font-lock-keyword-face))
+			  (".*[^-\s ]\s *$" 0 '(face bold)))
+			'("nmcli" "conn")))
