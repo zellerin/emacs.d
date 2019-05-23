@@ -98,13 +98,26 @@
 			  ("^DEVICE.*" (0 'font-lock-keyword-face)))
 			'("nmcli" "dev")))
 
+;;;###autoload
 (defun nm-connections ()
   "Provide interface for network manager"
   (interactive)
-  (btrfs-command-buffer "nm-connections"
-			'((".*\\<connected\\>.*" 0
-			   '(face bold
-				  help-echo "Disconnect" pointer hand))
-			  ("^NAME.*" (0 'font-lock-keyword-face))
-			  (".*[^-\s ]\s *$" 0 '(face bold)))
-			'("nmcli" "conn")))
+  (let ((map (make-sparse-keymap)))
+    (define-key map [mouse-1] (lambda (x)
+				(message "Disconnect: %s" (btrfs-machine-name))))
+    (btrfs-command-buffer "nm-connections"
+			  '((".*\\<connected\\>.*" 0
+			     '(face bold
+				    help-echo "Disconnect" pointer hand))
+			    ("^NAME.*" (0 'font-lock-keyword-face))
+			    (".*[^-\s ]\s *$" 0
+			     `(face bold
+				    help-echo "Disconnect" pointer hand
+				    keymap
+				    (keymap (mouse-1 lambda nil (interactive) (nm-connection-down (btrfs-machine-name))))
+				    ))
+			    (".*--" 0
+			     `(face default
+				    keymap
+				    (keymap (mouse-1 lambda nil (interactive) (nm-connection-up (btrfs-machine-name)))))))
+			  '("nmcli" "conn"))))
