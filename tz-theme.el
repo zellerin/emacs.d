@@ -1,8 +1,7 @@
 ;;; Some preferred customization.
 ; (org-link-minor-mode)
 
-(deftheme tz
-  "My preferred settings.")
+(deftheme tz  "My preferred settings.")
 
 (custom-theme-set-variables 'tz
  ;;
