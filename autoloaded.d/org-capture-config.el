@@ -1,4 +1,3 @@
-;;;###autoload
 (defun tz-capture-entry (letter name template &rest args)
   "Helper to be used in custom.el for org capture templates."
   `(,letter ,name entry
@@ -7,7 +6,6 @@
 	    ,@args
 	    :prepend nil :clock-in t :clock-resume t :empty-lines 1))
 
-;;;###autoload
 (defun tz-capture-entry-clocked (letter name template &rest args)
   "Helper to be used in custom.el for org capture templates."
   `(,letter ,name entry
@@ -15,6 +13,14 @@
 	    ,template
 	    ,@args
 	    :empty-lines 1))
+
+;;;###autoload
+(defun tz-capture-entries (pars)
+  (mapcar (lambda (item) (apply 'tz-capture-entry item)) pars))
+
+;;;###autoload
+(defun tz-capture-entries-clocked (pars)
+  (mapcar (lambda (item) (apply 'tz-capture-entry-clocked item)) pars))
 
 ;;; to be used in custom.el as
 ;;; '(org-capture-templates

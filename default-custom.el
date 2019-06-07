@@ -43,17 +43,18 @@
  '(org-babel-load-languages '((lisp . t) (dot . t) (emacs-lisp . t) (shell . t)))
  ;; 9.1.3 Capture templates
  '(org-capture-templates
-   (list
-    (tz-capture-entry "t" "TODO"		"* TODO %?\n\n")
-    (tz-capture-entry-clocked "T" "TODO to clocked"		"* TODO %?\n\n")
-    (tz-capture-entry "p" "Project"		"* PLANNED %?:project:\n\n")
-    (tz-capture-entry "-" "Interruption"	"* %?\n%T\n")
-    (tz-capture-entry "j" "journal item" "* %? :journal:\n%t\n")
-    (tz-capture-entry "m" "Flag mail"	"* %:subject\n%a\n")
-    (tz-capture-entry "f" "Flag place"	"* %?\n%T\n%A\n")
-    (tz-capture-entry "r" "Remind person"
-		      "* %:name\n%a\n")
-    (tz-capture-entry "w" "Remind web"  "* %(tz-capture-from-eww)%^g\n%T\n\n%(tz-eww-url)\n")))
+   (append
+    (tz-capture-entries
+     '(("t" "TODO"		"* TODO %?\n\n")
+       ("p" "Project"		"* PLANNED %?:project:\n\n")
+       ("-" "Interruption"	"* %?\n%T\n")
+       ("j" "journal item"      "* %? :journal:\n%t\n")
+       ("m" "Flag mail"	        "* %:subject\n%a\n")
+       ("f" "Flag place"	"* %?\n%T\n%A\n")
+       ("r" "Remind person"	"* %:name\n%a\n")
+       ("w" "Remind web"        "* %(tz-capture-from-eww)%^g\n%T\n\n%(tz-eww-url)\n")))
+    (tz-capture-entries-clocked
+     '(("T" "TODO to clocked"	"* TODO %?\n\n")))))
  '(org-capture-templates-contexts
    (append
     (tz-flag-capture-context "w" "eww-mode")
