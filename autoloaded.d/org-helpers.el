@@ -27,13 +27,6 @@
 ;     nil t))
 
 ;;;###autoload
-(defun org-nice-bullets ()
-  (interactive)
-  (font-lock-add-keywords nil
-		  '(("^ *\\([-]\\) "
-		     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")))))))
-
-;;;###autoload
 (defun tz-export-subtree ()
   (interactive)
   (save-excursion
@@ -50,3 +43,12 @@
 (defun org-attached-tag (a)
   "Returns path to file in attach directory. To be used in a link abbreviation."
   (concat (org-attach-dir) "/" a))
+
+;;;###autoload
+(with-eval-after-load "org"
+  (font-lock-add-keywords 'org-mode '(("[-+] \\[ ] " (0 '(face fixed-pitch display ("☐ "))))
+			      ("[-+] \\[X] " (0 '(face fixed-pitch display ("☑ "))))
+			      ("^ *\\([-]\\) "
+			       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))
+			      ("^ *\\([+]\\) "
+			       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "▸")))))))

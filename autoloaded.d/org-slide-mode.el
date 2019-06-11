@@ -8,11 +8,13 @@ Bind C-x C-n and C-x C-p to move to next/previous heading, and display it clearl
     (,(kbd "C-x C-p") . prev-slide))
   (cond
    (org-tz-present
-    (text-scale-set 1)
+    (text-scale-set 2)
     (goto-char 1)
     (next-slide)
-    (set-fringe-mode 0)
-    (set-window-margins nil 45 45))
+    (variable-pitch-mode nil)
+;   (set-fringe-mode 0)
+;    (set-window-margins nil 45 45)
+    )
    (t
     (text-scale-set 0)
     (fringe-mode 0)
