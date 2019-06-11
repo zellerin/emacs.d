@@ -1,3 +1,5 @@
+;;; BPF scripts (Linux only)
+
 ;;;###autoload
 (defun execsnoop ()
   (interactive)
@@ -10,6 +12,7 @@
   (switch-to-buffer
    (set-buffer (make-comint "tcpconnect" "sudo" nil "/usr/share/bcc/tools/tcpconnect"))))
 
+;;; Systemd journal
 ;;;###autoload
 (defun systemd-journal (arg)
   (interactive "P")

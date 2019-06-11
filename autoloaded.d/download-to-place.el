@@ -1,4 +1,5 @@
 ;;; download-to-place.el --- Download in org mode    -*- lexical-binding: t; -*-
+
 (defcustom tz-download-dir
   "~/Downloads" "Directory for downloads by `tz-download-at-point'"
   :type 'directory
@@ -7,6 +8,11 @@
 ;;;###autoload
 (defun tz-download-at-point (&optional url)
   (interactive)
+  "Download a file from URL asynchronously.
+
+If URL is nil ask the user, suggesting the one at point to the `tz-download-dir'.
+
+Open it in a separate frame when done"
   (unless url
     (setq url (read-string "Url: " (thing-at-point 'url))))
   (url-retrieve
@@ -15,6 +21,7 @@
    (list (concat tz-download-dir (file-name-nondirectory url)))))
 
 (defun tz-download-callback (status file)
+  "Callback to save the file from "
   (unless (plist-get status :error)
     (goto-char (point-min))
     (re-search-forward "\r?\n\r?\n")
