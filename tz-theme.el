@@ -5,11 +5,13 @@
 
 (custom-theme-set-variables 'tz
  ;;
+ '(add-log-always-start-new-record t)
  '(auto-insert-mode t)
 
  '(browse-url-browser-function 'eww-browse-url)
 
  '(default-input-method "czech-qwerty")
+ '(dired-dwim-target t)
  '(dired-omit-files "^\\.?#\\|^\\.$\\|^\\.[.a-zA-Z]")
 
  '(eshell-visual-commands
@@ -26,6 +28,7 @@
       ((org-agenda-overriding-header "Open projects")
        (org-agenda-dim-blocked-tasks nil)))))
  '(org-agenda-dim-blocked-tasks 'invisible)
+ '(org-agenda-files "~/.emacs.d/local/agenda_files")
  '(org-agenda-prefix-format
    ;; show parents of todo list
    '((agenda . " %i %-12:c%?-12t% s")
@@ -35,8 +38,11 @@
      (tags .
 	   " %i %-12:c %b")
      (search . " %i %-12:c")))
- '(org-attach-method 'mv)
+ '(org-agenda-files "~/.emacs.d/local/agenda_files")
+ '(org-agenda-skip-scheduled-if-done t)
  '(org-agenda-todo-ignore-scheduled 'future)
+ '(org-attach-commit nil)
+ '(org-attach-method 'mv)
 
  '(org-babel-lisp-eval-fn 'sly-eval)
  '(org-babel-load-languages '((lisp . t) (dot . t) (emacs-lisp . t) (shell . t)))
@@ -62,21 +68,15 @@
     (tz-flag-capture-context "r" "bbdb-mode")
     `(("f" ((not-in-mode . "bbdb-mode"))))))
 
- '(org-confirm-babel-evaluate nil)
- '(org-agenda-files "~/.emacs.d/local/agenda_files")
- '(org-agenda-skip-scheduled-if-done t)
- '(org-scheduled-past-days 1)
  '(org-enforce-todo-dependencies t)
  '(org-export-with-section-numbers nil)
  '(org-export-with-toc nil)
  '(org-global-properties '(("EFFORT_ALL" . "0:10 0:30 1:00 2:00 4:00")))
-
  '(org-hide-emphasis-markers t)
  '(org-id-link-to-org-use-id t)
  '(org-log-into-drawer t)
  ;; FIXME
- '(org-link-abbrev-alist (cons '("attach" . org-attached-tag)
-			       (logical-names-as-org-abbrevs)))
+ '(org-link-abbrev-alist (cons '("attach" . org-attached-tag)))
  '(org-html-checkbox-type 'unicode)
  '(org-modules
    '(org-bbdb org-crypt org-docview org-gnus org-id org-info org-inlinetask org-protocol))
@@ -84,7 +84,7 @@
  '(org-id-link-to-org-use-id t)
  '(org-log-into-drawer t)
  '(org-refile-use-outline-path 'file)
- '(org-archive-location (concat org-directory "/archive/2018.org::datetree/* Finished tasks"))
+ '(org-archive-location (concat org-directory "/archive/2019.org::datetree/* Finished tasks"))
  '(org-enforce-todo-dependencies t)
  '(org-src-window-setup 'current-window)
  '(org-todo-keywords
