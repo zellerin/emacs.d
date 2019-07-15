@@ -1,16 +1,11 @@
 ;;; download-to-place.el --- Download in org mode    -*- lexical-binding: t; -*-
 
-(defcustom tz-download-dir
-  "~/Downloads" "Directory for downloads by `tz-download-at-point'"
-  :type 'directory
-  :group 'experimental)
-
 ;;;###autoload
 (defun tz-download-at-point (&optional url)
   (interactive)
   "Download a file from URL asynchronously.
 
-If URL is nil ask the user, suggesting the one at point to the `tz-download-dir'.
+If URL is nil ask the user, suggesting the one at point to the `eww-download-directory'.
 
 Open it in a separate frame when done"
   (unless url
@@ -18,7 +13,7 @@ Open it in a separate frame when done"
   (url-retrieve
    (org-link-expand-abbrev url)
    'tz-download-callback
-   (list (concat tz-download-dir (file-name-nondirectory url)))))
+   (list (concat eww-download-directory (file-name-nondirectory url)))))
 
 (defun tz-download-callback (status file)
   "Callback to save the file from "
