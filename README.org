@@ -33,7 +33,7 @@ git to maintain /custom.el/. This is another git than this one (it
 contains private information such as direcotry and server names, but
 it still does not contain credentials)
 * Snippets
-The files in [[./autoloaded.d/][autoload]] and [[./lisp/experimental.d/][experimental]] started as a small snippets,
+The files in [[./autoloaded.d/][autoload]] and [[./local][local]] started as a small snippets,
 and there is a snippet to print some information about the snippets
 file (callable by =f12 S=). Maybe it still makes sense to show what is there.
 

@@ -70,7 +70,8 @@
 
 (defcustom tz-autoload-directories
   '("~/.emacs.d/autoloaded.d/"
-    "~/.emacs.d/local/")
+    "~/.emacs.d/local/"
+    "~/.emacs.d/linux/")
   "List of directories to autoload"
   :group 'tz)
 
