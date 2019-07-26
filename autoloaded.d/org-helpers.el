@@ -2,6 +2,8 @@
 (defun org-attach-dir-or-ask ()
   (interactive)
   "Simplify creating attach directories with nicer names."
+;; Maybe it is easier to change the attach directory afterwards, now
+;; that it copies the files? (org-attach-set-directory)
   (or (org-attach-dir)
       (let ((new-name
 	     (concat org-attach-directory "/"
@@ -36,7 +38,7 @@
       (unless has-name
 	(org-entry-put (point) "EXPORT_FILE_NAME" file))
       (save-excursion
-	(org-export-as-html 4 nil nil nil nil "/tmp/"))
+	(org-open-file (org-html-export-to-html nil t)))
       (unless has-name (undo-only)))))
 
 ;;;###autoload
