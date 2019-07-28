@@ -52,6 +52,7 @@
     (tz-capture-entries
      '(("t" "TODO"		"* TODO %?\n\n")
        ("s" "small stuff"	"* TODO %? :%^{Type: |admin|followup|read}:\n\n")
+       ("x" "web capture"	"* TODO %:description \n\n%:annotation %i")
        ("p" "Project"		"* PLANNED %?:project:\n\n")
        ("-" "Interruption"	"* %?\n%T\n")
        ("j" "journal item"      "* %? :journal:\n%t\n")
