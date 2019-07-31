@@ -77,8 +77,7 @@
  '(org-hide-emphasis-markers t)
  '(org-id-link-to-org-use-id t)
  '(org-log-into-drawer t)
- ;; FIXME
- '(org-link-abbrev-alist (cons '("attach" . org-attached-tag)))
+ '(org-link-abbrev-alist '(("attach" . org-attached-tag)))
  '(org-html-checkbox-type 'unicode)
  '(org-modules
    '(org-bbdb org-crypt org-docview org-gnus org-id org-info org-inlinetask org-protocol))
