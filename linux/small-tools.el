@@ -75,7 +75,7 @@ It is also used for the initial content preparation."
 (defun small-tools-line-name ()
   (save-excursion
     (move-beginning-of-line nil)
-    (re-search-forward "\\S +")
+    (re-search-forward "[-a-f0-9]\\{36\\}")
     (buffer-substring-no-properties (match-beginning 0) (match-end 0))))
 
 (define-prefix-command 'small-tools-map)
@@ -164,11 +164,18 @@ It is also used for the initial content preparation."
 		   '("nmcli" "conn")))
 
 (bind-key "c" 'small-tools-nm-list-connections small-tools-map)
+(bind-key "k" 'small-tools-nm-connection-kill-maybe small-tools-map)
+
+(defun small-tools-nm-connection-kill-maybe ()C
+  (interactive)
+  (when (yes-or-no-p (format "Kill %s? "  (small-tools-line-name)))
+    (small-tools-nm-connection-kill)))
 
 (cl-macrolet ((@ (name args string commands)
 		 `(defun ,name ,args ,string
 			 (interactive)
 			 (make-process
+			  :buffer "debug"
 			  :name (car ,commands)
 			  :command ,commands
 			  :sentinel (lambda (_ _) (small-tools-btrfs-revert-buffer))))))
@@ -177,7 +184,10 @@ It is also used for the initial content preparation."
 		     `("nmcli" "conn" "up" ,(or conn (small-tools-line-name))))
   (@ small-tools-nm-connection-down (&optional conn)
 			 "Provide interface for network manager"
-		     `("nmcli" "conn" "down" ,(or conn (small-tools-line-name)))))
+			 `("nmcli" "conn" "down" ,(or conn (small-tools-line-name))))
+  (@ small-tools-nm-connection-kill (&optional conn)
+			 "Provide interface for network manager"
+			 `("sudo" "nmcli" "conn" "delete" ,(or conn (small-tools-line-name)))))
 
 ;;;; Mounting
 ;;;###autoload
