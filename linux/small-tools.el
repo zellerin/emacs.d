@@ -151,7 +151,7 @@ It is also used for the initial content preparation."
   (small-tools-command-buffer "nm-connections"
 		   '(("^NAME.*" (0 'font-lock-keyword-face))
 		     (".*[^-\s ]\s *$" 0
-		      `(face bold
+		      `(face bold keymap
 			     (keymap
 			      (mouse-1 . small-tools-nm-connection-down)
 			      (?d . small-tools-nm-connection-down))))
