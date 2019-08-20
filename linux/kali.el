@@ -39,6 +39,11 @@
   (interactive)
   (kali-cmd "kali-msf" "msfconsole" "-q"))
 
+(defun kali-msf-cmd ()
+  "Run systemd container with Metasploit (Kali) in a buffer."
+  (interactive)
+  (kali-cmd "kali-msf"))
+
 ;;;###autoload
 (defun kali-zap ()
   "Run systemd container with ZAP (Kali) in a buffer."
