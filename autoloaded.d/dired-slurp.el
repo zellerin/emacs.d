@@ -36,7 +36,7 @@
 
 ;;;###autoload
 (defun dired-nmap-slurp-file ()
-  "Read curre"
+  "Read all files in the current directory as objects."
   (interactive)
   (nmap-slurp-file  (dired-get-file-for-visit)))
 

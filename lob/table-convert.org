@@ -48,13 +48,13 @@ produces the result
 | foo | bah |   | X |
 
 #+NAME: rows-to-column-value
-#+BEGIN_SRC emacs-lisp :var data=rows-to-cols-test :colnames no
+#+BEGIN_SRC emacs-lisp :var data=rows-to-cols-test :colnames no :var sort='nreverse :var sortpars='()
   (let (rows vals res)
     (dolist (row (cdr data))
       (cl-pushnew (butlast row 2) rows
 		  :test #'equal)
       (cl-pushnew (car (last row 2)) vals))
-    (setq vals (nreverse vals))
+    (setq vals (apply sort vals sortpars))
     (dolist (row rows)
       (push (append row
 		    (mapcar (lambda (val)
