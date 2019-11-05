@@ -75,7 +75,6 @@
 (defcustom shodan-json-path-alist
   '((http
      ("Hostname" "IP" "Port" "Reverse" "Title" "Server" "Status")
-     data :all
      (:exists (:single http))
      ((:single ip_str) (:single port) (:single hostnames :all)
       (:trim http title)
@@ -83,22 +82,29 @@
       (:upto "\r\n" data)))
     (non-http
      ("Hostname" "IP" "Port" "Protocol" "Server" "Verze")
-     data :all
 	   (:not-exists (:single http))
-	   ((:single ip_str) (:single port)
+	   ((:single ip_str)
 	    (:single _shodan module)
 	    (:single product)
 	    (:single version)))
+    (non-http-short
+     ("Hostname" "Reverse" "IP" "Port" "Modul")
+     ((:single hostnames :all)
+      (:single ip_str)
+	    (:single port)
+	    (:single _shodan module)))
+    (cve
+     ("Hostname" "Reverse" "IP" "Port" "Modul")
+     ((:single ip_str) (:single vulns :all ((:single cvss) (:single summary))) ))
     (ssl
      ("Hostname" "IP" "Port" "Subject CN" "Issuer CN")
-     data :all
 	 (:exists (:single ssl))
 	 ((:single ip_str) (:single port)
 	  (:single ssl cert subject CN)
 	  (:single ssl cert issuer CN)))
     (org
      ("Hostname" "IP" "" "")
-     data :all ((:single ip_str) (:single org) (:single isp))))
+     ((:single ip_str) (:single org) (:single isp))))
   "List of common paths to seek in Shodan jsons"
   :type '(assoc symbol t)
   :group 'shodan)
@@ -269,7 +275,7 @@
 		    (buffer-string))))
     (setq string (replace-regexp-in-string "^//.*$" "" string))
     (setq string (replace-regexp-in-string "'" "''" string))
-    (setq string (replace-regexp-in-string "" "" string))
+    (setq string (replace-regexp-in-string "" "" string))
     (message  "string is \"%s\"" string)
     (org-babel-execute:sql (concat "insert into " (or table json_host_data) " (data) values ('"
 				   string
