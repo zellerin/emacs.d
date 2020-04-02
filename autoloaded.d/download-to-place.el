@@ -15,6 +15,14 @@ Open it in a separate frame when done"
    'tz-download-callback
    (list (concat eww-download-directory (file-name-nondirectory url)))))
 
+(defun tz-download-range (template min max)
+  (cl-loop for id from min to max
+	   for url = (format template id)
+	   do (url-retrieve
+	    (org-link-expand-abbrev url)
+	    'tz-download-callback
+	    (list (concat eww-download-directory (file-name-nondirectory url))))))
+
 (defun tz-download-callback (status file)
   "Callback to save the file from "
   (unless (plist-get status :error)
