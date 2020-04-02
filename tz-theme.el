@@ -17,10 +17,6 @@
  '(eshell-visual-commands
    '( "top" "rpmreaper"))
 
- '(gnus-asynchronous t)
- '(gnus-select-method '(nnml ""))
- '(gnus-use-adaptive-scoring '(word line))
-
  '(message-send-mail-function 'smtpmail-send-it)
 
  '(org-agenda-custom-commands
