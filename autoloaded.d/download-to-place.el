@@ -34,20 +34,22 @@ Open it in a separate frame when done"
     (find-file-other-frame file)))
 
 ;;;###autoload
-(defun org-attach-downloaded-link ()
-  "Download linked element to the attachments."
-  (interactive)
+(defun org-download-link (temp-only)
+  "Download linked element to the attachments or, with prefix, to temp directory."
+  (interactive "P")
   (let ((context
 	 (org-element-lineage (org-element-context) '(link) t)))
     (when context
       (url-retrieve (cl-getf (cadr context) :raw-link)
 		    'tz-download-callback
-		    (list (concat
-			   (org-attach-dir t) "/"
-			   (file-name-nondirectory
-			    (cl-getf (cadr context) :raw-link))))))))
+		    (list
+		     (concat
+		      (if temp-only temporary-file-directory (org-attach-dir t)) "/"
+		      (file-name-nondirectory
+		       (cl-getf (cadr context) :raw-link))))))))
+
 ;;;###autoload
 (eval-after-load 'org
-  '(bind-key "<f12>D" 'org-attach-downloaded-link org-mode-map))
+  '(bind-key "<f12>D" 'org-download-link org-mode-map))
 
 (bind-key "<f12>D" 'tz-download-at-point)
