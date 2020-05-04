@@ -57,6 +57,8 @@
 (bind-key "C-c m" 'magit-status)
 (bind-key "C-c r" 'org-capture)
 (bind-key "C-c \"" 'poporg-dwim)
+(with-eval-after-load 'conf-mode
+  (define-key conf-mode-map "\C-c\"" nil))
 
 ;; my custom.el should take preference to default custom.el
 (defun customize-standard-value-of (symbol)
