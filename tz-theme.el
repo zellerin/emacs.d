@@ -37,6 +37,8 @@
  '(org-agenda-files "~/.emacs.d/local/agenda_files")
  '(org-agenda-skip-scheduled-if-done t)
  '(org-agenda-todo-ignore-scheduled 'future)
+ '(org-agenda-text-search-extra-files
+   (cons 'agenda-archives (directory-files "~/org-roam" t "\.org")))
  '(org-attach-commit nil)
  '(org-attach-method 'mv)
 
@@ -45,26 +47,15 @@
  ;; 9.1.3 Capture templates
  '(org-capture-templates
    (append
+    `(("z" "Zettelkasten" entry (file zettelkasten-card-name) "* %c\n%t\n%?"))
     (tz-capture-entries
      '(("t" "TODO"		"* TODO %?\n\n")
        ("s" "small stuff"	"* TODO %? :%^{Type: |admin|followup|read}:\n\n")
-       ("x" "web capture"	"* TODO %:description \n\n%:annotation %i")
-       ("p" "Project"		"* PLANNED %?:project:\n\n")
        ("-" "Interruption"	"* %?\n%T\n")
-       ("j" "journal item"      "* %? :journal:\n%t\n")
        ("m" "Flag mail"	        "* %:subject\n%a\n")
-       ("f" "Flag place"	"* %?\n%T\n%A\n")
-       ("r" "Remind person"	"* %:name\n%a\n")
-       ("w" "Remind web"        "* %(tz-capture-from-eww)%^g\n%T\n\n%(tz-eww-url)\n")))
+       ("r" "Remind person"	"* %:name\n%a\n")))
     (tz-capture-entries-clocked
      '(("T" "TODO to clocked"	"* TODO %?\n\n")))))
- '(org-capture-templates-contexts
-   (append
-    (tz-flag-capture-context "w" "eww-mode")
-    (tz-flag-capture-context "m" "article-mode")
-    (tz-flag-capture-context "m" "gnus-summary-mode")
-    (tz-flag-capture-context "r" "bbdb-mode")
-    `(("f" ((not-in-mode . "bbdb-mode"))))))
 
  '(org-enforce-todo-dependencies t)
  '(org-export-with-section-numbers nil)
