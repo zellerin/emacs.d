@@ -84,6 +84,10 @@
 
 (add-to-list 'load-path (locate-user-emacs-file "autoloaded.d/"))
 
+(defcustom tz-mail-template
+  "* %:subject\n%a\n"
+  "Mail capture template.")
+
 (load (locate-user-emacs-file "local/tz-local.el") t)
 (load-theme 'tz)
 

@@ -46,16 +46,15 @@
  '(org-babel-load-languages '((lisp . t) (dot . t) (emacs-lisp . t) (shell . t)))
  ;; 9.1.3 Capture templates
  '(org-capture-templates
-   (append
-    `(("z" "Zettelkasten" entry (file zettelkasten-card-name) "* %c\n%t\n%?"))
-    (tz-capture-entries
-     '(("t" "TODO"		"* TODO %?\n\n")
-       ("s" "small stuff"	"* TODO %? :%^{Type: |admin|followup|read}:\n\n")
-       ("-" "Interruption"	"* %?\n%T\n")
-       ("m" "Flag mail"	        "* %:subject\n%a\n")
-       ("r" "Remind person"	"* %:name\n%a\n")))
-    (tz-capture-entries-clocked
-     '(("T" "TODO to clocked"	"* TODO %?\n\n")))))
+   `(("z" "Zettelkasten" entry (file zettelkasten-card-name) "* %c\n%t\n%?")
+     ,@(tz-capture-entries
+	`(("t" "TODO"		"* TODO %?\n\n")
+	  ("s" "small stuff"	"* TODO %? :%^{Type: |admin|followup|read}:\n\n")
+	  ("-" "Interruption"	"* %?\n%T\n")
+	  ("r" "Remind person"	"* %:name\n%a\n")
+	  ("m" "Capture mail item" ,tz-mail-template))))
+   (tz-capture-entries-clocked
+    '(("T" "TODO to clocked"	"* TODO %?\n\n"))))
 
  '(org-enforce-todo-dependencies t)
  '(org-export-with-section-numbers nil)
