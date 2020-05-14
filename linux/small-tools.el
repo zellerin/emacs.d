@@ -29,12 +29,33 @@
 
 ;;; Code:
 
-(defvar-local small-tools-buffer-revert-commands
-  nil
-  "List of commands to revert content of the buffer")
 
-(defvar small-tools-default-map (copy-keymap special-mode-map))
-(bind-key "g" 'small-tools-btrfs-revert-buffer small-tools-default-map)
+
+
+(put
+ (defvar-local small-tools-buffer-revert-commands
+   nil
+   "List of commands to revert content of the buffer.
+
+   It is marked up so that not to be deleted when major mode is set up.")
+ 'permanent-local t
+ )
+
+
+(defun small-tools-command (name cmds)
+  "Create a buffer with list-style command output.
+
+`NAME' will be used to create name of the buffer.
+KEYWORDS is value for `font-lock-defaults'.
+CMDS is either a cons of command to run and list of its parameters or
+     a function to be called.
+MAP, if specified, is the keymap to be used in the buffer,
+FORCE prevents reuse of existing buffer settings
+"
+  (let ((buffer (get-buffer-create (concat "*" name "*"))))
+    (pop-to-buffer buffer)
+    (setq small-tools-buffer-revert-commands cmds)
+    (small-tools-revert-buffer)))
 
 (defun small-tools-command-buffer (name keywords cmds &optional map force)
   "Create a buffer with list-style command output.
@@ -43,7 +64,9 @@
 KEYWORDS is value for `font-lock-defaults'.
 CMDS is either a cons of command to run and list of its parameters or
      a function to be called.
-MAP, if specified, is the keymap to be used in the buffer."
+MAP, if specified, is the keymap to be used in the buffer,
+FORCE prevents reuse of existing buffer settings
+"
   (let ((buffer (get-buffer-create (concat "*" name "*"))))
     (set-buffer buffer)
     (when (or force (zerop (buffer-size)))
@@ -51,13 +74,94 @@ MAP, if specified, is the keymap to be used in the buffer."
       (setq font-lock-defaults
 	    (list keywords))
       (font-lock-mode nil)
-      (use-local-map (or map small-tools-default-map))
-      (cd "/sudo::"))
+      (use-local-map (or map small-tools-default-map)))
     (pop-to-buffer buffer)
     (setq small-tools-buffer-revert-commands cmds)
-    (small-tools-btrfs-revert-buffer)))
+    (small-tools-revert-buffer)))
+
+(define-derived-mode machinectl-mode special-mode
+  "machines"
+  "Machines list")
 
-(defun small-tools-btrfs-revert-buffer ()
+(bind-key "m" 'machinectl machinectl-mode-map)
+(bind-key "i" 'machinectl-images machinectl-mode-map)
+(bind-key "+" 'machinectl-up machinectl-mode-map)
+(bind-key "-" 'machinectl-down machinectl-mode-map)
+(bind-key "RET" 'machinectl-shell machinectl-mode-map)
+(bind-key "!" 'machinectl-shell-root machinectl-mode-map)
+(bind-key "g" 'small-tools-revert-buffer machinectl-mode-map)
+
+(defun machinectl ()
+  (interactive)
+  (small-tools-command "machinectl" '("machinectl" "-a"))
+  (machinectl-mode))
+
+(defun machinectl-images ()
+  (interactive)
+  (small-tools-command "machinectl" '("machinectl" "list-images"))
+  (machinectl-mode))
+
+(defun machine-name-on-line ()
+  (when (equal major-mode 'machinectl-mode)
+      (save-excursion
+	(move-beginning-of-line nil)
+	(when
+	    (re-search-forward "[-a-z0-9.]+" nil t)
+	  (buffer-substring-no-properties (match-beginning 0) (match-end 0))))))
+
+(defun machinectl-up ()
+  (interactive)
+  (let ((buffer (current-buffer)))
+    (make-process
+     :buffer "debug"
+     :name "machinectl-up"
+     :command `("machinectl" "start" ,(machine-name-on-line))
+     :sentinel (lambda (_ state)
+		 (message "%s" (string-trim-right state))
+		 (switch-to-buffer buffer)
+		 (small-tools-revert-buffer)))))
+
+(defun machinectl-down ()
+  (interactive)
+  (let ((buffer (current-buffer)))
+    (make-process
+     :buffer "debug"
+     :name "machinectl-down"
+     :command `("machinectl" "stop" ,(machine-name-on-line))
+     :sentinel (lambda (_ state)
+		 (message "%s" (string-trim-right state))
+		 (switch-to-buffer buffer)
+		 (small-tools-revert-buffer)))))
+
+(defun machinectl-shell ()
+  (interactive)
+  (let ((name (machine-name-on-line)))
+    (switch-to-buffer
+     (make-comint name "machinectl" nil "--uid" "zellerin" "shell" name))
+    (setq default-directory (concat "/nspawn:" name  ":~zellerin/"))))
+
+(defun machinectl-term ()
+  (interactive)
+  (let ((name (machine-name-on-line)))
+    (switch-to-buffer
+     (make-term name "machinectl" nil "--uid" "zellerin" "shell" name))
+    (setq default-directory (concat "/nspawn:" name  ":~zellerin/"))))
+
+
+(defun machinectl-shell-root ()
+  (interactive)
+  (let ((name (machine-name-on-line)))
+    (switch-to-buffer
+     (make-comint name "machinectl" nil "shell" name))
+    (setq comint-input-ignoredups t)
+    (setq default-directory (concat "/nspawn:" name  ":~root/"))))
+
+
+(defvar small-tools-default-map (copy-keymap special-mode-map))
+(bind-key "g" 'small-tools-revert-buffer small-tools-default-map)
+
+
+(defun small-tools-revert-buffer ()
   "Update buffer to up-to-date information.
 
 Uses shell commands or function in small-tools-buffer-revert-commands.
@@ -69,14 +173,9 @@ It is also used for the initial content preparation."
     (cl-typecase small-tools-buffer-revert-commands
       (function (funcall small-tools-buffer-revert-commands))
       (cons
-       (apply 'start-file-process (buffer-name) (current-buffer) small-tools-buffer-revert-commands))))
+       (let ((default-directory "/sudo::"))
+	 (apply 'start-file-process (buffer-name) (current-buffer) small-tools-buffer-revert-commands)))))
   (goto-char 1))
-
-(defun small-tools-line-name ()
-  (save-excursion
-    (move-beginning-of-line nil)
-    (re-search-forward "[-a-f0-9]\\{36\\}")
-    (buffer-substring-no-properties (match-beginning 0) (match-end 0))))
 
 (define-prefix-command 'small-tools-map)
 
@@ -123,71 +222,22 @@ It is also used for the initial content preparation."
 		   `("machinectl" "list-images")))
 (bind-key "i" 'small-tools-btrfs-list-machine-images small-tools-map)
 
-(defun small-tools-btrfs-machine-start ()
+(defun small-tools--run-command (command &rest args)
+  (switch-to-buffer (generate-new-buffer command))
+  (let ((default-directory "/sudo::~/"))
+    (apply 'start-file-process command (current-buffer) command args)))
+
+(defun small-tools-btrfs-machine-start (&optional machine)
   (interactive)
-  (let ((name (small-tools-line-name)))
-    (make-comint name "systemd-nspawn"
-		 nil "-D" (concat "/var/lib/machines/" name))))
+  (let ((name (or machine (read-file-name "Machine: " "/var/lib/machines/" "scratch" t))))
+    (small-tools--run-command "machinectl" "start" (file-name-base name))))
 
 ;;;; Network Manager
-
-;;;###autoload
-(defun small-tools-nm-list-devices ()
-  "Provide interface for network manager."
-  (interactive)
-  (small-tools-command-buffer "nm-devices"
-		   '((".*\\<connected\\>.*" 0
-		      '(face bold
-			     help-echo "Disconnect" pointer hand))
-		     ("^DEVICE.*" (0 'font-lock-keyword-face)))
-		   '("nmcli" "dev")))
 
 (bind-key "d" 'small-tools-nm-list-devices small-tools-map)
 
 ;;;###autoload
-(defun small-tools-nm-list-connections ()
-  "Provide interface for network manager."
-  (interactive)
-  (small-tools-command-buffer "nm-connections"
-		   '(("^NAME.*" (0 'font-lock-keyword-face))
-		     (".*[^-\s ]\s *$" 0
-		      `(face bold keymap
-			     (keymap
-			      (mouse-1 . small-tools-nm-connection-down)
-			      (?d . small-tools-nm-connection-down))))
-		     (".*--" 0
-		      `(face default
-			     keymap
-			     (keymap
-			      (mouse-1 . small-tools-nm-connection-up)
-			      (?u . small-tools-nm-connection-up)))))
-		   '("nmcli" "conn")))
 
-(bind-key "c" 'small-tools-nm-list-connections small-tools-map)
-(bind-key "k" 'small-tools-nm-connection-kill-maybe small-tools-map)
-
-(defun small-tools-nm-connection-kill-maybe ()C
-  (interactive)
-  (when (yes-or-no-p (format "Kill %s? "  (small-tools-line-name)))
-    (small-tools-nm-connection-kill)))
-
-(cl-macrolet ((@ (name args string commands)
-		 `(defun ,name ,args ,string
-			 (interactive)
-			 (make-process
-			  :buffer "debug"
-			  :name (car ,commands)
-			  :command ,commands
-			  :sentinel (lambda (_ _) (small-tools-btrfs-revert-buffer))))))
-  (@ small-tools-nm-connection-up (&optional conn)
-		       "Provide interface for network manager"
-		     `("nmcli" "conn" "up" ,(or conn (small-tools-line-name))))
-  (@ small-tools-nm-connection-down (&optional conn)
-			 "Provide interface for network manager"
-			 `("nmcli" "conn" "down" ,(or conn (small-tools-line-name))))
-  (@ small-tools-nm-connection-kill (&optional conn)
-			 "Provide interface for network manager"
-			 `("sudo" "nmcli" "conn" "delete" ,(or conn (small-tools-line-name)))))
 
 ;;;; Mounting
 ;;;###autoload
@@ -201,7 +251,6 @@ It is also used for the initial content preparation."
 		     ("[0-5][0-9]%" 0
 		      `(:foreground "green")))
 		   (lambda ()
-
 		     (insert
 		      (substitute-command-keys
 		       "Type \\{small-tools-btrfs-subvol-map}\n\n"))

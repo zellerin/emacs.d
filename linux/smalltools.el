@@ -21,4 +21,5 @@
 	 "-q"
 	 (if arg `("-p" ,(number-to-string (if (consp arg) (car arg) arg)))
 	   '("-f")))
-  (switch-to-buffer "*journal*"))
+  (switch-to-buffer "*journal*")
+  (read-only-mode))
