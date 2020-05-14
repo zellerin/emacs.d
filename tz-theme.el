@@ -47,6 +47,7 @@
  ;; 9.1.3 Capture templates
  '(org-capture-templates
    `(("z" "Zettelkasten" entry (file zettelkasten-card-name) "* %c\n%t\n%?")
+     ("b" "Biblio entry" entry (file zettelkasten-card-name) "* %c :biblio:\n%t\n%?")
      ,@(tz-capture-entries
 	`(("t" "TODO"		"* TODO %?\n\n")
 	  ("s" "small stuff"	"* TODO %? :%^{Type: |admin|followup|read}:\n\n")
