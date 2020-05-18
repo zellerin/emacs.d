@@ -38,7 +38,7 @@
  '(org-agenda-skip-scheduled-if-done t)
  '(org-agenda-todo-ignore-scheduled 'future)
  '(org-agenda-text-search-extra-files
-   (cons 'agenda-archives (directory-files "~/org-roam" t "\.org")))
+   (directory-files "~/org-roam" t "\.org"))
  '(org-attach-commit nil)
  '(org-attach-method 'mv)
 
