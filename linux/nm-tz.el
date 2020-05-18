@@ -1,4 +1,6 @@
-;;;###autoload  -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
+
+;;;###autoload
 (defun small-tools-nm-list-devices ()
   "Provide interface for network manager."
   (interactive)

@@ -57,6 +57,10 @@ FORCE prevents reuse of existing buffer settings
     (setq small-tools-buffer-revert-commands cmds)
     (small-tools-revert-buffer)))
 
+(define-derived-mode machinectl-mode special-mode
+  "machines"
+  "Machines list")
+
 (defun small-tools-command-buffer (name keywords cmds &optional map force)
   "Create a buffer with list-style command output.
 
@@ -79,9 +83,6 @@ FORCE prevents reuse of existing buffer settings
     (setq small-tools-buffer-revert-commands cmds)
     (small-tools-revert-buffer)))
 
-(define-derived-mode machinectl-mode special-mode
-  "machines"
-  "Machines list")
 
 (bind-key "m" 'machinectl machinectl-mode-map)
 (bind-key "i" 'machinectl-images machinectl-mode-map)
@@ -91,6 +92,7 @@ FORCE prevents reuse of existing buffer settings
 (bind-key "!" 'machinectl-shell-root machinectl-mode-map)
 (bind-key "g" 'small-tools-revert-buffer machinectl-mode-map)
 
+;;;###autoload
 (defun machinectl ()
   (interactive)
   (small-tools-command "machinectl" '("machinectl" "-a"))
