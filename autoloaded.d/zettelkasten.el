@@ -31,7 +31,7 @@
 (defun zettelkasten-get-backlinks ()
   (interactive)
   (setq org-agenda-text-search-extra-files
-	(directory-files "~/org-roam" t "\.org$"))
+	(directory-files "~/org-roam" t "^[^.].*\.org$"))
   (org-search-view nil (concat "id:" (org-id-get (point) t))))
 
 ;; Local Variables:
