@@ -38,7 +38,7 @@
  '(org-agenda-skip-scheduled-if-done t)
  '(org-agenda-todo-ignore-scheduled 'future)
  '(org-agenda-text-search-extra-files
-   (directory-files "~/org-roam" t "\.org"))
+   (directory-files "~/org-roam" t "^[^.].*\.org"))
  '(org-attach-commit nil)
  '(org-attach-method 'mv)
 
@@ -48,6 +48,7 @@
  '(org-capture-templates
    `(("z" "Zettelkasten" entry (file zettelkasten-card-name) "* %c\n%t\n%?")
      ("b" "Biblio entry" entry (file zettelkasten-card-name) "* %c :biblio:\n%t\n%?")
+     ("p" "Project information" entry (file zettelkasten-card-name) "* %c :project:\n%t\n%?")
      ,@(tz-capture-entries
 	`(("t" "TODO"		"* TODO %?\n\n")
 	  ("s" "small stuff"	"* TODO %? :%^{Type: |admin|followup|read}:\n\n")
