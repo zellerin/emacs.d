@@ -34,6 +34,33 @@
 	(directory-files "~/org-roam" t "^[^.].*\.org$"))
   (org-search-view nil (concat "id:" (org-id-get (point) t))))
 
+(defcustom zettelkasten-dot-file-name
+  "/tmp/foo.dot"
+  "File with zettelkasten path graph."
+  :group 'zettelkasten
+  :type 'file)
+
+;;;###autoload
+(defun zettelkasten-display-graph ()
+  (interactive)
+  (let ((root (org-id-get (point) t))
+	(cmd "twopi")
+	(imagedirname temporary-file-directory))
+    (with-temp-buffer
+      (call-process "dijkstra" zettelkasten-dot-file-name t nil root)
+      (call-process-region (point-min) (point-max) "gvpr" t t nil "-c"
+			   "BEG_G{aset($,\"root\",\"'$root'\")}
+	      N[dist<0.5]{style=\"filled\",fillcolor=\"yellow\",fontsize=\"22\"}
+	      N[biblio==\"true\"]{style=\"filled\",fillcolor=\"lightblue\"}
+	      N[!dist || dist>3.0]{delete(root, $)}")
+      (call-process-region (point-min) (point-max) "acyclic" t t)
+      (dolist (type '("png" "imap"))
+	(call-process-region
+	 (point-min) (point-max)
+	 "twopi"
+	 nil nil nil  "-Goverlap=false" "-o" (concat imagedirname "/" root "." type) "-T" type))
+      (find-file (concat imagedirname "/" root ".png")))))
+
 ;; Local Variables:
 ;; nameless-current-name: "zettelkasten"
 ;; End:
